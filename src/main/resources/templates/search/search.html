@@ -4,57 +4,47 @@
       layout:decorate="~{master.html}">
 <head>
     <meta charset="utf-8">
-    <title>Inicio</title>
+    <title>Buscador</title>
 </head>
 <body>
 
 <div layout:fragment="content">
     <h4>Buscador de las películas</h4>
-    <form th:action="@{/ccursos/nombre}" method="get">
+    <form th:action="@{/search/title}" method="get">
         <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre"
-                   placeholder="Escriba el nombre del curso">
+            <label for="title" class="form-label">Título</label>
+            <input type="text" class="form-control" id="title" name="title"
+                   placeholder="Escriba el título de la película">
         </div>
-        <button type="submit" class="btn btn-success">Buscar por Nombre</button>
+        <button type="submit" class="btn btn-success">Buscar por Título</button>
     </form>
-    <hr>
-    <form th:action="@{/ccursos/nombre}" method="get">
+    <br>
+    <form th:action="@{/search/name}" method="get">
         <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre"
-                   placeholder="Escriba el nombre del curso">
+            <label for="name" class="form-label">Nombre del actor</label>
+            <input type="text" class="form-control" id="name" name="name"
+                   placeholder="Escriba el nombre del actor">
         </div>
-        <button type="submit" class="btn btn-success">Buscar por Nombre</button>
+        <button type="submit" class="btn btn-success">Buscar por Actor</button>
     </form>
-    <hr>
-    <form th:action="@{/ccursos/nombre}" method="get">
+    <br>
+    <form th:action="@{/search/genre}" method="get">
         <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre"
-                   placeholder="Escriba el nombre del curso">
+            <label for="genre" class="form-label">Género</label>
+            <input type="text" class="form-control" id="genre" name="genre"
+                   placeholder="Escriba el género">
         </div>
-        <button type="submit" class="btn btn-success">Buscar por Nombre</button>
+        <button type="submit" class="btn btn-success">Buscar por Género</button>
     </form>
-    <hr>
-    <form th:action="@{/ccursos/nombre}" method="get">
+    <br>
+    <form th:action="@{/search/year}" method="get">
         <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre"
-                   placeholder="Escriba el nombre del curso">
+            <label for="year" class="form-label">Año</label>
+            <input type="number" class="form-control" id="year" name="nombre"
+                   placeholder="Escriba el año">
         </div>
-        <button type="submit" class="btn btn-success">Buscar por Nombre</button>
+        <button type="submit" class="btn btn-success">Buscar por Año</button>
     </form>
-    <hr>
-    <form th:action="@{/ccursos/nombre}" method="get">
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre"
-                   placeholder="Escriba el nombre del curso">
-        </div>
-        <button type="submit" class="btn btn-success">Buscar por Nombre</button>
-    </form>
-    <hr>
 </div>
 </body>
 </html>

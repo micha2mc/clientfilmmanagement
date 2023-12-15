@@ -12,7 +12,6 @@
     <div class="bg-light p-5 rounded">
         <h3 class="display-1 text-success">FilmManagement</h3>
     </div>
-    <h4 class="text-danger mt-5">Últimos estrenos</h4>
     <div class="row">
         <div class="col-md-3 my-5" th:each="pelicula : ${listMovies}" th:object="${pelicula}">
             <a th:href="@{/movies/peliculas/{id}(id=*{id})}" class="card shadow-lg" style="text-decoration:none;">
