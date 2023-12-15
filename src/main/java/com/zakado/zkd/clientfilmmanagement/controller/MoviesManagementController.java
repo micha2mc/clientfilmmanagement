@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 
 @Controller
@@ -46,22 +48,13 @@ public class MoviesManagementController {
 		return "home";
 	}
 
-	/*@GetMapping("/peliculas")
-	public ModelAndView listarPeliculas(@PageableDefault(sort = "fechaEstreno",direction = Sort.Direction.DESC) Pageable pageable) {
-		Page<Pelicula> peliculas = peliculaRepositorio.findAll(pageable);
-		return new ModelAndView("peliculas")
-				        .addObject("peliculas",peliculas);
-	}*/
+
+
 	
 	@GetMapping("/peliculas/{id}")
 	public String mostrarDetallesDePelicula(Model model, @PathVariable Integer id) {
 		Pelicula movie = peliculaRepositorio.findById(id).orElse(null);
 		model.addAttribute("movie", movie);
 		return "movie";
-	}
-
-	@GetMapping("/search")
-	public String buscadorPeliculas() {
-		return "search/search";
 	}
 }
