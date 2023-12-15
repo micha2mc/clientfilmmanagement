@@ -6,7 +6,9 @@ import com.zakado.zkd.clientfilmmanagement.model.Pelicula;
 import com.zakado.zkd.clientfilmmanagement.paginator.PageRender;
 import com.zakado.zkd.clientfilmmanagement.repository.GeneroRepositorio;
 import com.zakado.zkd.clientfilmmanagement.repository.PeliculaRepositorio;
-import com.zakado.zkd.clientfilmmanagement.service.AlmacenServicioImpl;
+import com.zakado.zkd.clientfilmmanagement.service.UploadFileService;
+import com.zakado.zkd.clientfilmmanagement.service.impl.AlmacenServicioImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
@@ -14,13 +16,17 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
 
     @Autowired
@@ -31,6 +37,7 @@ public class AdminController {
 
     @Autowired
     private AlmacenServicioImpl servicio;
+    private final UploadFileService uploadFileService;
 
 
     @GetMapping("")
@@ -55,33 +62,37 @@ public class AdminController {
         return "admin/home-admin";
     }
 
-    @GetMapping("/peliculas/nuevo")
-    public ModelAndView mostrarFormularioDeNuevaPelicula() {
+    @GetMapping("/new")
+    public String showCreateNewMovieForm(Model model) {
         List<Genero> generos = generoRepositorio.findAll(Sort.by("titulo"));
-        return new ModelAndView("admin/nueva-pelicula")
-                .addObject("pelicula", new Pelicula())
-                .addObject("generos", generos);
+        model.addAttribute("movie", new Pelicula());
+        model.addAttribute("generos", generos);
+        return "admin/nueva-pelicula";
     }
 
-    @PostMapping("/peliculas/nuevo")
-    public ModelAndView registrarPelicula(@Validated Pelicula pelicula, BindingResult bindingResult) {
-        if (bindingResult.hasErrors() || pelicula.getPortada().isEmpty()) {
-            if (pelicula.getPortada().isEmpty()) {
-                bindingResult.rejectValue("portada", "MultipartNotEmpty");
-            }
+   @PostMapping("/save/")
+   public String saveMovie(Model model, Pelicula movie, @RequestParam("file") MultipartFile foto,
+                           RedirectAttributes attributes) {
 
-            List<Genero> generos = generoRepositorio.findAll(Sort.by("titulo"));
-            return new ModelAndView("admin/nueva-pelicula")
-                    .addObject("pelicula", pelicula)
-                    .addObject("generos", generos);
-        }
+       if (!foto.isEmpty()) {
 
-        String rutaPortada = servicio.almacenarArchivo(pelicula.getPortada());
-        pelicula.setRutaPortada(rutaPortada);
+           String uniqueFilename = null;
+           try {
+               uniqueFilename = uploadFileService.copy(foto);
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
 
-        peliculaRepositorio.save(pelicula);
-        return new ModelAndView("redirect:/admin");
-    }
+           attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
+
+           movie.setRutaPortada(uniqueFilename);
+       }
+
+       peliculaRepositorio.save(movie);
+       model.addAttribute("titulo", "Nuevo curso");
+       attributes.addFlashAttribute("msg", "Película registrada correctamente!");
+       return "redirect:/admin";
+   }
 
     @GetMapping("/peliculas/{id}/editar")
     public ModelAndView mostrarFormilarioDeEditarPelicula(@PathVariable Integer id) {
@@ -89,7 +100,7 @@ public class AdminController {
         List<Genero> generos = generoRepositorio.findAll(Sort.by("titulo"));
 
         return new ModelAndView("admin/editar-pelicula")
-                .addObject("pelicula", pelicula)
+                .addObject("movie", pelicula)
                 .addObject("generos", generos);
     }
 

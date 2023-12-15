@@ -10,8 +10,7 @@
 
 	<div layout:fragment="form">
 		<br>
-		<form action="" method="post" th:object="${pelicula}"
-			enctype="multipart/form-data">
+		<form action="/admin/save/" method="post" th:object="${movie}" enctype="multipart/form-data">
 			<div class="mb-3">
 				<label for="titulo" class="form-label">Titulo : </label> <input
 					type="text" id="titulo" placeholder="Escriba el título de la Película"
@@ -47,11 +46,15 @@
 					th:errors="*{youtubeTrailerId}"></div>
 			</div>
 			<div class="mb-3">
-				<label for="portada" class="form-label">Portada : </label> <input
-					type="file" name="portada" id="portad" class="form-control"
-					th:field="*{portada}">
-				<div class="invalid-feedback"
-					th:if="${#fields.hasErrors('portada')}" th:errors="*{portada}"></div>
+				<label for="file" class="col-sm-2 col-form-label">Imagen</label>
+				<div>
+					<img th:if="${portada != null && #strings.length(portada) > 0}"
+						 class="img-thumbnail rounded float-left"
+						 style="max-width: 25%;" th:src="@{'/movies/uploads/' + ${portada}}" th:alt="${portada}"/>
+					<div class="col-sm-6">
+						<input type="file" id="file" name="file" class="form-control"/>
+					</div>
+				</div>
 			</div>
 			<div class="mb-3">
 				<label for="generos" class="form-label">Genero : </label> <select

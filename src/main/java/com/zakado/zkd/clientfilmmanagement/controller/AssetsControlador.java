@@ -1,7 +1,7 @@
 package com.zakado.zkd.clientfilmmanagement.controller;
 
 
-import com.zakado.zkd.clientfilmmanagement.service.AlmacenServicioImpl;
+import com.zakado.zkd.clientfilmmanagement.service.impl.AlmacenServicioImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;

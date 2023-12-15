@@ -1,8 +1,9 @@
-package com.zakado.zkd.clientfilmmanagement.service;
+package com.zakado.zkd.clientfilmmanagement.service.impl;
 
 
 import com.zakado.zkd.clientfilmmanagement.exception.AlmacenExcepcion;
 import com.zakado.zkd.clientfilmmanagement.exception.FileNotFoundException;
+import com.zakado.zkd.clientfilmmanagement.service.AlmacenServicio;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
