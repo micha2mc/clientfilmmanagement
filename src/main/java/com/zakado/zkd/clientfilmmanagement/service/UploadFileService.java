@@ -7,7 +7,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 public interface UploadFileService {
-    public Resource load(String filename) throws MalformedURLException;
+    Resource load(String filename) throws MalformedURLException;
 
-    public String copy(MultipartFile file) throws IOException;
+    String copy(MultipartFile file) throws IOException;
+    void deleteImage(String nombreArchivo);
 }

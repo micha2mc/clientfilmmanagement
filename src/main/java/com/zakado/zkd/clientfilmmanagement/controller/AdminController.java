@@ -7,7 +7,6 @@ import com.zakado.zkd.clientfilmmanagement.paginator.PageRender;
 import com.zakado.zkd.clientfilmmanagement.repository.GeneroRepositorio;
 import com.zakado.zkd.clientfilmmanagement.repository.PeliculaRepositorio;
 import com.zakado.zkd.clientfilmmanagement.service.UploadFileService;
-import com.zakado.zkd.clientfilmmanagement.service.impl.AlmacenServicioImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -29,21 +28,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
 
-    @Autowired
-    private PeliculaRepositorio peliculaRepositorio;
+     private final PeliculaRepositorio peliculaRepositorio;
 
-    @Autowired
-    private GeneroRepositorio generoRepositorio;
+    private final GeneroRepositorio generoRepositorio;
 
-    @Autowired
-    private AlmacenServicioImpl servicio;
     private final UploadFileService uploadFileService;
 
 
     @GetMapping("")
     public String verPaginaDeInicio(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
 
-        Pageable pageable = PageRequest.of(page, 4);
+        Pageable pageable = PageRequest.of(page, 5);
         List<Pelicula> listMovies = peliculaRepositorio.findAll();
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
@@ -70,7 +65,7 @@ public class AdminController {
         return "admin/nueva-pelicula";
     }
 
-   @PostMapping("/save/")
+   @PostMapping("/new")
    public String saveMovie(Model model, Pelicula movie, @RequestParam("file") MultipartFile foto,
                            RedirectAttributes attributes) {
 
@@ -105,7 +100,8 @@ public class AdminController {
     }
 
     @PostMapping("/peliculas/{id}/editar")
-    public ModelAndView actualizarPelicula(@PathVariable Integer id, @Validated Pelicula pelicula, BindingResult bindingResult) {
+    public ModelAndView actualizarPelicula(@PathVariable Integer id, @Validated Pelicula pelicula, BindingResult bindingResult, @RequestParam("file") MultipartFile foto,
+                                           RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
             List<Genero> generos = generoRepositorio.findAll(Sort.by("titulo"));
             return new ModelAndView("admin/editar-pelicula")
@@ -113,17 +109,26 @@ public class AdminController {
                     .addObject("generos", generos);
         }
 
-        Pelicula peliculaDB = peliculaRepositorio.getOne(id);
+        Pelicula peliculaDB = peliculaRepositorio.findById(id).orElse(null);
         peliculaDB.setTitulo(pelicula.getTitulo());
         peliculaDB.setSinopsis(pelicula.getSinopsis());
         peliculaDB.setFechaEstreno(pelicula.getFechaEstreno());
         peliculaDB.setYoutubeTrailerId(pelicula.getYoutubeTrailerId());
         peliculaDB.setGeneros(pelicula.getGeneros());
 
-        if (!pelicula.getPortada().isEmpty()) {
-            servicio.eliminarArchivo(peliculaDB.getRutaPortada());
-            String rutaPortada = servicio.almacenarArchivo(pelicula.getPortada());
-            peliculaDB.setRutaPortada(rutaPortada);
+        if (!foto.isEmpty()) {
+
+            String uniqueFilename = null;
+            try {
+                uploadFileService.deleteImage(peliculaDB.getRutaPortada());
+                uniqueFilename = uploadFileService.copy(foto);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
+
+            peliculaDB.setRutaPortada(uniqueFilename);
         }
 
         peliculaRepositorio.save(peliculaDB);
@@ -132,9 +137,9 @@ public class AdminController {
 
     @PostMapping("/peliculas/{id}/eliminar")
     public String eliminarPelicula(@PathVariable Integer id) {
-        Pelicula pelicula = peliculaRepositorio.getOne(id);
+        Pelicula pelicula = peliculaRepositorio.findById(id).orElse(null);
         peliculaRepositorio.delete(pelicula);
-        servicio.eliminarArchivo(pelicula.getRutaPortada());
+        uploadFileService.deleteImage(pelicula.getRutaPortada());;
 
         return "redirect:/admin";
     }
