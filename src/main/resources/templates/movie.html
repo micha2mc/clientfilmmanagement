@@ -11,8 +11,11 @@
 	<div layout:fragment="content" th:object="${movie}">
 		<div class="row">
 			<div class="col-md-6">
-				<img th:src="@{'/images/uploads/'+ ${movie.rutaPortada}}"
-					th:alt="*{titulo}" class="img-fluid rounded w-100">
+				<a th:href="@{/movies/}">
+					<img th:src="@{'/images/uploads/'+ ${movie.rutaPortada}}"
+						 th:alt="*{titulo}" class="img-fluid rounded w-100">
+				</a>
+
 			</div>
 			<div class="col-md-6">
 				<div class="text-end my-3">

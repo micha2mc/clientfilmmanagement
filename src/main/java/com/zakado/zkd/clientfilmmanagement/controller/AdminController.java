@@ -8,7 +8,6 @@ import com.zakado.zkd.clientfilmmanagement.repository.GeneroRepositorio;
 import com.zakado.zkd.clientfilmmanagement.repository.PeliculaRepositorio;
 import com.zakado.zkd.clientfilmmanagement.service.UploadFileService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
 
-     private final PeliculaRepositorio peliculaRepositorio;
+    private final PeliculaRepositorio peliculaRepositorio;
 
     private final GeneroRepositorio generoRepositorio;
 
@@ -65,29 +64,29 @@ public class AdminController {
         return "admin/nueva-pelicula";
     }
 
-   @PostMapping("/new")
-   public String saveMovie(Model model, Pelicula movie, @RequestParam("file") MultipartFile foto,
-                           RedirectAttributes attributes) {
+    @PostMapping("/new")
+    public String saveMovie(Model model, Pelicula movie, @RequestParam("file") MultipartFile foto,
+                            RedirectAttributes attributes) {
 
-       if (!foto.isEmpty()) {
+        if (!foto.isEmpty()) {
 
-           String uniqueFilename = null;
-           try {
-               uniqueFilename = uploadFileService.copy(foto);
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
+            String uniqueFilename = null;
+            try {
+                uniqueFilename = uploadFileService.copy(foto);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-           attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
+            attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
 
-           movie.setRutaPortada(uniqueFilename);
-       }
+            movie.setRutaPortada(uniqueFilename);
+        }
 
-       peliculaRepositorio.save(movie);
-       model.addAttribute("titulo", "Nuevo curso");
-       attributes.addFlashAttribute("msg", "Película registrada correctamente!");
-       return "redirect:/admin";
-   }
+        peliculaRepositorio.save(movie);
+        model.addAttribute("titulo", "Nuevo curso");
+        attributes.addFlashAttribute("msg", "Película registrada correctamente!");
+        return "redirect:/admin";
+    }
 
     @GetMapping("/peliculas/{id}/editar")
     public ModelAndView mostrarFormilarioDeEditarPelicula(@PathVariable Integer id) {
@@ -139,8 +138,7 @@ public class AdminController {
     public String eliminarPelicula(@PathVariable Integer id) {
         Pelicula pelicula = peliculaRepositorio.findById(id).orElse(null);
         peliculaRepositorio.delete(pelicula);
-        uploadFileService.deleteImage(pelicula.getRutaPortada());;
-
+        uploadFileService.deleteImage(pelicula.getRutaPortada());
         return "redirect:/admin";
     }
 }
