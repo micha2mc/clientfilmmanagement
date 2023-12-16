@@ -6,37 +6,38 @@ import com.zakado.zkd.clientfilmmanagement.model.Pelicula;
 import com.zakado.zkd.clientfilmmanagement.paginator.PageRender;
 import com.zakado.zkd.clientfilmmanagement.repository.GeneroRepositorio;
 import com.zakado.zkd.clientfilmmanagement.repository.PeliculaRepositorio;
-import com.zakado.zkd.clientfilmmanagement.service.AlmacenServicioImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.zakado.zkd.clientfilmmanagement.service.UploadFileService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
 
-    @Autowired
-    private PeliculaRepositorio peliculaRepositorio;
+    private final PeliculaRepositorio peliculaRepositorio;
 
-    @Autowired
-    private GeneroRepositorio generoRepositorio;
+    private final GeneroRepositorio generoRepositorio;
 
-    @Autowired
-    private AlmacenServicioImpl servicio;
+    private final UploadFileService uploadFileService;
 
 
     @GetMapping("")
     public String verPaginaDeInicio(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
 
-        Pageable pageable = PageRequest.of(page, 4);
+        Pageable pageable = PageRequest.of(page, 5);
         List<Pelicula> listMovies = peliculaRepositorio.findAll();
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
@@ -55,32 +56,36 @@ public class AdminController {
         return "admin/home-admin";
     }
 
-    @GetMapping("/peliculas/nuevo")
-    public ModelAndView mostrarFormularioDeNuevaPelicula() {
+    @GetMapping("/new")
+    public String showCreateNewMovieForm(Model model) {
         List<Genero> generos = generoRepositorio.findAll(Sort.by("titulo"));
-        return new ModelAndView("admin/nueva-pelicula")
-                .addObject("pelicula", new Pelicula())
-                .addObject("generos", generos);
+        model.addAttribute("movie", new Pelicula());
+        model.addAttribute("generos", generos);
+        return "admin/nueva-pelicula";
     }
 
-    @PostMapping("/peliculas/nuevo")
-    public ModelAndView registrarPelicula(@Validated Pelicula pelicula, BindingResult bindingResult) {
-        if (bindingResult.hasErrors() || pelicula.getPortada().isEmpty()) {
-            if (pelicula.getPortada().isEmpty()) {
-                bindingResult.rejectValue("portada", "MultipartNotEmpty");
+    @PostMapping("/new")
+    public String saveMovie(Model model, Pelicula movie, @RequestParam("file") MultipartFile foto,
+                            RedirectAttributes attributes) {
+
+        if (!foto.isEmpty()) {
+
+            String uniqueFilename = null;
+            try {
+                uniqueFilename = uploadFileService.copy(foto);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            List<Genero> generos = generoRepositorio.findAll(Sort.by("titulo"));
-            return new ModelAndView("admin/nueva-pelicula")
-                    .addObject("pelicula", pelicula)
-                    .addObject("generos", generos);
+            attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
+
+            movie.setRutaPortada(uniqueFilename);
         }
 
-        String rutaPortada = servicio.almacenarArchivo(pelicula.getPortada());
-        pelicula.setRutaPortada(rutaPortada);
-
-        peliculaRepositorio.save(pelicula);
-        return new ModelAndView("redirect:/admin");
+        peliculaRepositorio.save(movie);
+        model.addAttribute("titulo", "Nuevo curso");
+        attributes.addFlashAttribute("msg", "Película registrada correctamente!");
+        return "redirect:/admin";
     }
 
     @GetMapping("/peliculas/{id}/editar")
@@ -89,12 +94,13 @@ public class AdminController {
         List<Genero> generos = generoRepositorio.findAll(Sort.by("titulo"));
 
         return new ModelAndView("admin/editar-pelicula")
-                .addObject("pelicula", pelicula)
+                .addObject("movie", pelicula)
                 .addObject("generos", generos);
     }
 
     @PostMapping("/peliculas/{id}/editar")
-    public ModelAndView actualizarPelicula(@PathVariable Integer id, @Validated Pelicula pelicula, BindingResult bindingResult) {
+    public ModelAndView actualizarPelicula(@PathVariable Integer id, @Validated Pelicula pelicula, BindingResult bindingResult, @RequestParam("file") MultipartFile foto,
+                                           RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
             List<Genero> generos = generoRepositorio.findAll(Sort.by("titulo"));
             return new ModelAndView("admin/editar-pelicula")
@@ -102,17 +108,26 @@ public class AdminController {
                     .addObject("generos", generos);
         }
 
-        Pelicula peliculaDB = peliculaRepositorio.getOne(id);
+        Pelicula peliculaDB = peliculaRepositorio.findById(id).orElse(null);
         peliculaDB.setTitulo(pelicula.getTitulo());
         peliculaDB.setSinopsis(pelicula.getSinopsis());
         peliculaDB.setFechaEstreno(pelicula.getFechaEstreno());
         peliculaDB.setYoutubeTrailerId(pelicula.getYoutubeTrailerId());
         peliculaDB.setGeneros(pelicula.getGeneros());
 
-        if (!pelicula.getPortada().isEmpty()) {
-            servicio.eliminarArchivo(peliculaDB.getRutaPortada());
-            String rutaPortada = servicio.almacenarArchivo(pelicula.getPortada());
-            peliculaDB.setRutaPortada(rutaPortada);
+        if (!foto.isEmpty()) {
+
+            String uniqueFilename = null;
+            try {
+                uploadFileService.deleteImage(peliculaDB.getRutaPortada());
+                uniqueFilename = uploadFileService.copy(foto);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
+
+            peliculaDB.setRutaPortada(uniqueFilename);
         }
 
         peliculaRepositorio.save(peliculaDB);
@@ -121,10 +136,9 @@ public class AdminController {
 
     @PostMapping("/peliculas/{id}/eliminar")
     public String eliminarPelicula(@PathVariable Integer id) {
-        Pelicula pelicula = peliculaRepositorio.getOne(id);
+        Pelicula pelicula = peliculaRepositorio.findById(id).orElse(null);
         peliculaRepositorio.delete(pelicula);
-        servicio.eliminarArchivo(pelicula.getRutaPortada());
-
+        uploadFileService.deleteImage(pelicula.getRutaPortada());
         return "redirect:/admin";
     }
 }

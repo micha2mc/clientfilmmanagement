@@ -29,7 +29,7 @@ public class MoviesManagementController {
 
 	@GetMapping(value = {"/", "/home", ""})
 	public String verPaginaDeInicio(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
-		Pageable pageable = PageRequest.of(page, 4);
+		Pageable pageable = PageRequest.of(page, 8);
 		List<Pelicula> listMovies = peliculaRepositorio.findAll();
 		int pageSize = pageable.getPageSize();
 		int currentPage = pageable.getPageNumber();
