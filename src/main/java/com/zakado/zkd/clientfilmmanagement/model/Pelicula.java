@@ -28,6 +28,8 @@ public class Pelicula {
     private Integer year;
     private Integer duration;
 
+    private String country;
+
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate fechaEstreno;
 

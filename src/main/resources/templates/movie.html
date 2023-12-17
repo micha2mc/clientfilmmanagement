@@ -47,6 +47,10 @@
 						<td class="text-start" th:text="*{duration}"></td>
 					</tr>
 					<tr>
+						<th scope="row">País:</th>
+						<td class="text-start" th:text="*{country}"></td>
+					</tr>
+					<tr>
 						<th scope="row">Géneros:</th>
 						<td><span class="badge rounded-pull bg-light text-dark me-1"
 								  th:each="genero : *{generos}" th:text="${genero.titulo}"></span></td>

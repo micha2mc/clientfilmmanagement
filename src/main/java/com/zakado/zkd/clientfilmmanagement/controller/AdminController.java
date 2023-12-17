@@ -103,6 +103,7 @@ public class AdminController {
         peliculaDB.setGeneros(pelicula.getGeneros());
         peliculaDB.setYear(pelicula.getYear());
         peliculaDB.setDuration(pelicula.getDuration());
+        peliculaDB.setCountry(pelicula.getCountry());
 
         if (!foto.isEmpty()) {
             String uniqueFilename = null;

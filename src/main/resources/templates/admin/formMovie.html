@@ -32,6 +32,13 @@
 				<div class="invalid-feedback" th:if="${#fields.hasErrors('duration')}"
 					 th:errors="*{duration}"></div>
 			</div>
+			<div class="mb-3">
+				<label for="country" class="form-label">País : </label> <input
+					type="text" id="country" placeholder="Escriba el país"
+					class="form-control" th:field="*{country}">
+				<div class="invalid-feedback" th:if="${#fields.hasErrors('duration')}"
+					 th:errors="*{country}"></div>
+			</div>
 
 			<div class="mb-3">
 				<label for="sinopsis" class="form-label">Sinopsis : </label>
