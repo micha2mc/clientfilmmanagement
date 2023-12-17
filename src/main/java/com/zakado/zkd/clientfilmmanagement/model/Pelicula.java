@@ -25,6 +25,9 @@ public class Pelicula {
 
     private String sinopsis;
 
+    private Integer year;
+    private Integer duration;
+
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate fechaEstreno;
 
