@@ -18,7 +18,7 @@
                 <img th:src="@{'/images/uploads/'+ ${pelicula.rutaPortada}}" th:alt="*{titulo}" class="card-img-top">
                 <div class="card-body">
                     <h2 class="card-title fs-6" th:text="*{titulo}"></h2>
-                    <p th:text="*{#temporals.format(fechaEstreno,'dd/MM/yyyy')}" class="text-muted small"></p>
+                    <p th:text="*{year}" class="text-muted small"></p>
                 </div>
             </a>
         </div>

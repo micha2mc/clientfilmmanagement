@@ -101,6 +101,8 @@ public class AdminController {
         peliculaDB.setFechaEstreno(pelicula.getFechaEstreno());
         peliculaDB.setYoutubeTrailerId(pelicula.getYoutubeTrailerId());
         peliculaDB.setGeneros(pelicula.getGeneros());
+        peliculaDB.setYear(pelicula.getYear());
+        peliculaDB.setDuration(pelicula.getDuration());
 
         if (!foto.isEmpty()) {
             String uniqueFilename = null;
