@@ -23,7 +23,6 @@ public class ImageController {
     public ResponseEntity<Resource> verFoto(@PathVariable String filename) {
 
         Resource recurso = null;
-
         try {
             recurso = uploadFileService.load(filename);
         } catch (MalformedURLException e) {
