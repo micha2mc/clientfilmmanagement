@@ -19,11 +19,11 @@ public class Pelicula {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer nid;
 
-    private String titulo;
+    private String title;
 
-    private String sinopsis;
+    private String synopsis;
 
     private Integer year;
     private Integer duration;
@@ -32,13 +32,13 @@ public class Pelicula {
 
     private String youtubeTrailerId;
 
-    private String rutaPortada;
+    private String image;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "genero_pelicula", joinColumns = @JoinColumn(name = "id_pelicula"),
             inverseJoinColumns = @JoinColumn(name = "id_genero"))
-    private List<Genero> generos;
+    private List<Genero> genres;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "actor_pelicula", joinColumns = @JoinColumn(name = "id_pelicula"),

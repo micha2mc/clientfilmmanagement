@@ -49,7 +49,7 @@ public class AdminController {
     public String showCreateNewMovieForm(Model model) {
         List<Genero> generos = genreService.getAllGenre();
         model.addAttribute("movie", new Pelicula());
-        model.addAttribute("generos", generos);
+        model.addAttribute("genres", generos);
         return "admin/nueva-pelicula";
     }
 
@@ -66,7 +66,7 @@ public class AdminController {
             }
 
             attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
-            movie.setRutaPortada(uniqueFilename);
+            movie.setImage(uniqueFilename);
         }
 
         movieService.saveMovie(movie);
@@ -81,7 +81,7 @@ public class AdminController {
 
         return new ModelAndView("admin/editar-pelicula")
                 .addObject("movie", pelicula)
-                .addObject("generos", generos);
+                .addObject("genres", generos);
     }
 
     @PostMapping("/peliculas/{id}/editar")
@@ -92,14 +92,14 @@ public class AdminController {
             List<Genero> generos = genreService.getAllGenre();
             return new ModelAndView("admin/editar-pelicula")
                     .addObject("pelicula", pelicula)
-                    .addObject("generos", generos);
+                    .addObject("genres", generos);
         }
 
         Pelicula peliculaDB = movieService.findById(id);
-        peliculaDB.setTitulo(pelicula.getTitulo());
-        peliculaDB.setSinopsis(pelicula.getSinopsis());
+        peliculaDB.setTitle(pelicula.getTitle());
+        peliculaDB.setSynopsis(pelicula.getSynopsis());
         peliculaDB.setYoutubeTrailerId(pelicula.getYoutubeTrailerId());
-        peliculaDB.setGeneros(pelicula.getGeneros());
+        peliculaDB.setGenres(pelicula.getGenres());
         peliculaDB.setYear(pelicula.getYear());
         peliculaDB.setDuration(pelicula.getDuration());
         peliculaDB.setCountry(pelicula.getCountry());
@@ -107,13 +107,13 @@ public class AdminController {
         if (!foto.isEmpty()) {
             String uniqueFilename = null;
             try {
-                uploadFileService.deleteImage(peliculaDB.getRutaPortada());
+                uploadFileService.deleteImage(peliculaDB.getImage());
                 uniqueFilename = uploadFileService.copy(foto);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
-            peliculaDB.setRutaPortada(uniqueFilename);
+            peliculaDB.setImage(uniqueFilename);
         }
         movieService.saveMovie(peliculaDB);
         return new ModelAndView("redirect:/admin");
@@ -123,7 +123,7 @@ public class AdminController {
     public String eliminarPelicula(@PathVariable Integer id) {
         Pelicula pelicula = movieService.findById(id);
         movieService.deleteMovie(pelicula);
-        uploadFileService.deleteImage(pelicula.getRutaPortada());
+        uploadFileService.deleteImage(pelicula.getImage());
         return "redirect:/admin";
     }
 }
