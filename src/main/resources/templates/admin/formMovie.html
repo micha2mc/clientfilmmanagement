@@ -47,16 +47,6 @@
 				<div class="invalid-feedback"
 					th:if="${#fields.hasErrors('sinopsis')}" th:errors="*{sinopsis}"></div>
 			</div>
-
-			<div class="mb-3">
-				<label for="fechaEstreno" class="form-label">Fecha de
-					estreno : </label> <input type="date" id="fechaEstreno"
-					placeholder="Escriba la fecha de estreno" class="form-control"
-					th:field="*{fechaEstreno}">
-				<div class="invalid-feedback"
-					th:if="${#fields.hasErrors('fechaEstreno')}"
-					th:errors="*{fechaEstreno}"></div>
-			</div>
 			<div class="mb-3">
 				<label for="youtubeTrailerId" class="form-label">Youtube
 					Trailer ID : </label> <input type="text" id="youtubeTrailerId"

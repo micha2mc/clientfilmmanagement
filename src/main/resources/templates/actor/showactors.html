@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{master.html}">
+<head>
+<meta charset="utf-8">
+<title>Administrar actores</title>
+</head>
+<body>
+
+  <div layout:fragment="content">
+	  <h2>Listados de actores</h2><br>
+	  <table class="table table-hover">
+          <thead>
+              <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr th:each="actor : ${listActors}" th:object="${actor}">
+                  <td style="width:150px;">
+                     <a th:href="@{'/images/uploads/'+ ${actor.image}}" data-fancybox>
+                        <img th:src="@{'/images/uploads/'+ ${actor.image}}" alt="" class="img-thumbnail w-100">
+                     </a>
+                  </td>
+                  <td>
+                      <!--<div th:text="*{titulo}" class="fs-5 fw-bold"></div>-->
+						<table class="table table-borderless">
+							<thead>
+							<tr>
+								<th scope="col"></th>
+								<th scope="col"></th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<th scope="row">Nombre:</th>
+								<td class="text-start" th:text="*{name}"></td>
+							</tr>
+							<tr>
+								<th scope="row">Género:</th>
+								<td class="text-start" th:text="*{genre}"></td>
+							</tr>
+							<tr>
+								<th scope="row">Fecha Nac.:</th>
+								<td th:text="*{#temporals.format(dob,'dd/MM/yyyy')}"></td>
+							</tr>
+
+							<tr>
+								<th scope="row">País:</th>
+								<td class="text-start" th:text="*{cob}"></td>
+							</tr>
+
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="row mt-5">
+		   <div class="col-sm-6">
+			   <div class="tabular-wrapper">
+				   <div>
+					   <nav th:replace="~{paginator-nav :: paginator}"></nav>
+				   </div>
+			   </div>
+		   </div>
+		</div>
+  </div>
+  
+  <div layout:fragment="scripts">
+      <script>
+         function eliminarPelicula(id){
+        	 if(!confirm('¿Estás seguro de eliminar esta película?')){
+        		 return;
+        	 }
+        	 $('#eliminarPeliculaForm' + id).submit();
+         }
+      </script>
+  </div>
+	
+</body>
+</html>

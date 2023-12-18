@@ -12,7 +12,8 @@
 	  <h2>Zona de Administración</h2><br>
 	  <a class="btn btn-primary" href="/admin/new" role="button">Añadir película</a>
 	  <a class="btn btn-primary" href="" role="button">Añadir Género</a>
-	  <a class="btn btn-primary" href="" role="button">Añadir Actor</a><br>
+	  <a class="btn btn-primary" href="/actors" role="button">Ver Actores</a>
+	  <a class="btn btn-primary" href="/actors/new" role="button">Añadir Actor</a><br>
 
 		<table class="table table-hover">
 			<thead>
@@ -71,7 +72,6 @@
 							</tbody>
 						</table>
 					</td>
-					<td th:text="*{#temporals.format(fechaEstreno,'dd/MM/yyyy')}"></td>
 					<td>
 					   <a th:href="@{/admin/peliculas/{id}/editar(id=*{id})}" class="btn btn-success">Editar</a>
 					</td>

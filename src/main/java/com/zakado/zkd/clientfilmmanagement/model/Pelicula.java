@@ -30,16 +30,19 @@ public class Pelicula {
 
     private String country;
 
-    @DateTimeFormat(iso = ISO.DATE)
-    private LocalDate fechaEstreno;
-
     private String youtubeTrailerId;
 
     private String rutaPortada;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "genero_pelicula", joinColumns = @JoinColumn(name = "id_pelicula"), inverseJoinColumns = @JoinColumn(name = "id_genero"))
+    @JoinTable(name = "genero_pelicula", joinColumns = @JoinColumn(name = "id_pelicula"),
+            inverseJoinColumns = @JoinColumn(name = "id_genero"))
     private List<Genero> generos;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "actor_pelicula", joinColumns = @JoinColumn(name = "id_pelicula"),
+            inverseJoinColumns = @JoinColumn(name = "id_actor"))
+    private List<Actor> actors;
 
 }
