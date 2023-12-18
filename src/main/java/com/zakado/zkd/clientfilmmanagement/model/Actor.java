@@ -1,29 +1,37 @@
 package com.zakado.zkd.clientfilmmanagement.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.*;
+import org.hibernate.proxy.HibernateProxy;
+import org.springframework.format.annotation.DateTimeFormat;
 
-@Data
+import java.time.LocalDate;
+import java.util.Objects;
+
+@Entity
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Actor {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer nid;
     private String name;
-    private String dni;
-    private String dob;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate dob;
     private String cob;
     private String image;
-    private String status;
     private String genre;
 
     @Override
     public String toString() {
         return "nid=" + nid +
                 ", name='" + name + '\'' +
-                ", dni='" + dni + '\'' +
                 ", dob='" + dob + '\'' +
                 ", cob='" + cob + '\'';
     }

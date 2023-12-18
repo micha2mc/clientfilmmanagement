@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es"
+    xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8">
+	<title>formulario Actor</title>
+</head>
+<body>
+
+	<div layout:fragment="form">
+		<br>
+		<form action="" method="post" th:object="${actor}" enctype="multipart/form-data">
+			<div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+				Por favor corrija los siguientes errores:
+				<ul>
+					<li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+				</ul>
+			</div>
+			<div class="mb-3">
+				<label for="name" class="form-label">Nombre : </label> <input
+					type="text" id="name" placeholder="Escriba el nombre completo del actor"
+					class="form-control" th:field="*{name}">
+			</div>
+			<div class="mb-3">
+				<label for="genre" class="form-label">Género : </label>
+				<input type="text" id="genre" placeholder="Escriba el género del actor"
+					class="form-control" th:field="*{genre}">
+			</div>
+			<div class="mb-3">
+				<label for="dob" class="form-label">Fecha de Nac.: </label>
+				<input type="date" id="dob" placeholder="Seleccione la fecha de nacimiento" class="form-control"
+											  th:field="*{dob}">
+			</div>
+			<div class="mb-3">
+				<label for="cob" class="form-label">País : </label> <input
+					type="text" id="cob" placeholder="Escriba el país"
+					class="form-control" th:field="*{cob}">
+			</div>
+			<div class="mb-3">
+				<label for="file" class="col-sm-2 col-form-label">Imagen</label>
+				<div>
+					<img th:if="${image != null && #strings.length(image) > 0}"
+						 class="img-thumbnail rounded float-left"
+						 style="max-width: 25%;" th:src="@{'/movies/uploads/' + ${image}}" th:alt="${image}"/>
+					<div class="col-sm-6">
+						<input type="file" id="file" name="file" class="form-control"/>
+					</div>
+				</div>
+			</div>
+			<div class="text-end">
+				<button type="submit" class="btn btn-primary">Guardar</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

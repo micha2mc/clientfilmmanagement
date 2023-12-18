@@ -9,4 +9,5 @@ import java.util.List;
 public interface PeliculaRepositorio extends JpaRepository<Pelicula, Integer> {
     List<Pelicula> findByTituloContainingIgnoreCase(String title);
 
+    List<Pelicula> findByYear(Integer integer);
 }

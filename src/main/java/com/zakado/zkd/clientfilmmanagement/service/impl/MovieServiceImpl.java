@@ -56,6 +56,10 @@ public class MovieServiceImpl implements MovieService {
                 case "GENRE" -> {
                     yield getMoviesPagination(pageable, List.of(new Pelicula()));
                 }
+                case "YEAR" -> {
+                    List<Pelicula> byYear = peliculaRepositorio.findByYear(Integer.valueOf((String) obj));
+                    yield getMoviesPagination(pageable, List.of(new Pelicula(), new Pelicula()));
+                }
                 default -> throw new IllegalStateException("Unexpected value: " + type.toUpperCase());
             };
         }
