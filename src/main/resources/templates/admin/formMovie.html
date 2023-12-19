@@ -61,7 +61,7 @@
 				<label for="genres" class="form-label">Genero : </label> <select
 					id="genres" class="form-control" th:field="*{genres}" multiple>
 					<option th:each="genre : ${genres}" th:value="${genre.id}"
-						th:text="${genre.title}"></option>
+						th:text="${genre.name}"></option>
 				</select>
 			</div>
 			<div class="text-end">

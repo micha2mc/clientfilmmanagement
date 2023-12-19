@@ -20,19 +20,15 @@ public class Pelicula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer nid;
-
     private String title;
-
-    private String synopsis;
-
     private Integer year;
     private Integer duration;
-
     private String country;
-
+    private String synopsis;
+    private String image;
     private String youtubeTrailerId;
 
-    private String image;
+
 
 
     @ManyToMany(fetch = FetchType.LAZY)

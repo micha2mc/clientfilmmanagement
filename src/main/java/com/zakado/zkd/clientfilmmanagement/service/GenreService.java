@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface GenreService {
     List<Genero> getAllGenre();
+
+    void saveGenre(Genero genre);
 }
