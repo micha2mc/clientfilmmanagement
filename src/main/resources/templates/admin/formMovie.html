@@ -60,7 +60,7 @@
 			<div class="mb-3">
 				<label for="genres" class="form-label">Genero : </label> <select
 					id="genres" class="form-control" th:field="*{genres}" multiple>
-					<option th:each="genre : ${genres}" th:value="${genre.id}"
+					<option th:each="genre : ${genres}" th:value="${genre.nid}"
 						th:text="${genre.name}"></option>
 				</select>
 			</div>
