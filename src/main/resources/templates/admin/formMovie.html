@@ -12,40 +12,30 @@
 		<br>
 		<form action="" method="post" th:object="${movie}" enctype="multipart/form-data">
 			<div class="mb-3">
-				<label for="titulo" class="form-label">Titulo : </label> <input
-					type="text" id="titulo" placeholder="Escriba el título de la Película"
-					class="form-control" th:field="*{titulo}">
-				<div class="invalid-feedback" th:if="${#fields.hasErrors('titulo')}"
-					th:errors="*{titulo}"></div>
+				<label for="title" class="form-label">Titulo : </label> <input
+					type="text" id="title" placeholder="Escriba el título de la Película"
+					class="form-control" th:field="*{title}">
 			</div>
 			<div class="mb-3">
 				<label for="year" class="form-label">Año : </label> <input
 					type="number" id="year" placeholder="Escriba el año del estreno"
 					class="form-control" th:field="*{year}">
-				<div class="invalid-feedback" th:if="${#fields.hasErrors('year')}"
-					 th:errors="*{year}"></div>
 			</div>
 			<div class="mb-3">
 				<label for="duration" class="form-label">Duración : </label> <input
 					type="number" id="duration" placeholder="Escriba duración en minutos"
 					class="form-control" th:field="*{duration}">
-				<div class="invalid-feedback" th:if="${#fields.hasErrors('duration')}"
-					 th:errors="*{duration}"></div>
 			</div>
 			<div class="mb-3">
 				<label for="country" class="form-label">País : </label> <input
 					type="text" id="country" placeholder="Escriba el país"
 					class="form-control" th:field="*{country}">
-				<div class="invalid-feedback" th:if="${#fields.hasErrors('duration')}"
-					 th:errors="*{country}"></div>
 			</div>
 
 			<div class="mb-3">
-				<label for="sinopsis" class="form-label">Sinopsis : </label>
-				<textarea id="sinopsis" placeholder="Escriba la synopsis"
-					class="form-control" th:field="*{sinopsis}"></textarea>
-				<div class="invalid-feedback"
-					th:if="${#fields.hasErrors('sinopsis')}" th:errors="*{sinopsis}"></div>
+				<label for="synopsis" class="form-label">Synopsis : </label>
+				<textarea id="synopsis" placeholder="Escriba la synopsis"
+					class="form-control" th:field="*{synopsis}"></textarea>
 			</div>
 			<div class="mb-3">
 				<label for="youtubeTrailerId" class="form-label">Youtube
@@ -68,13 +58,11 @@
 				</div>
 			</div>
 			<div class="mb-3">
-				<label for="generos" class="form-label">Genero : </label> <select
-					id="generos" class="form-control" th:field="*{generos}" multiple>
-					<option th:each="genero : ${generos}" th:value="${genero.id}"
-						th:text="${genero.titulo}"></option>
+				<label for="genres" class="form-label">Genero : </label> <select
+					id="genres" class="form-control" th:field="*{genres}" multiple>
+					<option th:each="genre : ${genres}" th:value="${genre.id}"
+						th:text="${genre.name}"></option>
 				</select>
-				<div class="invalid-feedback"
-					th:if="${#fields.hasErrors('generos')}" th:errors="*{generos}"></div>
 			</div>
 			<div class="text-end">
 				<button type="submit" class="btn btn-primary">Guardar</button>

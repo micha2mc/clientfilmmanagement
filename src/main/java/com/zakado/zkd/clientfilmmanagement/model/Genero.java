@@ -19,6 +19,6 @@ public class Genero {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String titulo;
+    private String name;
 
 }

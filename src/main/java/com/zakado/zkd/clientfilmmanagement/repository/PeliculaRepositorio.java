@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PeliculaRepositorio extends JpaRepository<Pelicula, Integer> {
-    List<Pelicula> findByTituloContainingIgnoreCase(String title);
+    List<Pelicula> findByTitleContainingIgnoreCase(String title);
 
     List<Pelicula> findByYear(Integer integer);
 }
