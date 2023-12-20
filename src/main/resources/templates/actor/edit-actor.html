@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es"
+    xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{master.html}">
+<head>
+<meta charset="utf-8">
+<title>Editar Actor</title>
+</head>
+<body>
+
+	<div layout:fragment="content">
+		<h2>Editar actor</h2>
+		<br>
+		<div th:insert="actor/formActor :: form">
+		</div>
+	</div>
+</body>
+</html>

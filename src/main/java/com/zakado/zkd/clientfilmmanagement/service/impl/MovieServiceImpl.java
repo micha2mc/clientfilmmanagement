@@ -1,8 +1,6 @@
 package com.zakado.zkd.clientfilmmanagement.service.impl;
 
-import com.zakado.zkd.clientfilmmanagement.model.Genero;
 import com.zakado.zkd.clientfilmmanagement.model.Pelicula;
-import com.zakado.zkd.clientfilmmanagement.repository.PeliculaRepositorio;
 import com.zakado.zkd.clientfilmmanagement.service.MovieService;
 import com.zakado.zkd.clientfilmmanagement.service.UploadFileService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +21,6 @@ import java.util.Objects;
 public class MovieServiceImpl implements MovieService {
     private static final String URL = "http://localhost:8080/api/movies";
     
-    private final PeliculaRepositorio peliculaRepositorio;
     private final RestTemplate template;
     private final UploadFileService uploadFileService;
 
@@ -59,7 +56,7 @@ public class MovieServiceImpl implements MovieService {
         } else {
             listado = switch (type.toUpperCase()) {
                 case "TITLE" -> {
-                    List<Pelicula> byTitulo = peliculaRepositorio.findByTitleContainingIgnoreCase(String.valueOf(obj));
+                    List<Pelicula> byTitulo = null;//peliculaRepositorio.findByTitleContainingIgnoreCase(String.valueOf(obj));
                     yield getMoviesPagination(pageable, byTitulo);
                 }
                 case "NAME" -> getMoviesPagination(pageable, List.of(new Pelicula(), new Pelicula()));
@@ -67,7 +64,7 @@ public class MovieServiceImpl implements MovieService {
                     yield getMoviesPagination(pageable, List.of(new Pelicula()));
                 }
                 case "YEAR" -> {
-                    List<Pelicula> byYear = peliculaRepositorio.findByYear(Integer.valueOf((String) obj));
+                    List<Pelicula> byYear = null;//peliculaRepositorio.findByYear(Integer.valueOf((String) obj));
                     yield getMoviesPagination(pageable, List.of(new Pelicula(), new Pelicula()));
                 }
                 default -> throw new IllegalStateException("Unexpected value: " + type.toUpperCase());

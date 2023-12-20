@@ -24,8 +24,10 @@
 			</div>
 			<div class="mb-3">
 				<label for="genre" class="form-label">Género : </label>
-				<input type="text" id="genre" placeholder="Escriba el género del actor"
-					class="form-control" th:field="*{genre}">
+				<select name="genre" id="genre">
+					<option th:value="F" th:text="Femenino"></option>
+					<option th:value="M" th:text="Masculino"></option>
+				</select>
 			</div>
 			<div class="mb-3">
 				<label for="dob" class="form-label">Fecha de Nac.: </label>
