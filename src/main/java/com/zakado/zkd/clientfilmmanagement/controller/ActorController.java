@@ -53,9 +53,7 @@ public class ActorController {
 
     @GetMapping("/new")
     public String showCreateNewActorForm(Model model) {
-        //List<Genero> generos = genreService.getAllGenre();
         model.addAttribute("actor", new Actor());
-        // model.addAttribute("generos", generos);
         return "actor/new-actor";
     }
 
@@ -72,7 +70,6 @@ public class ActorController {
             }
 
             attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
-            //movie.setRutaPortada(uniqueFilename);
             actor.setImage(uniqueFilename);
         }
 

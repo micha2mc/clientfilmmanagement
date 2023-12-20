@@ -75,7 +75,7 @@ public class AdminController {
     }
 
     @GetMapping("/peliculas/{id}/editar")
-    public ModelAndView mostrarFormilarioDeEditarPelicula(@PathVariable Integer id) {
+    public ModelAndView showFromUpdate(@PathVariable Integer id) {
         Pelicula pelicula = movieService.findById(id);
         List<Genero> generos = genreService.getAllGenre();
 

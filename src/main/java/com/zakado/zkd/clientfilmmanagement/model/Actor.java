@@ -1,15 +1,14 @@
 package com.zakado.zkd.clientfilmmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
-import java.util.Objects;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -22,8 +21,9 @@ public class Actor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer nid;
     private String name;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDate dob;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "es-ES", timezone = "Europe/Madrid")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dob;
     private String cob;
     private String image;
     private String genre;
