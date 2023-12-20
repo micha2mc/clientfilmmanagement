@@ -11,7 +11,7 @@ public interface MovieService {
 
     Pelicula findById(Integer id);
 
-    void deleteMovie(Pelicula movie);
+    void deleteMovie(Integer id);
 
     Page<Pelicula> searchMoviesMethod(Pageable pageable, Object obj, String type);
 }

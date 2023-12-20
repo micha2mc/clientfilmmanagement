@@ -1,15 +1,19 @@
 package com.zakado.zkd.clientfilmmanagement.service.impl;
 
+import com.zakado.zkd.clientfilmmanagement.model.Genero;
 import com.zakado.zkd.clientfilmmanagement.model.Pelicula;
 import com.zakado.zkd.clientfilmmanagement.repository.PeliculaRepositorio;
 import com.zakado.zkd.clientfilmmanagement.service.MovieService;
+import com.zakado.zkd.clientfilmmanagement.service.UploadFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -17,28 +21,34 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
+    private static final String URL = "http://localhost:8080/api/movies";
+    
     private final PeliculaRepositorio peliculaRepositorio;
+    private final RestTemplate template;
+    private final UploadFileService uploadFileService;
 
     @Override
     public Page<Pelicula> getAllMovies(Pageable pageable) {
-        List<Pelicula> listMovies = peliculaRepositorio.findAll();
+        List<Pelicula> listMovies = Arrays.asList(Objects.requireNonNull(template.getForObject(URL, Pelicula[].class)));;
         return getMoviesPagination(pageable, listMovies);
     }
 
 
     @Override
     public void saveMovie(Pelicula movie) {
-        peliculaRepositorio.save(movie);
+        template.postForObject(URL, movie, Pelicula.class);
     }
 
     @Override
     public Pelicula findById(Integer id) {
-        return peliculaRepositorio.findById(id).orElse(new Pelicula());
+        return template.getForObject(URL + "/" + id, Pelicula.class);
     }
 
     @Override
-    public void deleteMovie(Pelicula movie) {
-        peliculaRepositorio.delete(movie);
+    public void deleteMovie(Integer id) {
+        Pelicula pelicula = findById(id);
+        template.delete(URL + "/" + pelicula.getNid());
+        uploadFileService.deleteImage(pelicula.getImage());
     }
 
     @Override

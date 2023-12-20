@@ -121,9 +121,7 @@ public class AdminController {
 
     @PostMapping("/peliculas/{id}/eliminar")
     public String eliminarPelicula(@PathVariable Integer id) {
-        Pelicula pelicula = movieService.findById(id);
-        movieService.deleteMovie(pelicula);
-        uploadFileService.deleteImage(pelicula.getImage());
+        movieService.deleteMovie(id);
         return "redirect:/admin";
     }
 }
