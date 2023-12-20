@@ -22,8 +22,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public List<Genero> getAllGenre() {
-        List<Genero> list = Arrays.asList(Objects.requireNonNull(template.getForObject(URL, Genero[].class)));
-        return generoRepositorio.findAll(Sort.by("name"));
+        return Arrays.asList(Objects.requireNonNull(template.getForObject(URL, Genero[].class)));
     }
 
     @Override
