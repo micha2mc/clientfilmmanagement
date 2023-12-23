@@ -3,6 +3,7 @@ package com.zakado.zkd.clientfilmmanagement.service.impl;
 import com.zakado.zkd.clientfilmmanagement.model.Pelicula;
 import com.zakado.zkd.clientfilmmanagement.repository.PeliculaRepositorio;
 import com.zakado.zkd.clientfilmmanagement.service.MovieService;
+import com.zakado.zkd.clientfilmmanagement.service.UploadFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,6 +19,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
     private final PeliculaRepositorio peliculaRepositorio;
+    private final UploadFileService uploadFileService;
 
     @Override
     public Page<Pelicula> getAllMovies(Pageable pageable) {
@@ -39,6 +41,8 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void deleteMovie(Pelicula movie) {
         peliculaRepositorio.delete(movie);
+        //template.delete(URL + "/" + pelicula.getNid());
+        uploadFileService.deleteImage(movie.getImage());
     }
 
     @Override
