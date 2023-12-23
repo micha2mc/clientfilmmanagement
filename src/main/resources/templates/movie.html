@@ -12,7 +12,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<a th:href="@{/movies/}">
-					<img th:src="@{'/images/uploads/'+ ${movie.rutaPortada}}"
+					<img th:src="@{'/images/uploads/'+ ${movie.image}}"
 						 th:alt="*{title}" class="img-fluid rounded w-100">
 				</a>
 
@@ -58,7 +58,7 @@
 					<tr>
 						<th scope="row">Reparto:</th>
 						<td><span class="badge rounded-pull bg-light text-dark me-1"
-								  th:each="genero : *{generos}" th:text="${genero.titulo}"></span></td>
+								  th:each="actor : *{actors}" th:text="${actor.name}"></span></td>
 					</tr>
 					<tr>
 						<th scope="row">Synopsis:</th>

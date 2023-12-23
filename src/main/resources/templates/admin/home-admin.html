@@ -28,8 +28,8 @@
 			<tbody>
 				<tr th:each="pelicula : ${listMovies}" th:object="${pelicula}">
 					<td style="width:150px;">
-					   <a th:href="@{'/images/uploads/'+ ${pelicula.rutaPortada}}" data-fancybox>
-					      <img th:src="@{'/images/uploads/'+ ${pelicula.rutaPortada}}" alt="" class="img-thumbnail w-100">
+					   <a th:href="@{'/images/uploads/'+ ${pelicula.image}}" data-fancybox>
+					      <img th:src="@{'/images/uploads/'+ ${pelicula.image}}" alt="" class="img-thumbnail w-100">
 					   </a>
 					</td>
 					<td>
@@ -62,7 +62,7 @@
 							<tr>
 								<th scope="row">Reparto:</th>
 								<td><span class="badge rounded-pull bg-light text-dark me-1"
-										  th:each="genero : *{generos}" th:text="${genero.titulo}"></span></td>
+										  th:each="actor : *{actors}" th:text="${actor.name}"></span></td>
 							</tr>
 							<tr>
 								<th scope="row">Synopsis:</th>

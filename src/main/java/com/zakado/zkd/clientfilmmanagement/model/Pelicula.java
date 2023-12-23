@@ -31,9 +31,6 @@ public class Pelicula {
 
     private String youtubeTrailerId;
 
-    private String rutaPortada;
-
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "genero_pelicula", joinColumns = @JoinColumn(name = "id_pelicula"),
             inverseJoinColumns = @JoinColumn(name = "id_genero"))

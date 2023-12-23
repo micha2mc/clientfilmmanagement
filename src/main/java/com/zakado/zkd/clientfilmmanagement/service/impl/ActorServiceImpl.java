@@ -21,8 +21,12 @@ public class ActorServiceImpl implements ActorService {
     private final ActorRepo actorRepo;
     @Override
     public Page<Actor> getAllActors(Pageable pageable) {
-        List<Actor> listActors = actorRepo.findAll();
+        List<Actor> listActors = getAllActors();
         return getMoviesPagination(pageable, listActors);
+    }
+    @Override
+    public List<Actor> getAllActors(){
+        return actorRepo.findAll();
     }
 
     @Override

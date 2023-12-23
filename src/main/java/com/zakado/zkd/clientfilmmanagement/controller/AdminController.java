@@ -1,9 +1,11 @@
 package com.zakado.zkd.clientfilmmanagement.controller;
 
 
+import com.zakado.zkd.clientfilmmanagement.model.Actor;
 import com.zakado.zkd.clientfilmmanagement.model.Genero;
 import com.zakado.zkd.clientfilmmanagement.model.Pelicula;
 import com.zakado.zkd.clientfilmmanagement.paginator.PageRender;
+import com.zakado.zkd.clientfilmmanagement.service.ActorService;
 import com.zakado.zkd.clientfilmmanagement.service.GenreService;
 import com.zakado.zkd.clientfilmmanagement.service.MovieService;
 import com.zakado.zkd.clientfilmmanagement.service.UploadFileService;
@@ -32,6 +34,7 @@ public class AdminController {
     private final UploadFileService uploadFileService;
     private final GenreService genreService;
     private final MovieService movieService;
+    private final ActorService actorService;
 
 
     @GetMapping("")
@@ -48,8 +51,10 @@ public class AdminController {
     @GetMapping("/new")
     public String showCreateNewMovieForm(Model model) {
         List<Genero> generos = genreService.getAllGenre();
+        List<Actor> allActors = actorService.getAllActors();
         model.addAttribute("movie", new Pelicula());
         model.addAttribute("generos", generos);
+        model.addAttribute("allActors", allActors);
         return "admin/nueva-pelicula";
     }
 
@@ -66,7 +71,7 @@ public class AdminController {
             }
 
             attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
-            movie.setRutaPortada(uniqueFilename);
+            movie.setImage(uniqueFilename);
         }
 
         movieService.saveMovie(movie);
@@ -78,10 +83,12 @@ public class AdminController {
     public ModelAndView mostrarFormilarioDeEditarPelicula(@PathVariable Integer id) {
         Pelicula pelicula = movieService.findById(id);
         List<Genero> generos = genreService.getAllGenre();
+        List<Actor> allActors = actorService.getAllActors();
 
         return new ModelAndView("admin/editar-pelicula")
                 .addObject("movie", pelicula)
-                .addObject("generos", generos);
+                .addObject("generos", generos)
+                .addObject("allActors", allActors);
     }
 
     @PostMapping("/peliculas/{id}/editar")
@@ -103,17 +110,18 @@ public class AdminController {
         peliculaDB.setYear(pelicula.getYear());
         peliculaDB.setDuration(pelicula.getDuration());
         peliculaDB.setCountry(pelicula.getCountry());
+        peliculaDB.setActors(pelicula.getActors());
 
         if (!foto.isEmpty()) {
             String uniqueFilename = null;
             try {
-                uploadFileService.deleteImage(peliculaDB.getRutaPortada());
+                uploadFileService.deleteImage(peliculaDB.getImage());
                 uniqueFilename = uploadFileService.copy(foto);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
-            peliculaDB.setRutaPortada(uniqueFilename);
+            peliculaDB.setImage(uniqueFilename);
         }
         movieService.saveMovie(peliculaDB);
         return new ModelAndView("redirect:/admin");
@@ -123,7 +131,7 @@ public class AdminController {
     public String eliminarPelicula(@PathVariable Integer id) {
         Pelicula pelicula = movieService.findById(id);
         movieService.deleteMovie(pelicula);
-        uploadFileService.deleteImage(pelicula.getRutaPortada());
+        uploadFileService.deleteImage(pelicula.getImage());
         return "redirect:/admin";
     }
 }
