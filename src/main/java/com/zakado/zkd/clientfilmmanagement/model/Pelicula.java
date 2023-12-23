@@ -19,16 +19,15 @@ public class Pelicula {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer nid;
 
-    private String titulo;
-
-    private String sinopsis;
-
+    private String title;
     private Integer year;
     private Integer duration;
 
     private String country;
+    private String synopsis;
+    private String image;
 
     private String youtubeTrailerId;
 

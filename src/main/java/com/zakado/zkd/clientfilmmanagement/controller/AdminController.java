@@ -54,7 +54,7 @@ public class AdminController {
     }
 
     @PostMapping("/new")
-    public String saveMovie(Model model, Pelicula movie, @RequestParam("file") MultipartFile foto,
+    public String saveMovie(Pelicula movie, @RequestParam("file") MultipartFile foto,
                             RedirectAttributes attributes) {
 
         if (!foto.isEmpty()) {
@@ -96,8 +96,8 @@ public class AdminController {
         }
 
         Pelicula peliculaDB = movieService.findById(id);
-        peliculaDB.setTitulo(pelicula.getTitulo());
-        peliculaDB.setSinopsis(pelicula.getSinopsis());
+        peliculaDB.setTitle(pelicula.getTitle());
+        peliculaDB.setSynopsis(pelicula.getSynopsis());
         peliculaDB.setYoutubeTrailerId(pelicula.getYoutubeTrailerId());
         peliculaDB.setGeneros(pelicula.getGeneros());
         peliculaDB.setYear(pelicula.getYear());

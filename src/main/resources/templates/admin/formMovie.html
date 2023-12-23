@@ -12,11 +12,11 @@
 		<br>
 		<form action="" method="post" th:object="${movie}" enctype="multipart/form-data">
 			<div class="mb-3">
-				<label for="titulo" class="form-label">Titulo : </label> <input
-					type="text" id="titulo" placeholder="Escriba el título de la Película"
-					class="form-control" th:field="*{titulo}">
-				<div class="invalid-feedback" th:if="${#fields.hasErrors('titulo')}"
-					th:errors="*{titulo}"></div>
+				<label for="title" class="form-label">Titulo : </label> <input
+					type="text" id="title" placeholder="Escriba el título de la Película"
+					class="form-control" th:field="*{title}">
+				<div class="invalid-feedback" th:if="${#fields.hasErrors('title')}"
+					th:errors="*{title}"></div>
 			</div>
 			<div class="mb-3">
 				<label for="year" class="form-label">Año : </label> <input
@@ -41,11 +41,11 @@
 			</div>
 
 			<div class="mb-3">
-				<label for="sinopsis" class="form-label">Sinopsis : </label>
-				<textarea id="sinopsis" placeholder="Escriba la synopsis"
-					class="form-control" th:field="*{sinopsis}"></textarea>
+				<label for="synopsis" class="form-label">Sinopsis : </label>
+				<textarea id="synopsis" placeholder="Escriba la synopsis"
+					class="form-control" th:field="*{synopsis}"></textarea>
 				<div class="invalid-feedback"
-					th:if="${#fields.hasErrors('sinopsis')}" th:errors="*{sinopsis}"></div>
+					th:if="${#fields.hasErrors('synopsis')}" th:errors="*{synopsis}"></div>
 			</div>
 			<div class="mb-3">
 				<label for="youtubeTrailerId" class="form-label">Youtube

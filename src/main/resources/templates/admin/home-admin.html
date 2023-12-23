@@ -33,7 +33,7 @@
 					   </a>
 					</td>
 					<td>
-						<div th:text="*{titulo}" class="fs-5 fw-bold"></div>
+						<div th:text="*{title}" class="fs-5 fw-bold"></div>
 						<table class="table table-borderless">
 							<thead>
 							<tr>
@@ -66,18 +66,18 @@
 							</tr>
 							<tr>
 								<th scope="row">Synopsis:</th>
-								<td class="text-justify" th:text="*{sinopsis}"></td>
+								<td class="text-justify" th:text="*{synopsis}"></td>
 							</tr>
 
 							</tbody>
 						</table>
 					</td>
 					<td>
-					   <a th:href="@{/admin/peliculas/{id}/editar(id=*{id})}" class="btn btn-success">Editar</a>
+					   <a th:href="@{/admin/peliculas/{id}/editar(id=*{nid})}" class="btn btn-success">Editar</a>
 					</td>
 					<td class="text-end">
-						<a href="javascript:void(0)" class="text-light ms-3 btn btn-danger" th:onclick="'eliminarPelicula(' + *{id} +')'">Eliminar</a>
-						<form th:id="'eliminarPeliculaForm' + *{id}" th:action="@{/admin/peliculas/{id}/eliminar(id=*{id})}" method="post" class="d-none">
+						<a href="javascript:void(0)" class="text-light ms-3 btn btn-danger" th:onclick="'eliminarPelicula(' + *{nid} +')'">Eliminar</a>
+						<form th:id="'eliminarPeliculaForm' + *{nid}" th:action="@{/admin/peliculas/{id}/eliminar(id=*{nid})}" method="post" class="d-none">
 						</form>
 					</td>
 				</tr>

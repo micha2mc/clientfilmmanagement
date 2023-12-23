@@ -1,5 +1,6 @@
 package com.zakado.zkd.clientfilmmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +23,8 @@ public class Actor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer nid;
     private String name;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "es-ES", timezone = "Europe/Madrid")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
     private String cob;
     private String image;

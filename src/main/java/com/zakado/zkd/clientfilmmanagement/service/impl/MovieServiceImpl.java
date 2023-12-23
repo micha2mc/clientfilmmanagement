@@ -49,7 +49,7 @@ public class MovieServiceImpl implements MovieService {
         } else {
             listado = switch (type.toUpperCase()) {
                 case "TITLE" -> {
-                    List<Pelicula> byTitulo = peliculaRepositorio.findByTituloContainingIgnoreCase(String.valueOf(obj));
+                    List<Pelicula> byTitulo = peliculaRepositorio.findByTitleContainingIgnoreCase(String.valueOf(obj));
                     yield getMoviesPagination(pageable, byTitulo);
                 }
                 case "NAME" -> getMoviesPagination(pageable, List.of(new Pelicula(), new Pelicula()));

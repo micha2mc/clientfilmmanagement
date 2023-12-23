@@ -14,10 +14,10 @@
     </div>
     <div class="row">
         <div class="col-md-3 my-5" th:each="pelicula : ${listMovies}" th:object="${pelicula}">
-            <a th:href="@{/movies/peliculas/{id}(id=*{id})}" class="card shadow-lg" style="text-decoration:none;">
-                <img th:src="@{'/images/uploads/'+ ${pelicula.rutaPortada}}" th:alt="*{titulo}" class="card-img-top">
+            <a th:href="@{/movies/peliculas/{id}(id=*{nid})}" class="card shadow-lg" style="text-decoration:none;">
+                <img th:src="@{'/images/uploads/'+ ${pelicula.rutaPortada}}" th:alt="*{title}" class="card-img-top">
                 <div class="card-body">
-                    <h2 class="card-title fs-6" th:text="*{titulo}"></h2>
+                    <h2 class="card-title fs-6" th:text="*{title}"></h2>
                     <p th:text="*{year}" class="text-muted small"></p>
                 </div>
             </a>

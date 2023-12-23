@@ -4,7 +4,7 @@
 	layout:decorate="~{master.html}" lang="en">
 <head>
 <meta charset="utf-8">
-<title>[[${movie.titulo}]]</title>
+<title>[[${movie.title}]]</title>
 </head>
 <body>
 
@@ -13,7 +13,7 @@
 			<div class="col-md-6">
 				<a th:href="@{/movies/}">
 					<img th:src="@{'/images/uploads/'+ ${movie.rutaPortada}}"
-						 th:alt="*{titulo}" class="img-fluid rounded w-100">
+						 th:alt="*{title}" class="img-fluid rounded w-100">
 				</a>
 
 			</div>
@@ -29,7 +29,7 @@
                     </svg> Ver trailer
 					</a>
 				</div>
-				<h2 th:text="*{titulo}"></h2>
+				<h2 th:text="*{title}"></h2>
 				<table class="table table-borderless">
 					<thead>
 					<tr>
@@ -62,7 +62,7 @@
 					</tr>
 					<tr>
 						<th scope="row">Synopsis:</th>
-						<td class="text-start" th:text="*{sinopsis}"></td>
+						<td class="text-start" th:text="*{synopsis}"></td>
 					</tr>
 					</tbody>
 				</table>
