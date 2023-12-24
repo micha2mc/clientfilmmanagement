@@ -69,12 +69,12 @@
 			</div>
 			<div class="mb-3">
 				<label for="generos" class="form-label">Genero : </label> <select
-					id="generos" class="form-control" th:field="*{generos}" multiple>
+					id="generos" class="form-control" th:field="*{genres}" multiple>
 					<option th:each="genero : ${generos}" th:value="${genero.nid}"
 						th:text="${genero.description}"></option>
 				</select>
 				<div class="invalid-feedback"
-					th:if="${#fields.hasErrors('generos')}" th:errors="*{generos}"></div>
+					th:if="${#fields.hasErrors('genres')}" th:errors="*{genres}"></div>
 			</div>
 
 			<div class="mb-3">

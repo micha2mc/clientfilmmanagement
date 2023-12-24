@@ -34,7 +34,7 @@ public class Pelicula {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "genero_pelicula", joinColumns = @JoinColumn(name = "id_pelicula"),
             inverseJoinColumns = @JoinColumn(name = "id_genero"))
-    private List<Genero> generos;
+    private List<Genero> genres;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "actor_pelicula", joinColumns = @JoinColumn(name = "id_pelicula"),

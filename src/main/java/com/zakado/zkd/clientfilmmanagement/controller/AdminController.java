@@ -106,7 +106,7 @@ public class AdminController {
         peliculaDB.setTitle(pelicula.getTitle());
         peliculaDB.setSynopsis(pelicula.getSynopsis());
         peliculaDB.setYoutubeTrailerId(pelicula.getYoutubeTrailerId());
-        peliculaDB.setGeneros(pelicula.getGeneros());
+        peliculaDB.setGenres(pelicula.getGenres());
         peliculaDB.setYear(pelicula.getYear());
         peliculaDB.setDuration(pelicula.getDuration());
         peliculaDB.setCountry(pelicula.getCountry());
