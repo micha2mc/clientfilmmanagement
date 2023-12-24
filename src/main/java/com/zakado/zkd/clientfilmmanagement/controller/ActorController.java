@@ -11,8 +11,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -56,9 +59,7 @@ public class ActorController {
 
     @GetMapping("/new")
     public String showCreateNewActorForm(Model model) {
-        //List<Genero> generos = genreService.getAllGenre();
         model.addAttribute("actor", new Actor());
-        // model.addAttribute("generos", generos);
         return "actor/new-actor";
     }
 
@@ -75,12 +76,54 @@ public class ActorController {
             }
 
             attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
-            //movie.setRutaPortada(uniqueFilename);
             actor.setImage(uniqueFilename);
         }
 
         actorService.saveActor(actor);
         attributes.addFlashAttribute("msg", "Película registrada correctamente!");
+        return "redirect:/actors";
+    }
+
+    @GetMapping("/actor/{id}/editar")
+    public ModelAndView showFromUpdate(@PathVariable Integer id) {
+        Actor actor = actorService.getActorById(id);
+
+        return new ModelAndView("actor/edit-actor")
+                .addObject("actor", actor);
+    }
+
+    @PostMapping("/actor/{id}/editar")
+    public ModelAndView updateActor(@PathVariable Integer id, @Validated Actor actor,
+                                    BindingResult bindingResult, @RequestParam("file") MultipartFile foto,
+                                    RedirectAttributes attributes) {
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("actor/edit-actor")
+                    .addObject("actor", actor);
+        }
+        Actor actorBBDD = actorService.getActorById(id);
+        actorBBDD.setName(actor.getName());
+        actorBBDD.setDob(actor.getDob());
+        actorBBDD.setCob(actor.getCob());
+        actorBBDD.setGenre(actor.getGenre());
+
+        if (!foto.isEmpty()) {
+            String uniqueFilename = null;
+            try {
+                uploadFileService.deleteImage(actorBBDD.getImage());
+                uniqueFilename = uploadFileService.copy(foto);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
+            actorBBDD.setImage(uniqueFilename);
+        }
+        actorService.saveActor(actorBBDD);
+        return new ModelAndView("redirect:/actors");
+    }
+
+    @PostMapping("/actor/{id}/eliminar")
+    public String deleteActor(@PathVariable Integer id) {
+        actorService.deleteActor(id);
         return "redirect:/actors";
     }
 }

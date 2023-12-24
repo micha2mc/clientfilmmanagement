@@ -29,7 +29,6 @@
                      </a>
                   </td>
                   <td>
-                      <!--<div th:text="*{titulo}" class="fs-5 fw-bold"></div>-->
 						<table class="table table-borderless">
 							<thead>
 							<tr>
@@ -61,11 +60,11 @@
 					</td>
 
 					<td>
-					   <a th:href="@{/admin/peliculas/{id}/editar(id=*{nid})}" class="btn btn-success">Editar</a>
+					   <a th:href="@{/actors/actor/{id}/editar(id=*{nid})}" class="btn btn-success">Editar</a>
 					</td>
 					<td class="text-end">
 						<a href="javascript:void(0)" class="text-light ms-3 btn btn-danger" th:onclick="'eliminarPelicula(' + *{nid} +')'">Eliminar</a>
-						<form th:id="'eliminarPeliculaForm' + *{nid}" th:action="@{/admin/peliculas/{id}/eliminar(id=*{nid})}" method="post" class="d-none">
+						<form th:id="'eliminarPeliculaForm' + *{nid}" th:action="@{/actors/actor/{id}/eliminar(id=*{nid})}" method="post" class="d-none">
 						</form>
 					</td>
 				</tr>
@@ -85,7 +84,7 @@
   <div layout:fragment="scripts">
       <script>
          function eliminarPelicula(id){
-        	 if(!confirm('¿Estás seguro de eliminar esta película?')){
+        	 if(!confirm('¿Estás seguro de eliminar actor?')){
         		 return;
         	 }
         	 $('#eliminarPeliculaForm' + id).submit();

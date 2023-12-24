@@ -14,4 +14,6 @@ public interface ActorService {
     void saveActor(Actor actor);
 
     Actor getActorById(Integer id);
+
+    void deleteActor(Integer id);
 }
