@@ -21,7 +21,7 @@
           <tbody>
               <tr th:each="actor : ${listActors}" th:object="${actor}">
                   <td style="width:150px;">
-                     <a th:href="@{'/images/uploads/'+ ${actor.image}}" data-fancybox>
+                     <a th:href="@{'/actors/actor/'+ ${actor.nid}}">
                         <img th:src="@{'/images/uploads/'+ ${actor.image}}" alt="" class="img-thumbnail w-100">
                      </a>
                   </td>

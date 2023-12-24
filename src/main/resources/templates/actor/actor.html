@@ -11,7 +11,7 @@
 	<div layout:fragment="content" th:object="${actor}">
 		<div class="row">
 			<div class="col-md-6">
-				<a th:href="@{/movies/}">
+				<a th:href="@{/actors/list}">
 					<img th:src="@{'/images/uploads/'+ ${actor.image}}"
 						 th:alt="*{name}" class="img-fluid rounded w-100">
 				</a>
