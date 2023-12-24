@@ -17,8 +17,8 @@ public class Genero {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer nid;
 
-    private String titulo;
+    private String description;
 
 }

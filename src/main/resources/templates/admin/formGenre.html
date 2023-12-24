@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es"
+    xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8">
+	<title>formulario Género</title>
+</head>
+<body>
+
+	<div layout:fragment="form">
+		<br>
+		<form action="" method="post" th:object="${genre}" enctype="multipart/form-data">
+			<div class="mb-3">
+				<label for="description" class="form-label">Nombre Género : </label>
+				<input type="text" id="description" placeholder="Escriba el nombre del género"
+					class="form-control" th:field="*{description}">
+			</div>
+			<div class="text-end">
+				<button type="submit" class="btn btn-primary">Guardar</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

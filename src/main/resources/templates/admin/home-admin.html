@@ -11,7 +11,7 @@
   <div layout:fragment="content">
 	  <h2>Zona de Administración</h2><br>
 	  <a class="btn btn-primary" href="/admin/new" role="button">Añadir película</a>
-	  <a class="btn btn-primary" href="" role="button">Añadir Género</a>
+	  <a class="btn btn-primary" href="/genres/new" role="button">Añadir Género</a>
 	  <a class="btn btn-primary" href="/actors" role="button">Ver Actores</a>
 	  <a class="btn btn-primary" href="/actors/new" role="button">Añadir Actor</a><br>
 
@@ -57,7 +57,7 @@
 							<tr>
 								<th scope="row">Géneros:</th>
 								<td><span class="badge rounded-pull bg-light text-dark me-1"
-										  th:each="genero : *{generos}" th:text="${genero.titulo}"></span></td>
+										  th:each="genero : *{generos}" th:text="${genero.description}"></span></td>
 							</tr>
 							<tr>
 								<th scope="row">Reparto:</th>
