@@ -131,7 +131,6 @@ public class AdminController {
     public String eliminarPelicula(@PathVariable Integer id) {
         Pelicula pelicula = movieService.findById(id);
         movieService.deleteMovie(pelicula);
-        uploadFileService.deleteImage(pelicula.getImage());
         return "redirect:/admin";
     }
 }

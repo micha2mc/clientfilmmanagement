@@ -12,4 +12,6 @@ public interface ActorService {
     List<Actor> getAllActors();
 
     void saveActor(Actor actor);
+
+    Actor getActorById(Integer id);
 }

@@ -11,10 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -38,6 +35,12 @@ public class ActorController {
         model.addAttribute("listActors", listActors);
         model.addAttribute("page", pageRender);
         return "actor/home-actors";
+    }
+    @GetMapping("/actor/{id}")
+    public String showActorDetails(Model model, @PathVariable Integer id) {
+        Actor actor = actorService.getActorById(id);
+        model.addAttribute("actor", actor);
+        return "actor/actor";
     }
     @GetMapping("/list")
     public String showAllActors(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {

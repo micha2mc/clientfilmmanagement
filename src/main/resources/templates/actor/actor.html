@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{master.html}" lang="en">
+<head>
+<meta charset="utf-8">
+<title>Actor details</title>
+</head>
+<body>
+
+	<div layout:fragment="content" th:object="${actor}">
+		<div class="row">
+			<div class="col-md-6">
+				<a th:href="@{/movies/}">
+					<img th:src="@{'/images/uploads/'+ ${actor.image}}"
+						 th:alt="*{name}" class="img-fluid rounded w-100">
+				</a>
+			</div>
+			<div class="col-md-6">
+				<table class="table table-borderless">
+					<thead>
+					<tr>
+						<th scope="col"></th>
+						<th scope="col"></th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<th scope="row">Nombre:</th>
+						<td class="text-start" th:text="*{name}"></td>
+					</tr>
+					<tr>
+						<th scope="row">Género:</th>
+						<td class="text-start" th:text="*{genre}"></td>
+					</tr>
+					<tr>
+						<th scope="row">Fecha Nac.:</th>
+						<td class="text-start" th:text="*{#temporals.format(dob,'dd/MM/yyyy')}"></td>
+					</tr>
+					<tr>
+						<th scope="row">País:</th>
+						<td class="text-start" th:text="*{cob}"></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>

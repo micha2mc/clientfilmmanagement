@@ -34,6 +34,11 @@ public class ActorServiceImpl implements ActorService {
         actorRepo.save(actor);
     }
 
+    @Override
+    public Actor getActorById(Integer id) {
+        return actorRepo.findById(id).orElse(new Actor());
+    }
+
     private static PageImpl<Actor> getMoviesPagination(Pageable pageable, List<Actor> listActors) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();

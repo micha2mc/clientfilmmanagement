@@ -61,8 +61,11 @@
 							</tr>
 							<tr>
 								<th scope="row">Reparto:</th>
-								<td><span class="badge rounded-pull bg-light text-dark me-1"
-										  th:each="actor : *{actors}" th:text="${actor.name}"></span></td>
+								<td>
+									<span class="badge rounded-pull bg-light text-dark me-1" th:each="actor : *{actors}">
+										<a th:href="@{/actors/actor/} + ${actor.nid}" th:text="${actor.name}"></a>
+									</span>
+								</td>
 							</tr>
 							<tr>
 								<th scope="row">Synopsis:</th>
