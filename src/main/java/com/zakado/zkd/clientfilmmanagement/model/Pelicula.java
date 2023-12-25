@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -34,11 +35,11 @@ public class Pelicula {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "genero_pelicula", joinColumns = @JoinColumn(name = "id_pelicula"),
             inverseJoinColumns = @JoinColumn(name = "id_genero"))
-    private List<Genero> genres;
+    private Set<Genero> genres;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "actor_pelicula", joinColumns = @JoinColumn(name = "id_pelicula"),
             inverseJoinColumns = @JoinColumn(name = "id_actor"))
-    private List<Actor> actors;
+    private Set<Actor> actors;
 
 }

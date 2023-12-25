@@ -10,7 +10,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -20,29 +22,38 @@ import java.util.Objects;
 public class MovieServiceImpl implements MovieService {
     private final PeliculaRepositorio peliculaRepositorio;
     private final UploadFileService uploadFileService;
+    private static final String URL = "http://localhost:8080/api/movies";
+
+    private final RestTemplate template;
 
     @Override
     public Page<Pelicula> getAllMovies(Pageable pageable) {
-        List<Pelicula> listMovies = peliculaRepositorio.findAll();
+        //List<Pelicula> listMovies = peliculaRepositorio.findAll();
+        List<Pelicula> listMovies = Arrays.asList(Objects.requireNonNull(template.getForObject(URL, Pelicula[].class)));
         return getMoviesPagination(pageable, listMovies);
     }
 
 
     @Override
     public void saveMovie(Pelicula movie) {
-        peliculaRepositorio.save(movie);
+        //peliculaRepositorio.save(movie);
+        template.postForObject(URL, movie, Pelicula.class);
     }
 
     @Override
     public Pelicula findById(Integer id) {
-        return peliculaRepositorio.findById(id).orElse(new Pelicula());
+        //return peliculaRepositorio.findById(id).orElse(new Pelicula());
+        return template.getForObject(URL + "/" + id, Pelicula.class);
     }
 
     @Override
     public void deleteMovie(Pelicula movie) {
-        peliculaRepositorio.delete(movie);
+        /*peliculaRepositorio.delete(movie);
         //template.delete(URL + "/" + pelicula.getNid());
-        uploadFileService.deleteImage(movie.getImage());
+        uploadFileService.deleteImage(movie.getImage());*/
+        Pelicula pelicula = findById(movie.getNid());
+        template.delete(URL + "/" + pelicula.getNid());
+        uploadFileService.deleteImage(pelicula.getImage());
     }
 
     @Override

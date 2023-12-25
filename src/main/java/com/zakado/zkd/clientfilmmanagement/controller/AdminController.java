@@ -24,6 +24,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -106,7 +108,12 @@ public class AdminController {
         peliculaDB.setTitle(pelicula.getTitle());
         peliculaDB.setSynopsis(pelicula.getSynopsis());
         peliculaDB.setYoutubeTrailerId(pelicula.getYoutubeTrailerId());
-        peliculaDB.setGenres(pelicula.getGenres());
+        //peliculaDB.setGenres(pelicula.getGenres());
+        if (Objects.nonNull(pelicula.getGenres())) {
+            Set<Genero> genresOld = peliculaDB.getGenres();
+            genresOld.addAll(pelicula.getGenres());
+            peliculaDB.setGenres(genresOld);
+        }
         peliculaDB.setYear(pelicula.getYear());
         peliculaDB.setDuration(pelicula.getDuration());
         peliculaDB.setCountry(pelicula.getCountry());
