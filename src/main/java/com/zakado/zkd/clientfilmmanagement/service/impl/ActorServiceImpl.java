@@ -13,8 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -31,24 +33,27 @@ public class ActorServiceImpl implements ActorService {
     }
     @Override
     public List<Actor> getAllActors(){
-        return actorRepo.findAll();
+        //return actorRepo.findAll();
+        return Arrays.asList(Objects.requireNonNull(template.getForObject(URL, Actor[].class)));
     }
 
     @Override
     public void saveActor(Actor actor) {
-        actorRepo.save(actor);
+        //actorRepo.save(actor);
+        template.postForObject(URL, actor, Actor.class);
     }
 
     @Override
     public Actor getActorById(Integer id) {
-        return actorRepo.findById(id).orElse(new Actor());
+        //return actorRepo.findById(id).orElse(new Actor());
+        return template.getForObject(URL + "/" + id, Actor.class);
     }
 
     @Override
     public void deleteActor(Integer id) {
         Actor actor = getActorById(id);
-        //template.delete(URL + "/" + actor.getNid());
-        actorRepo.delete(actor);
+        template.delete(URL + "/" + actor.getNid());
+        //actorRepo.delete(actor);
         uploadFileService.deleteImage(actor.getImage());
     }
 

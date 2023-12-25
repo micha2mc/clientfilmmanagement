@@ -6,11 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
-import java.util.Objects;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -25,7 +23,7 @@ public class Actor {
     private String name;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "es-ES", timezone = "Europe/Madrid")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dob;
+    private Date dob;
     private String cob;
     private String image;
     private String genre;
