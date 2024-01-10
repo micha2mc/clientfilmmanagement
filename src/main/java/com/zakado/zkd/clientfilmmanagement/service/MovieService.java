@@ -14,4 +14,6 @@ public interface MovieService {
     void deleteMovie(Pelicula movie);
 
     Page<Pelicula> searchMoviesMethod(Pageable pageable, Object obj, String type);
+
+    void updateMovie(Integer id, Pelicula pelicula);
 }

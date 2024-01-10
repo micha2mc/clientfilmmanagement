@@ -1,97 +1,98 @@
 <!DOCTYPE html>
 <html lang="es"
-    xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta charset="utf-8">
-	<title>formulario pélicula</title>
+    <meta charset="utf-8">
+    <title>formulario pélicula</title>
 </head>
 <body>
 
-	<div layout:fragment="form">
-		<br>
-		<form action="" method="post" th:object="${movie}" enctype="multipart/form-data">
-			<div class="mb-3">
-				<label for="title" class="form-label">Titulo : </label> <input
-					type="text" id="title" placeholder="Escriba el título de la Película"
-					class="form-control" th:field="*{title}">
-				<div class="invalid-feedback" th:if="${#fields.hasErrors('title')}"
-					th:errors="*{title}"></div>
-			</div>
-			<div class="mb-3">
-				<label for="year" class="form-label">Año : </label> <input
-					type="number" id="year" placeholder="Escriba el año del estreno"
-					class="form-control" th:field="*{year}">
-				<div class="invalid-feedback" th:if="${#fields.hasErrors('year')}"
-					 th:errors="*{year}"></div>
-			</div>
-			<div class="mb-3">
-				<label for="duration" class="form-label">Duración : </label> <input
-					type="number" id="duration" placeholder="Escriba duración en minutos"
-					class="form-control" th:field="*{duration}">
-				<div class="invalid-feedback" th:if="${#fields.hasErrors('duration')}"
-					 th:errors="*{duration}"></div>
-			</div>
-			<div class="mb-3">
-				<label for="country" class="form-label">País : </label> <input
-					type="text" id="country" placeholder="Escriba el país"
-					class="form-control" th:field="*{country}">
-				<div class="invalid-feedback" th:if="${#fields.hasErrors('duration')}"
-					 th:errors="*{country}"></div>
-			</div>
+<div layout:fragment="form">
+    <br>
+    <form action="" method="post" th:object="${movie}" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="title" class="form-label">Titulo : </label> <input
+                type="text" id="title" placeholder="Escriba el título de la Película"
+                class="form-control" th:field="*{title}">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}"
+                 th:errors="*{title}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="year" class="form-label">Año : </label> <input
+                type="number" id="year" placeholder="Escriba el año del estreno"
+                class="form-control" th:field="*{year}">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('year')}"
+                 th:errors="*{year}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="duration" class="form-label">Duración : </label> <input
+                type="number" id="duration" placeholder="Escriba duración en minutos"
+                class="form-control" th:field="*{duration}">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('duration')}"
+                 th:errors="*{duration}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="country" class="form-label">País : </label> <input
+                type="text" id="country" placeholder="Escriba el país"
+                class="form-control" th:field="*{country}">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('duration')}"
+                 th:errors="*{country}"></div>
+        </div>
 
-			<div class="mb-3">
-				<label for="synopsis" class="form-label">Sinopsis : </label>
-				<textarea id="synopsis" placeholder="Escriba la synopsis"
-					class="form-control" th:field="*{synopsis}"></textarea>
-				<div class="invalid-feedback"
-					th:if="${#fields.hasErrors('synopsis')}" th:errors="*{synopsis}"></div>
-			</div>
-			<div class="mb-3">
-				<label for="youtubeTrailerId" class="form-label">Youtube
-					Trailer ID : </label> <input type="text" id="youtubeTrailerId"
-					placeholder="Escriba el Youtube Trailer ID" class="form-control"
-					th:field="*{youtubeTrailerId}">
-				<div class="invalid-feedback"
-					th:if="${#fields.hasErrors('youtubeTrailerId')}"
-					th:errors="*{youtubeTrailerId}"></div>
-			</div>
-			<div class="mb-3">
-				<label for="file" class="col-sm-2 col-form-label">Imagen</label>
-				<div>
-					<img th:if="${portada != null && #strings.length(portada) > 0}"
-						 class="img-thumbnail rounded float-left"
-						 style="max-width: 25%;" th:src="@{'/movies/uploads/' + ${portada}}" th:alt="${portada}"/>
-					<div class="col-sm-6">
-						<input type="file" id="file" name="file" class="form-control"/>
-					</div>
-				</div>
-			</div>
-			<div class="mb-3">
-				<label for="generos" class="form-label">Genero : </label> <select
-					id="generos" class="form-control" th:field="*{genres}" multiple>
-					<option th:each="genero : ${generos}" th:value="${genero.nid}"
-						th:text="${genero.description}"></option>
-				</select>
-				<div class="invalid-feedback"
-					th:if="${#fields.hasErrors('genres')}" th:errors="*{genres}"></div>
-			</div>
+        <div class="mb-3">
+            <label for="synopsis" class="form-label">Sinopsis : </label>
+            <textarea id="synopsis" placeholder="Escriba la synopsis"
+                      class="form-control" th:field="*{synopsis}"></textarea>
+            <div class="invalid-feedback"
+                 th:if="${#fields.hasErrors('synopsis')}" th:errors="*{synopsis}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="youtubeTrailerId" class="form-label">Youtube
+                Trailer ID : </label> <input type="text" id="youtubeTrailerId"
+                                             placeholder="Escriba el Youtube Trailer ID" class="form-control"
+                                             th:field="*{youtubeTrailerId}">
+            <div class="invalid-feedback"
+                 th:if="${#fields.hasErrors('youtubeTrailerId')}"
+                 th:errors="*{youtubeTrailerId}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="file" class="col-sm-2 col-form-label">Imagen</label>
+            <div>
+                <img th:if="${portada != null && #strings.length(portada) > 0}"
+                     class="img-thumbnail rounded float-left"
+                     style="max-width: 25%;" th:src="@{'/movies/uploads/' + ${portada}}" th:alt="${portada}"/>
+                <div class="col-sm-6">
+                    <input type="file" id="file" name="file" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="form-group">
+                <label for="idsGenero" class="form-label">Genero : </label>
+                <select id="idsGenero" class="form-control" th:field="*{idsGenero}" name="idsGenero" multiple>
+                    <option th:each="genero : ${generos}"
+                            th:value="${genero.nid}" th:text="${genero.description}"></option>
+                </select>
+            </div>
+        </div>
 
-			<div class="mb-3">
-				<label for="allActors" class="form-label">Reparto : </label> <select
-					id="allActors" class="form-control" th:field="*{actors}" multiple>
-				<option th:each="actor : ${allActors}" th:value="${actor.nid}"
-						th:text="${actor.name}"></option>
-			</select>
-				<div class="invalid-feedback"
-					 th:if="${#fields.hasErrors('actors')}" th:errors="*{actors}"></div>
-			</div>
+        <div class="mb-3">
+            <div class="form-group">
+                <label for="idsActors" class="form-label">Reparto : </label>
+                <select id="idsActors" class="form-control" th:field="*{idsActors}" multiple name="idsActors">
+                    <option th:each="actor : ${allActors}" th:value="${actor.nid}"
+                            th:text="${actor.name}"></option>
+                </select>
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('actors')}" th:errors="*{actors}"></div>
+            </div>
 
 
-			<div class="text-end">
-				<button type="submit" class="btn btn-primary">Guardar</button>
-			</div>
-		</form>
-	</div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+    </form>
+</div>
 </body>
 </html>

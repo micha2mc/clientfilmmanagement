@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -61,8 +63,7 @@ public class AdminController {
     }
 
     @PostMapping("/new")
-    public String saveMovie(Pelicula movie, @RequestParam("file") MultipartFile foto,
-                            RedirectAttributes attributes) {
+    public String saveMovie(@ModelAttribute("movie") Pelicula movie,  @RequestParam("file") MultipartFile foto) {
 
         if (!foto.isEmpty()) {
             String uniqueFilename = null;
@@ -72,12 +73,13 @@ public class AdminController {
                 e.printStackTrace();
             }
 
-            attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
+            //attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
             movie.setImage(uniqueFilename);
         }
-
+        movie.setGenres(new HashSet<>());
+        movie.setActors(new HashSet<>());
         movieService.saveMovie(movie);
-        attributes.addFlashAttribute("msg", "Película registrada correctamente!");
+        //attributes.addFlashAttribute("msg", "Película registrada correctamente!");
         return "redirect:/admin";
     }
 
@@ -104,33 +106,19 @@ public class AdminController {
                     .addObject("generos", generos);
         }
 
-        Pelicula peliculaDB = movieService.findById(id);
-        peliculaDB.setTitle(pelicula.getTitle());
-        peliculaDB.setSynopsis(pelicula.getSynopsis());
-        peliculaDB.setYoutubeTrailerId(pelicula.getYoutubeTrailerId());
-        //peliculaDB.setGenres(pelicula.getGenres());
-        if (Objects.nonNull(pelicula.getGenres())) {
-            Set<Genero> genresOld = peliculaDB.getGenres();
-            genresOld.addAll(pelicula.getGenres());
-            peliculaDB.setGenres(genresOld);
-        }
-        peliculaDB.setYear(pelicula.getYear());
-        peliculaDB.setDuration(pelicula.getDuration());
-        peliculaDB.setCountry(pelicula.getCountry());
-        peliculaDB.setActors(pelicula.getActors());
-
         if (!foto.isEmpty()) {
             String uniqueFilename = null;
             try {
+                Pelicula peliculaDB = movieService.findById(id);
                 uploadFileService.deleteImage(peliculaDB.getImage());
                 uniqueFilename = uploadFileService.copy(foto);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
-            peliculaDB.setImage(uniqueFilename);
+            pelicula.setImage(uniqueFilename);
         }
-        movieService.saveMovie(peliculaDB);
+        movieService.updateMovie(id, pelicula);
         return new ModelAndView("redirect:/admin");
     }
 

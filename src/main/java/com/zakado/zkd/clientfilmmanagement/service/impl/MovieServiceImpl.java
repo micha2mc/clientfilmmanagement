@@ -1,7 +1,7 @@
 package com.zakado.zkd.clientfilmmanagement.service.impl;
 
 import com.zakado.zkd.clientfilmmanagement.model.Pelicula;
-import com.zakado.zkd.clientfilmmanagement.repository.PeliculaRepositorio;
+import com.zakado.zkd.clientfilmmanagement.service.GenreService;
 import com.zakado.zkd.clientfilmmanagement.service.MovieService;
 import com.zakado.zkd.clientfilmmanagement.service.UploadFileService;
 import lombok.RequiredArgsConstructor;
@@ -20,15 +20,14 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
-    private final PeliculaRepositorio peliculaRepositorio;
     private final UploadFileService uploadFileService;
+    private final GenreService genreService;
     private static final String URL = "http://localhost:8080/api/movies";
 
     private final RestTemplate template;
 
     @Override
     public Page<Pelicula> getAllMovies(Pageable pageable) {
-        //List<Pelicula> listMovies = peliculaRepositorio.findAll();
         List<Pelicula> listMovies = Arrays.asList(Objects.requireNonNull(template.getForObject(URL, Pelicula[].class)));
         return getMoviesPagination(pageable, listMovies);
     }
@@ -36,21 +35,16 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void saveMovie(Pelicula movie) {
-        //peliculaRepositorio.save(movie);
         template.postForObject(URL, movie, Pelicula.class);
     }
 
     @Override
     public Pelicula findById(Integer id) {
-        //return peliculaRepositorio.findById(id).orElse(new Pelicula());
         return template.getForObject(URL + "/" + id, Pelicula.class);
     }
 
     @Override
     public void deleteMovie(Pelicula movie) {
-        /*peliculaRepositorio.delete(movie);
-        //template.delete(URL + "/" + pelicula.getNid());
-        uploadFileService.deleteImage(movie.getImage());*/
         Pelicula pelicula = findById(movie.getNid());
         template.delete(URL + "/" + pelicula.getNid());
         uploadFileService.deleteImage(pelicula.getImage());
@@ -64,7 +58,7 @@ public class MovieServiceImpl implements MovieService {
         } else {
             listado = switch (type.toUpperCase()) {
                 case "TITLE" -> {
-                    List<Pelicula> byTitulo = peliculaRepositorio.findByTitleContainingIgnoreCase(String.valueOf(obj));
+                    List<Pelicula> byTitulo = null;//peliculaRepositorio.findByTitleContainingIgnoreCase(String.valueOf(obj));
                     yield getMoviesPagination(pageable, byTitulo);
                 }
                 case "NAME" -> getMoviesPagination(pageable, List.of(new Pelicula(), new Pelicula()));
@@ -72,13 +66,21 @@ public class MovieServiceImpl implements MovieService {
                     yield getMoviesPagination(pageable, List.of(new Pelicula()));
                 }
                 case "YEAR" -> {
-                    List<Pelicula> byYear = peliculaRepositorio.findByYear(Integer.valueOf((String) obj));
+                    List<Pelicula> byYear = null;//peliculaRepositorio.findByYear(Integer.valueOf((String) obj));
                     yield getMoviesPagination(pageable, List.of(new Pelicula(), new Pelicula()));
                 }
                 default -> throw new IllegalStateException("Unexpected value: " + type.toUpperCase());
             };
         }
         return listado;
+    }
+
+    @Override
+    public void updateMovie(Integer id, Pelicula pelicula) {
+        if (Objects.nonNull(id)) {
+            pelicula.setNid(id);
+            template.put(URL, pelicula);
+        }
     }
 
     private static PageImpl<Pelicula> getMoviesPagination(Pageable pageable, List<Pelicula> listMovies) {
