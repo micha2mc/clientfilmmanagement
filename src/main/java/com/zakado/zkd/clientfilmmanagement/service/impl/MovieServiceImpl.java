@@ -58,16 +58,28 @@ public class MovieServiceImpl implements MovieService {
         } else {
             listado = switch (type.toUpperCase()) {
                 case "TITLE" -> {
-                    List<Pelicula> byTitulo = null;//peliculaRepositorio.findByTitleContainingIgnoreCase(String.valueOf(obj));
+                    List<Pelicula> byTitulo = Arrays.asList(Objects
+                            .requireNonNull(template
+                                    .getForObject(URL + "/title/" + obj, Pelicula[].class)));
                     yield getMoviesPagination(pageable, byTitulo);
                 }
-                case "NAME" -> getMoviesPagination(pageable, List.of(new Pelicula(), new Pelicula()));
+                case "NAME" -> {
+                    List<Pelicula> byName = Arrays.asList(Objects
+                            .requireNonNull(template
+                                    .getForObject(URL + "/actor/" + obj, Pelicula[].class)));
+                    yield getMoviesPagination(pageable, byName);
+                }
                 case "GENRE" -> {
-                    yield getMoviesPagination(pageable, List.of(new Pelicula()));
+                    List<Pelicula> byGenre = Arrays.asList(Objects
+                            .requireNonNull(template
+                                    .getForObject(URL + "/genre/" + obj, Pelicula[].class)));
+                    yield getMoviesPagination(pageable, byGenre);
                 }
                 case "YEAR" -> {
-                    List<Pelicula> byYear = null;//peliculaRepositorio.findByYear(Integer.valueOf((String) obj));
-                    yield getMoviesPagination(pageable, List.of(new Pelicula(), new Pelicula()));
+                    List<Pelicula> byYear = Arrays.asList(Objects
+                            .requireNonNull(template
+                                    .getForObject(URL + "/year/" + obj, Pelicula[].class)));
+                    yield getMoviesPagination(pageable, byYear);
                 }
                 default -> throw new IllegalStateException("Unexpected value: " + type.toUpperCase());
             };
