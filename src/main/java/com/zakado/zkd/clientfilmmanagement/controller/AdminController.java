@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -26,8 +25,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -63,7 +60,7 @@ public class AdminController {
     }
 
     @PostMapping("/new")
-    public String saveMovie(@ModelAttribute("movie") Pelicula movie,  @RequestParam("file") MultipartFile foto) {
+    public String saveMovie(@ModelAttribute("movie") Pelicula movie, @RequestParam("file") MultipartFile foto) {
 
         if (!foto.isEmpty()) {
             String uniqueFilename = null;
