@@ -15,7 +15,7 @@ public class RolServiceImpl implements RolService {
 
     private final RestTemplate template;
 
-    String url = "http://localhost:8090/api/usuarios/roles";
+    String url = "http://localhost:8080/api/roles";
     @Override
     public List<Rol> buscarTodos() {
         Rol[] roles = template.getForObject(url, Rol[].class);
@@ -29,10 +29,10 @@ public class RolServiceImpl implements RolService {
 
     @Override
     public void guardarRol(Rol rol) {
-        if (rol.getIdRol() != null && rol.getIdRol() > 0) {
+        if (rol.getId() != null && rol.getId() > 0) {
             template.put(url, rol);
         } else {
-            rol.setIdRol(0);
+            rol.setId(0);
             template.postForObject(url, rol, String.class);
         }
     }

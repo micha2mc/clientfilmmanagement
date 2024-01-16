@@ -45,7 +45,7 @@ public class ActorController {
         model.addAttribute("actor", actor);
         return "actor/actor";
     }
-    @GetMapping("/list")
+    /*@GetMapping("/list")
     public String showAllActors(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
 
         Pageable pageable = PageRequest.of(page, 5);
@@ -55,7 +55,7 @@ public class ActorController {
         model.addAttribute("listActors", listActors);
         model.addAttribute("page", pageRender);
         return "actor/showactors";
-    }
+    }*/
 
     @GetMapping("/new")
     public String showCreateNewActorForm(Model model) {

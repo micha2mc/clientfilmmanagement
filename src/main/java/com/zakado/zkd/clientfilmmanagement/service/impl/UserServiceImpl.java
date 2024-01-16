@@ -66,7 +66,6 @@ public class UserServiceImpl implements UserService {
         if (usuario.getId() != null && usuario.getId() > 0) {
             template.put(URL, usuario);
         } else {
-            //usuario.setId(0);
             template.postForObject(URL, usuario, String.class);
         }
     }
