@@ -23,8 +23,6 @@ public class UploadFileServiceImpl implements UploadFileService {
     @Override
     public Resource load(String filename) throws MalformedURLException {
         Path pathFoto = getPath(filename);
-        log.info("pathFoto: " + pathFoto);
-
         Resource recurso = new UrlResource(pathFoto.toUri());
 
         if (!recurso.exists() || !recurso.isReadable()) {
