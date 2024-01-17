@@ -1,64 +1,71 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" lang="es"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{master.html}">>
 <head>
     <meta charset="UTF-8">
-    <title>CursosApp | Aplicación de gestión de cursos</title>
+    <title>Gestión de usuarios</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 </head>
 <body>
+<div layout:fragment="content">
+    <div class="container">
 
-<div class="container">
+        <div class="card">
+            <h2 th:text="${titulo}" class="card-header"></h2>
+            <div class="card-body">
+                <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+                <div th:if="${msga != null}" class='alert alert-danger' th:text="${msga}" role='alert'></div>
+                <h4 class="card-title" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a th:href="@{/users/new}" class="btn btn-primary btn-xs">Crear usuario nuevo</a>
+                </h4>
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Identificador</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Clave</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Rol</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="usuario : ${listadoUsuarios}">
+                        <td><a class="btn btn-primary btn-xs" th:href="@{/cusuarios/ver/} + ${usuario.id}"
+                               th:text="${usuario.id}"></a></td>
+                        <td th:text="${usuario.username}"></td>
+                        <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${usuario.password}"></td>
+                        <td th:text="${usuario.email}"></td>
+                        <td>
+                            <table>
+                                <tbody>
+                                <tr th:each="rol: ${usuario.roles}">
+                                    <td th:text="${rol.authority}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a th:href="@{/cusuarios/editar/{id}  (id=${usuario.id})  }" th:text="'editar'"
+                               class="btn btn-success btn-sm" role="button" title="Editar el usuario."><i
+                                    class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+                            <a th:href="@{/cusuarios/borrar/{id}  (id=${usuario.id})   }" th:text="'borrar'"
+                               onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button"
+                               title="Eliminar el usuario."><i class="fas fa-trash" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
 
-    <div class="card">
-        <h2 th:text="${titulo}" class="card-header"></h2>
-        <div class="card-body">
-            <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
-            <div th:if="${msga != null}" class='alert alert-danger' th:text="${msga}" role='alert'></div>
-            <h4 class="card-title">
-                <a th:href="@{/users/new}" class="btn btn-primary btn-xs">Crear usuario nuevo</a>
-            </h4>
-            <table class="table table-hover">
-                <thead class="thead-light">
-                <tr>
-                    <th scope="col">Identificador</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Clave</th>
-                    <th scope="col">Correo</th>
-                    <th scope="col">Rol</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="usuario : ${listadoUsuarios}">
-                    <td> <a class="btn btn-primary btn-xs" th:href="@{/cusuarios/ver/} + ${usuario.id}" th:text="${usuario.id}"></a></td>
-                    <td th:text="${usuario.username}"></td>
-                    <td th:text="${usuario.password}"></td>
-                    <td th:text="${usuario.email}"></td>
-                    <td>
-                        <table>
-                            <tbody>
-                            <tr th:each="rol: ${usuario.roles}">
-                                <td th:text="${rol.authority}"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td sec:authorize="hasRole('ROLE_ADMIN')">
-                        <a th:href="@{/cusuarios/editar/{id}  (id=${usuario.id})  }" th:text="'editar'" class="btn btn-success btn-sm" role="button" title="Editar el usuario."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
-                        <a th:href="@{/cusuarios/borrar/{id}  (id=${usuario.id})   }" th:text="'borrar'" onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button" title="Eliminar el usuario."><i class="fas fa-trash" aria-hidden="true"></i></a>
-                    </td>
-                </tr>
+                    </tbody>
+                </table>
 
-                </tbody>
-            </table>
+                <nav th:replace="~{paginator-nav :: paginator}"></nav>
 
-            <nav th:replace="paginator-nav :: paginator"></nav>
-
+            </div>
         </div>
-    </div>
-    <hr>
-    <a class="btn btn-primary" role="button" th:href="@{/admin}">Ir a Admin</a>
-</div> <!-- /container -->
+        <hr>
+        <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary" role="button" th:href="@{/admin}">Ir a Admin</a>
+    </div> <!-- /container -->
+</div>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{master.html}">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+	  layout:decorate="~{master.html}">
 <head>
 <meta charset="utf-8">
 <title>Administrar actores</title>
@@ -59,10 +59,10 @@
 						</table>
 					</td>
 
-					<td>
+					<td sec:authorize="hasRole('ROLE_ADMIN')">
 					   <a th:href="@{/actors/actor/{id}/editar(id=*{nid})}" class="btn btn-success">Editar</a>
 					</td>
-					<td class="text-end">
+					<td class="text-end" sec:authorize="hasRole('ROLE_ADMIN')">
 						<a href="javascript:void(0)" class="text-light ms-3 btn btn-danger" th:onclick="'eliminarPelicula(' + *{nid} +')'">Eliminar</a>
 						<form th:id="'eliminarPeliculaForm' + *{nid}" th:action="@{/actors/actor/{id}/eliminar(id=*{nid})}" method="post" class="d-none">
 						</form>

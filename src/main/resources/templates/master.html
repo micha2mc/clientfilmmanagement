@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es"
-   xmlns:th="http://www.thymeleaf.org"
-   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
 <title>Gestión de Películas</title>
@@ -37,9 +37,10 @@ form .invalid-feedback {
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link" href="/movies">Inicio</a></li>
-					<li class="nav-item"><a class="nav-link" href="/actors">Actores</a></li>
 					<li class="nav-item"><a class="nav-link" href="/search">Buscador</a></li>
-					<li class="nav-item"><a class="nav-link" href="/admin">Maestro</a></li>
+					<li class="nav-item"><a class="nav-link" href="/actors">Actores</a></li>
+					<li class="nav-item"><a class="nav-link" href="/users/listado">Usuarios</a></li>
+					<li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')"><a class="nav-link" href="/admin">Maestro</a></li>
 					<li class="nav-item"><a class="btn btn-primary" role="button" th:href="@{/logout}">Salir</a></li>
 				</ul>
 
