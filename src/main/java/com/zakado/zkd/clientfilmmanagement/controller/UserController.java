@@ -101,16 +101,16 @@ public class UserController {
         return "usuarios/formUsuario";
     }
 
-    /*@GetMapping("/borrar/{id}")
+    @GetMapping("/borrar/{id}")
     public String eliminarUsuario(Model model, @PathVariable("id") Integer id, RedirectAttributes attributes) {
-        Usuario usuario = usuariosService.buscarUsuarioPorId(id);
+        User usuario = userService.buscarUsuarioPorId(id);
         if (usuario != null) {
-            usuariosService.eliminarUsuario(id);
+            userService.eliminarUsuario(id);
             attributes.addFlashAttribute("msg", "Los datos del usuario fueron borrados!");
         } else {
             attributes.addFlashAttribute("msg", "Usuario no encontrado!");
         }
 
-        return "redirect:/cusuarios/listado";
-    }*/
+        return "redirect:/users/listado";
+    }
 }
