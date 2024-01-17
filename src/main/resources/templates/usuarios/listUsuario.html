@@ -26,7 +26,7 @@
                         <th scope="col">Nombre</th>
                         <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Clave</th>
                         <th scope="col">Correo</th>
-                        <th scope="col">Rol</th>
+                        <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Rol</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -36,7 +36,7 @@
                         <td th:text="${usuario.username}"></td>
                         <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${usuario.password}"></td>
                         <td th:text="${usuario.email}"></td>
-                        <td>
+                        <td sec:authorize="hasRole('ROLE_ADMIN')">
                             <table>
                                 <tbody>
                                 <tr th:each="rol: ${usuario.roles}">
@@ -46,10 +46,10 @@
                             </table>
                         </td>
                         <td sec:authorize="hasRole('ROLE_ADMIN')">
-                            <a th:href="@{/cusuarios/editar/{id}  (id=${usuario.id})  }" th:text="'editar'"
+                            <a th:href="@{/users/editar/{id}  (id=${usuario.id})  }" th:text="'editar'"
                                class="btn btn-success btn-sm" role="button" title="Editar el usuario."><i
                                     class="fas fa-pencil-alt" aria-hidden="true"></i></a>
-                            <a th:href="@{/cusuarios/borrar/{id}  (id=${usuario.id})   }" th:text="'borrar'"
+                            <a th:href="@{/users/borrar/{id}  (id=${usuario.id})   }" th:text="'borrar'"
                                onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button"
                                title="Eliminar el usuario."><i class="fas fa-trash" aria-hidden="true"></i></a>
                         </td>

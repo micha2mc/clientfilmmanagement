@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/users")
@@ -36,7 +37,7 @@ public class UserController {
     public String listadoUsuarios(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, 5);
         Page<User> listado = userService.buscarTodos(pageable);
-        PageRender<User> pageRender = new PageRender<User>("/cusuarios/listado", listado);
+        PageRender<User> pageRender = new PageRender<User>("/users/listado", listado);
         model.addAttribute("titulo", "Listado de todos los usuarios");
         model.addAttribute("listadoUsuarios", listado);
         model.addAttribute("page", pageRender);
@@ -55,7 +56,7 @@ public class UserController {
     @PostMapping("/guardar")
     public String guardarUsuario(Model model, User usuario, RedirectAttributes attributes) {
         //si existe un usuario con el mismo correo no lo guardamos
-        if (userService.buscarUsuarioPorCorreo(usuario.getEmail()) != null) {
+        if (Objects.isNull(usuario.getId()) && userService.buscarUsuarioPorCorreo(usuario.getEmail()) != null) {
             attributes.addFlashAttribute("msga", "Error al guardar, ya existe el correo!");
             return "redirect:/users/listado";
         }
@@ -90,18 +91,17 @@ public class UserController {
     }
 
 
-
-    /*@GetMapping("/editar/{id}")
+    @GetMapping("/editar/{id}")
     public String editarUsuario(Model model, @PathVariable("id") Integer id) {
-        Usuario usuario = usuariosService.buscarUsuarioPorId(id);
+        User usuario = userService.buscarUsuarioPorId(id);
+        List<Rol> roles = rolService.buscarTodos();
         model.addAttribute("titulo", "Editar usuario");
         model.addAttribute("usuario", usuario);
-        List<Rol> roles = rolesService.buscarTodos();
         model.addAttribute("allRoles", roles);
         return "usuarios/formUsuario";
     }
 
-    @GetMapping("/borrar/{id}")
+    /*@GetMapping("/borrar/{id}")
     public String eliminarUsuario(Model model, @PathVariable("id") Integer id, RedirectAttributes attributes) {
         Usuario usuario = usuariosService.buscarUsuarioPorId(id);
         if (usuario != null) {
