@@ -37,8 +37,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             }
             final UserDetails principal = new org.springframework.security.core.userdetails.User(usuario, password, grantedAuths);
 
-            final Authentication auth = new UsernamePasswordAuthenticationToken(principal, password, grantedAuths);
-            return auth;
+            return new UsernamePasswordAuthenticationToken(principal, password, grantedAuths);
         }
         return null;
     }

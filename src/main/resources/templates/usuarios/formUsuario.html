@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>CursosApp | Aplicación de gestión de cursos</title>
+    <title>Gestión de Usuarios</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 </head>
 <body>
@@ -10,7 +10,7 @@
 <div class="container">
     <h2 th:text="${titulo}"
         class="text-secondary border border-success border-top-0 border-left-0 border-right-0"></h2>
-    <form th:action="@{/cusuarios/guardar/}" method="post" th:object="${usuario}">
+    <form th:action="@{/users/guardar}" method="post" th:object="${usuario}">
         <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
             Por favor corrija los siguientes errores:
             <ul>
@@ -18,18 +18,18 @@
             </ul>
         </div>
         <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" th:field="*{nombre}" id="nombre" name="nombre"
+            <label for="username" class="form-label">Nombre</label>
+            <input type="text" class="form-control" th:field="*{username}" id="username" name="username"
                    placeholder="Escriba el nombre del usuario" required="required">
         </div>
         <div class="mb-3">
-            <label for="clave" class="form-label">Clave</label>
-            <input type="text" class="form-control" th:field="*{clave}" id="clave" name="clave"
+            <label for="password" class="form-label">Clave</label>
+            <input type="text" class="form-control" th:field="*{password}" id="password" name="password"
                    placeholder="Escriba la clave del usuario" required="required">
         </div>
         <div class="mb-3">
-            <label for="correo" class="form-label">Correo</label>
-            <input type="text" class="form-control" th:field="*{correo}" id="correo" name="correo"
+            <label for="email" class="form-label">Correo</label>
+            <input type="text" class="form-control" th:field="*{email}" id="email" name="email"
                    placeholder="Escriba el correo del usuario" required="required">
         </div>
         <div class="mb-3">
@@ -45,7 +45,7 @@
             <div class="form-check-inline">
                 <input type="checkbox" class="form-check-input" name="roles"
                        th:each="rol : ${allRoles}"
-                       th:text="${rol}"
+                       th:text="${rol.authority}"
                        th:value="${rol}"
                        th:field="*{roles}"
                 >
@@ -53,10 +53,10 @@
         </div>
 
         <button type="submit" class="btn btn-dark">Guardar</button>
-        <input type="hidden" th:field="*{idUsuario}"/>
+        <input type="hidden" th:field="*{id}"/>
     </form>
     <hr>
-    <a class="btn btn-primary" role="button" th:href="@{/ccursos/}">Ir a Inicio</a>
+    <a class="btn btn-primary" role="button" th:href="@{/admin}">Ir a Admin</a>
 </div>
 
 <!-- Bootstrap core JavaScript

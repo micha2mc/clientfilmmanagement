@@ -3,6 +3,7 @@ package com.zakado.zkd.clientfilmmanagement.controller;
 import com.zakado.zkd.clientfilmmanagement.model.Rol;
 import com.zakado.zkd.clientfilmmanagement.model.User;
 import com.zakado.zkd.clientfilmmanagement.paginator.PageRender;
+import com.zakado.zkd.clientfilmmanagement.service.RolService;
 import com.zakado.zkd.clientfilmmanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -22,6 +22,8 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final RolService rolService;
+
     @GetMapping(value = "/ver/{id}")
     public String ver(Model model, @PathVariable("id") Integer id, RedirectAttributes attributes) {
         User user = userService.buscarUsuarioPorId(id);
@@ -31,7 +33,7 @@ public class UserController {
     }
 
     @GetMapping("/listado")
-    public String listadoUsuarios(Model model, @RequestParam(name="page", defaultValue="0") int page) {
+    public String listadoUsuarios(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, 5);
         Page<User> listado = userService.buscarTodos(pageable);
         PageRender<User> pageRender = new PageRender<User>("/cusuarios/listado", listado);
@@ -41,30 +43,29 @@ public class UserController {
         return "usuarios/listUsuario";
     }
 
-    /*@GetMapping("/nuevo")
+    @GetMapping("/new")
     public String nuevo(Model model) {
-        List<Rol> roles = rolesService.buscarTodos();
+        List<Rol> roles = rolService.buscarTodos();
         model.addAttribute("titulo", "Nuevo usuario");
         model.addAttribute("allRoles", roles);
-        Usuario usuario = new Usuario();
-        model.addAttribute("usuario", usuario);
+        model.addAttribute("usuario", new User());
         return "usuarios/formUsuario";
     }
 
-    @PostMapping("/guardar/")
-    public String guardarUsuario(Model model, Usuario usuario, RedirectAttributes attributes) {
+    @PostMapping("/guardar")
+    public String guardarUsuario(Model model, User usuario, RedirectAttributes attributes) {
         //si existe un usuario con el mismo correo no lo guardamos
-        if (userService.buscarUsuarioPorCorreo(usuario.getCorreo())!=null) {
+        if (userService.buscarUsuarioPorCorreo(usuario.getEmail()) != null) {
             attributes.addFlashAttribute("msga", "Error al guardar, ya existe el correo!");
-            return "redirect:/cusuarios/listado";
+            return "redirect:/users/listado";
         }
-        List<Rol> roles = rolesService.buscarTodos();
+        List<Rol> roles = rolService.buscarTodos();
         model.addAttribute("allRoles", roles);
         userService.guardarUsuario(usuario);
         model.addAttribute("titulo", "Nuevo usuario");
         attributes.addFlashAttribute("msg", "Los datos del usuario fueron guardados!");
-        return "redirect:/cusuarios/listado";
-    }*/
+        return "redirect:/users/listado";
+    }
 
     @GetMapping("/registrar")
     public String nuevoRegistro(Model model) {
@@ -73,16 +74,16 @@ public class UserController {
         model.addAttribute("usuario", usuario);
         return "/registro";
     }
+
     @PostMapping("/registrar")
     public String registro(Model model, User usuario, RedirectAttributes attributes) {
         //si existe un usuario con el mismo correo no lo guardamos
-        if (userService.buscarUsuarioPorCorreo(usuario.getEmail())!=null) {
+        if (userService.buscarUsuarioPorCorreo(usuario.getEmail()) != null) {
             attributes.addFlashAttribute("msga", "Error al guardar, ya existe el correo!");
             return "redirect:/login";
         }
         usuario.setEnable(true);
-        //Rol rol = rolesService.buscarRolPorId(2);
-        usuario.setRoles(List.of(new Rol(2, "ROLE_USER")));
+        usuario.setRoles(List.of(rolService.buscarRolPorId(2)));
         userService.guardarUsuario(usuario);
         attributes.addFlashAttribute("msg", "Los datos del registro fueron guardados!");
         return "redirect:/login";

@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -31,7 +32,7 @@ public class WebSecurityConfig {
                         .defaultSuccessUrl("/movies", true))
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/js/**", "/css/**", "/login", "/users/registrar")
-                        .permitAll().anyRequest().authenticated());
+                        .permitAll().anyRequest().authenticated()).csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
 }
