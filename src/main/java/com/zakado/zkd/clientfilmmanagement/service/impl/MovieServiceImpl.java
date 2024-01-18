@@ -4,6 +4,7 @@ import com.zakado.zkd.clientfilmmanagement.model.Pelicula;
 import com.zakado.zkd.clientfilmmanagement.service.GenreService;
 import com.zakado.zkd.clientfilmmanagement.service.MovieService;
 import com.zakado.zkd.clientfilmmanagement.service.UploadFileService;
+import com.zakado.zkd.clientfilmmanagement.utils.UtilsManagement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,7 +29,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Page<Pelicula> getAllMovies(Pageable pageable) {
         List<Pelicula> listMovies = Arrays.asList(Objects.requireNonNull(template.getForObject(URL, Pelicula[].class)));
-        return getMoviesPagination(pageable, listMovies);
+        return UtilsManagement.getMoviesPagination(pageable, listMovies);
     }
 
 
@@ -60,25 +61,25 @@ public class MovieServiceImpl implements MovieService {
                     List<Pelicula> byTitulo = Arrays.asList(Objects
                             .requireNonNull(template
                                     .getForObject(URL + "/title/" + obj, Pelicula[].class)));
-                    yield getMoviesPagination(pageable, byTitulo);
+                    yield UtilsManagement.getMoviesPagination(pageable, byTitulo);
                 }
                 case "NAME" -> {
                     List<Pelicula> byName = Arrays.asList(Objects
                             .requireNonNull(template
                                     .getForObject(URL + "/actor/" + obj, Pelicula[].class)));
-                    yield getMoviesPagination(pageable, byName);
+                    yield UtilsManagement.getMoviesPagination(pageable, byName);
                 }
                 case "GENRE" -> {
                     List<Pelicula> byGenre = Arrays.asList(Objects
                             .requireNonNull(template
                                     .getForObject(URL + "/genre/" + obj, Pelicula[].class)));
-                    yield getMoviesPagination(pageable, byGenre);
+                    yield UtilsManagement.getMoviesPagination(pageable, byGenre);
                 }
                 case "YEAR" -> {
                     List<Pelicula> byYear = Arrays.asList(Objects
                             .requireNonNull(template
                                     .getForObject(URL + "/year/" + obj, Pelicula[].class)));
-                    yield getMoviesPagination(pageable, byYear);
+                    yield UtilsManagement.getMoviesPagination(pageable, byYear);
                 }
                 default -> throw new IllegalStateException("Unexpected value: " + type.toUpperCase());
             };
@@ -94,17 +95,5 @@ public class MovieServiceImpl implements MovieService {
         }
     }
 
-    private static PageImpl<Pelicula> getMoviesPagination(Pageable pageable, List<Pelicula> listMovies) {
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-        List<Pelicula> list;
-        if (listMovies.size() < startItem) {
-            list = Collections.emptyList();
-        } else {
-            int toIndex = Math.min(startItem + pageSize, listMovies.size());
-            list = listMovies.subList(startItem, toIndex);
-        }
-        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), listMovies.size());
-    }
+
 }

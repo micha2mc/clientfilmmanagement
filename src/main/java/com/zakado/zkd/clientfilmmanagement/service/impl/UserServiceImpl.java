@@ -2,17 +2,16 @@ package com.zakado.zkd.clientfilmmanagement.service.impl;
 
 import com.zakado.zkd.clientfilmmanagement.model.User;
 import com.zakado.zkd.clientfilmmanagement.service.UserService;
+import com.zakado.zkd.clientfilmmanagement.utils.UtilsManagement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -25,20 +24,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<User> buscarTodos(Pageable pageable) {
 
-        User[] users = template.getForObject(URL, User[].class);
-        List<User> usuariosList = Arrays.asList(users);
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-        List<User> list;
-        if (usuariosList.size() < startItem) {
-            list = Collections.emptyList();
-        } else {
-            int toIndex = Math.min(startItem + pageSize, usuariosList.size());
-            list = usuariosList.subList(startItem, toIndex);
-        }
-        Page<User> page = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), usuariosList.size());
-        return page;
+        List<User> usuariosList = Arrays.asList(Objects.requireNonNull(template.getForObject(URL, User[].class)));
+        return UtilsManagement.getMoviesPagination(pageable, usuariosList);
     }
 
     @Override
@@ -49,6 +36,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User buscarUsuarioPorNombre(String nombre) {
         return template.getForObject(URL + "/nombre/" + nombre, User.class);
+    }
+
+    @Override
+    public Page<User> buscarVariosPorNombre(Pageable pageable, String nombre) {
+        List<User> usuariosList = Arrays.asList(Objects
+                .requireNonNull(template.getForObject(URL + "/search/" + nombre, User[].class)));
+        return UtilsManagement.getMoviesPagination(pageable, usuariosList);
     }
 
     @Override

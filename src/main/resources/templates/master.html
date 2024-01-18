@@ -17,10 +17,10 @@
             crossorigin="anonymous">
 
     <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+          href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
     <link
             href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-            rel="stylesheet" />
+            rel="stylesheet"/>
 
     <style>
         form .invalid-feedback {
@@ -34,11 +34,13 @@
         body {
             font-family: 'Varela Round', sans-serif;
         }
+
         .form-control {
             box-shadow: none;
             font-weight: normal;
             font-size: 13px;
         }
+
         .navbar {
             background: #fff;
             padding-left: 16px;
@@ -46,6 +48,7 @@
             border-bottom: 1px solid #dfe3e8;
             border-radius: 0;
         }
+
         .nav-link img {
             border-radius: 50%;
             width: 36px;
@@ -54,30 +57,37 @@
             float: left;
             margin-right: 10px;
         }
+
         .navbar .navbar-brand {
             padding-left: 0;
             font-size: 20px;
             padding-right: 50px;
         }
+
         .navbar .navbar-brand b {
             color: #33cabb;
         }
+
         .navbar .form-inline {
             display: inline-block;
         }
+
         .navbar a {
             color: #888;
             font-size: 15px;
         }
+
         .search-box {
             position: relative;
         }
+
         .search-box input {
             padding-right: 35px;
             border-color: #dfe3e8;
             border-radius: 4px !important;
             box-shadow: none
         }
+
         .search-box .input-group-text {
             min-width: 35px;
             border: none;
@@ -88,30 +98,36 @@
             padding: 7px;
             height: 100%;
         }
+
         .search-box i {
             color: #a0a5b1;
             font-size: 19px;
         }
+
         .navbar .sign-up-btn {
             min-width: 110px;
             max-height: 36px;
         }
+
         .navbar .dropdown-menu {
             color: #999;
             font-weight: normal;
             border-radius: 1px;
             border-color: #e5e5e5;
-            box-shadow: 0 2px 8px rgba(0,0,0,.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
         }
+
         .navbar a, .navbar a:active {
             color: #888;
             padding: 8px 20px;
             background: transparent;
             line-height: normal;
         }
+
         .navbar .navbar-form {
             border: none;
         }
+
         .navbar .action-form {
             width: 280px;
             padding: 20px;
@@ -119,25 +135,30 @@
             right: 0;
             font-size: 14px;
         }
+
         .navbar .action-form a {
             color: #33cabb;
             padding: 0 !important;
             font-size: 14px;
         }
+
         .navbar .action-form .hint-text {
             text-align: center;
             margin-bottom: 15px;
             font-size: 13px;
         }
+
         .navbar .btn-primary, .navbar .btn-primary:active {
             color: #fff;
             background: #33cabb !important;
             border: none;
         }
+
         .navbar .btn-primary:hover, .navbar .btn-primary:focus {
             color: #fff;
             background: #31bfb1 !important;
         }
+
         .navbar .social-btn .btn, .navbar .social-btn .btn:hover {
             color: #fff;
             margin: 0;
@@ -150,29 +171,36 @@
             width: 47%;
             text-decoration: none;
         }
+
         .navbar .social-btn .facebook-btn {
             background: #507cc0;
         }
+
         .navbar .social-btn .facebook-btn:hover {
             background: #4676bd;
         }
+
         .navbar .social-btn .twitter-btn {
             background: #64ccf1;
         }
+
         .navbar .social-btn .twitter-btn:hover {
             background: #4ec7ef;
         }
+
         .navbar .social-btn .btn i {
             margin-right: 5px;
             font-size: 16px;
             position: relative;
             top: 2px;
         }
+
         .or-seperator {
             margin-top: 32px;
             text-align: center;
             border-top: 1px solid #e0e0e0;
         }
+
         .or-seperator b {
             color: #666;
             padding: 0 8px;
@@ -189,29 +217,35 @@
             top: -15px;
             z-index: 1;
         }
+
         .navbar .action-buttons .dropdown-toggle::after {
             display: none;
         }
+
         .form-check-label input {
             position: relative;
             top: 1px;
         }
-        @media (min-width: 1200px){
+
+        @media (min-width: 1200px) {
             .form-inline .input-group {
                 width: 300px;
                 margin-left: 30px;
             }
         }
-        @media (max-width: 768px){
+
+        @media (max-width: 768px) {
             .navbar .dropdown-menu.action-form {
                 width: 100%;
                 padding: 10px 15px;
                 background: transparent;
                 border: none;
             }
+
             .navbar .form-inline {
                 display: block;
             }
+
             .navbar .input-group {
                 width: 100%;
             }
@@ -219,7 +253,7 @@
     </style>
     <script>
         // Prevent dropdown menu from closing when click inside the form
-        $(document).on("click", ".action-buttons .dropdown-menu", function(e){
+        $(document).on("click", ".action-buttons .dropdown-menu", function (e) {
             e.stopPropagation();
         });
     </script>
@@ -234,7 +268,13 @@
     <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
         <div class="navbar-nav">
             <a href="/movies" class="nav-item nav-link active">Inicio</a>
-            <a href="/search" class="nav-item nav-link">Buscador</a>
+            <div class="nav-item dropdown">
+                <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">Buscadores</a>
+                <div class="dropdown-menu">
+                    <a href="/search/movies" class="dropdown-item">Buscador Películas</a>
+                    <a href="/search/users" class="dropdown-item">Buscador Usuarios</a>
+                </div>
+            </div>
             <a href="/actors" class="nav-item nav-link">Actores</a>
             <a href="/users/listado" class="nav-item nav-link">Usuarios</a>
             <a href="/admin" class="nav-item nav-link" sec:authorize="hasRole('ROLE_ADMIN')">Maestro</a>
@@ -253,7 +293,7 @@
                 </div>
             </div>
             <div class="nav-item dropdown">
-               <div class="dropdown-menu action-form">
+                <div class="dropdown-menu action-form">
 
                 </div>
             </div>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{master.html}">
+<head>
+    <meta charset="utf-8">
+    <title>Buscador</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h4>Buscador de Usuarios</h4>
+    <form th:action="@{/search/users/username}" method="get">
+        <div class="mb-3">
+            <label for="username" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="username" name="username"
+                   placeholder="Escriba el nombre del usuario">
+        </div>
+        <button type="submit" class="btn btn-success">Buscar por Nombre</button>
+    </form>
+    <br>
+    <form th:action="@{/search/users/email}" method="get">
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo electrónico</label>
+            <input type="text" class="form-control" id="email" name="email"
+                   placeholder="Escriba el correo electrónico">
+        </div>
+        <button type="submit" class="btn btn-success">Buscar por Correo</button>
+    </form>
+
+</div>
+</body>
+</html>

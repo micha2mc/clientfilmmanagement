@@ -16,20 +16,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/search")
 @RequiredArgsConstructor
-public class SearchMoviesController {
+public class SearchController {
 
     private final MovieService movieService;
     private final UserService userService;
 
-    @GetMapping
+    @GetMapping("/movies")
     public String buscadorPeliculas(Model model, Principal principal) {
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
         model.addAttribute("username", usuario.getUsername());
-        return "search/search";
+        return "search/searchMovie";
     }
 
     @GetMapping("/title")
@@ -56,6 +57,38 @@ public class SearchMoviesController {
     public String searchMoviesByYear(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
                                      @RequestParam("year") Integer year, Principal principal) {
         return searchMoviesMethod(model, page, year, "YEAR", principal);
+    }
+
+
+    @GetMapping("/users")
+    public String buscadorUsuarios(Model model, Principal principal) {
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        model.addAttribute("username", usuario.getUsername());
+        return "search/searchUsers";
+    }
+
+    @GetMapping("/users/username")
+    public String buscarVariosPorNombre(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
+                                     @RequestParam("username") String name, Principal principal) {
+        Pageable pageable = PageRequest.of(page, 8);
+        Page<User> users = userService.buscarVariosPorNombre(pageable, name);
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        PageRender<User> pageRender = new PageRender<User>("/users/listado", users);
+        model.addAttribute("username", usuario.getUsername());
+        model.addAttribute("listadoUsuarios", users);
+        model.addAttribute("page", pageRender);
+        return "usuarios/listUsuario";
+    }
+
+    @GetMapping("/users/email")
+    public String buscarUsuarioPorCorreo(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
+                                        @RequestParam("email") String email, Principal principal) {
+
+        User users = userService.buscarUsuarioPorCorreo(email);
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        model.addAttribute("username", usuario.getUsername());
+        model.addAttribute("listadoUsuarios", List.of(users));
+        return "usuarios/listUsuario";
     }
 
     private String searchMoviesMethod(Model model, int page, Object obj, String type, Principal principal) {
