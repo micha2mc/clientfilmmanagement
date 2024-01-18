@@ -1,0 +1,64 @@
+package com.zakado.zkd.clientfilmmanagement.controller;
+
+import com.zakado.zkd.clientfilmmanagement.model.Reviews;
+import com.zakado.zkd.clientfilmmanagement.model.User;
+import com.zakado.zkd.clientfilmmanagement.service.ReviewsService;
+import com.zakado.zkd.clientfilmmanagement.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
+
+@Controller
+@RequestMapping("/reviews")
+@RequiredArgsConstructor
+public class ReviewsController {
+
+    private final UserService userService;
+    private final ReviewsService reviewsService;
+
+    /*@GetMapping("/nuevo/{id}")
+    public String nuevo(@PathVariable("id") Integer id, Model model, Principal principal) {
+
+        model.addAttribute("titulo", "Nueva matricula");
+        model.addAttribute("matricula", critica);
+        model.addAttribute("idMatricula", id);
+        return "usuarios/formMatricula";
+    }*/
+
+
+    @GetMapping("/guardar/{idMatricula}")
+    public String guardarMatricula(@PathVariable("idMatricula") Integer id, Model model, RedirectAttributes attributes, Principal principal) {
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        Reviews critica = new Reviews(id, usuario);
+        Reviews criticaSaved = reviewsService.guardarCritica(critica);
+        //String resultado = matriculasService.guardarMatricula(matricula);
+        model.addAttribute("titulo", "Nueva matricula");
+        model.addAttribute("critica", criticaSaved);
+        //attributes.addFlashAttribute("msg", resultado);
+        //return "redirect:/cmatriculas/listado";
+        return "formCriticas";
+    }
+
+    @PostMapping("/critica")
+    public String critica(Model model, Reviews critica, RedirectAttributes attributes, Principal principal) {
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        Reviews reviews = reviewsService.buscarCriticaPorId(critica.getId());
+        reviews.setAssessment(critica.getAssessment());
+        reviews.setNote(critica.getNote());
+        reviewsService.actualizarCritica(reviews);
+        /*Matricula matricula = new Matricula(idCurso, usuario);
+        String resultado = matriculasService.guardarMatricula(matricula);
+        attributes.addFlashAttribute("msg", resultado);
+        model.addAttribute("titulo", "Nueva matricula");
+        model.addAttribute("critica", critica);
+        return "usuarios/formMatricula";*/
+        return "redirect:/movies/peliculas/" + reviews.getIdMovie();
+    }
+}

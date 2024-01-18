@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" lang="es"
+      layout:decorate="~{master.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>CursosApp | Aplicación de gestión de cursos</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2 th:text="${titulo}"
+            class="text-secondary border border-success border-top-0 border-left-0 border-right-0"></h2>
+        <form th:action="@{/reviews/critica}" method="post" th:object="${critica}">
+            <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+                Por favor corrija los siguientes errores:
+                <ul>
+                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+                </ul>
+            </div>
+            <div class="mb-3">
+                <label for="assessment" class="form-label">Critica : </label>
+                <textarea id="assessment" placeholder="Escriba su crítica"
+                          class="form-control" th:field="*{assessment}"></textarea>
+            </div>
+            <input type="hidden" th:value="${idMovie}" th:field="*{idMovie}"/>
+            <input type="hidden" th:value="${id}" th:field="*{id}"/>
+            <div class="mb-3">
+                <label for="note" class="form-label">Nota: </label>
+                <input type="number" class="form-control" th:field="*{note}" id="note" name="note"
+                       placeholder="Escriba la nota" required="required">
+            </div>
+
+            <button type="submit" class="btn btn-dark">Guardar</button>
+        </form>
+        <hr>
+        <a class="btn btn-primary" role="button" th:href="@{/ccursos/}">Ir a Inicio</a>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+</html>
