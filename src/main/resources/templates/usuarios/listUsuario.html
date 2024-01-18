@@ -27,12 +27,12 @@
                         <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Clave</th>
                         <th scope="col">Correo</th>
                         <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Rol</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="usuario : ${listadoUsuarios}">
-                        <td><a class="btn btn-primary btn-xs" th:href="@{/cusuarios/ver/} + ${usuario.id}"
-                               th:text="${usuario.id}"></a></td>
+                        <td th:text="${usuario.id}"></td>
                         <td th:text="${usuario.username}"></td>
                         <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${usuario.password}"></td>
                         <td th:text="${usuario.email}"></td>

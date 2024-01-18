@@ -26,22 +26,13 @@ public class UserController {
     private final UserService userService;
     private final RolService rolService;
 
-    @GetMapping(value = "/ver/{id}")
-    public String ver(Model model, @PathVariable("id") Integer id, RedirectAttributes attributes, Principal principal) {
-        User user = userService.buscarUsuarioPorId(id);
-        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
-        model.addAttribute("username", usuario.getUsername());
-        model.addAttribute("usuario", user);
-        model.addAttribute("titulo", "Detalle del usuario: " + user.getUsername());
-        return "usuarios/verUsuario";
-    }
 
     @GetMapping("/listado")
     public String listadoUsuarios(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
                                   Principal principal) {
         Pageable pageable = PageRequest.of(page, 5);
         Page<User> listado = userService.buscarTodos(pageable);
-        PageRender<User> pageRender = new PageRender<User>("/users/listado", listado);
+        PageRender<User> pageRender = new PageRender<>("/users/listado", listado);
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
         model.addAttribute("username", usuario.getUsername());
         model.addAttribute("titulo", "Listado de todos los usuarios");
@@ -62,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/guardar")
-    public String guardarUsuario(Model model, User usuario, RedirectAttributes attributes, Principal principal) {
+    public String guardarUsuario(Model model, User usuario, RedirectAttributes attributes) {
         //si existe un usuario con el mismo correo no lo guardamos
         if (Objects.isNull(usuario.getId()) && userService.buscarUsuarioPorCorreo(usuario.getEmail()) != null) {
             attributes.addFlashAttribute("msga", "Error al guardar, ya existe el correo!");
@@ -77,16 +68,14 @@ public class UserController {
     }
 
     @GetMapping("/registrar")
-    public String nuevoRegistro(Model model, Principal principal) {
+    public String nuevoRegistro(Model model) {
         model.addAttribute("titulo", "Nuevo registro");
-        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
-        model.addAttribute("username", usuario.getUsername());
         model.addAttribute("usuario", new User());
         return "/registro";
     }
 
     @PostMapping("/registrar")
-    public String registro(Model model, User usuario, RedirectAttributes attributes) {
+    public String registro(User usuario, RedirectAttributes attributes) {
         //si existe un usuario con el mismo correo no lo guardamos
         if (userService.buscarUsuarioPorCorreo(usuario.getEmail()) != null) {
             attributes.addFlashAttribute("msga", "Error al guardar, ya existe el correo!");
@@ -111,13 +100,15 @@ public class UserController {
     }
 
     @GetMapping("/borrar/{id}")
-    public String eliminarUsuario(Model model, @PathVariable("id") Integer id, RedirectAttributes attributes) {
+    public String eliminarUsuario(@PathVariable("id") Integer id, Principal principal, RedirectAttributes attributes) {
         User usuario = userService.buscarUsuarioPorId(id);
-        if (usuario != null) {
+        User user = userService.buscarUsuarioPorCorreo(principal.getName());
+
+        if (usuario != null && !usuario.getEmail().equalsIgnoreCase(user.getEmail())) {
             userService.eliminarUsuario(id);
             attributes.addFlashAttribute("msg", "Los datos del usuario fueron borrados!");
         } else {
-            attributes.addFlashAttribute("msg", "Usuario no encontrado!");
+            attributes.addFlashAttribute("msg", "Usuario no encontrado o es el usuario actual!");
         }
 
         return "redirect:/users/listado";
