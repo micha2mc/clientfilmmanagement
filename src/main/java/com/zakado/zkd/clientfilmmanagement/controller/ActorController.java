@@ -2,9 +2,11 @@ package com.zakado.zkd.clientfilmmanagement.controller;
 
 import com.zakado.zkd.clientfilmmanagement.model.Actor;
 import com.zakado.zkd.clientfilmmanagement.model.Pelicula;
+import com.zakado.zkd.clientfilmmanagement.model.User;
 import com.zakado.zkd.clientfilmmanagement.paginator.PageRender;
 import com.zakado.zkd.clientfilmmanagement.service.ActorService;
 import com.zakado.zkd.clientfilmmanagement.service.UploadFileService;
+import com.zakado.zkd.clientfilmmanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/actors")
@@ -27,38 +30,34 @@ public class ActorController {
 
     private final UploadFileService uploadFileService;
     private final ActorService actorService;
+    private final UserService userService;
 
     @GetMapping
-    public String homeActors(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
+    public String homeActors(Model model, @RequestParam(name = "page", defaultValue = "0") int page, Principal principal) {
 
         Pageable pageable = PageRequest.of(page, 5);
 
         Page<Actor> listActors = actorService.getAllActors(pageable);
         PageRender<Actor> pageRender = new PageRender<>("/actor", listActors);
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        model.addAttribute("username", usuario.getUsername());
         model.addAttribute("listActors", listActors);
         model.addAttribute("page", pageRender);
         return "actor/home-actors";
     }
     @GetMapping("/actor/{id}")
-    public String showActorDetails(Model model, @PathVariable Integer id) {
+    public String showActorDetails(Model model, @PathVariable Integer id, Principal principal) {
         Actor actor = actorService.getActorById(id);
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        model.addAttribute("username", usuario.getUsername());
         model.addAttribute("actor", actor);
         return "actor/actor";
     }
-    /*@GetMapping("/list")
-    public String showAllActors(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
-
-        Pageable pageable = PageRequest.of(page, 5);
-
-        Page<Actor> listActors = actorService.getAllActors(pageable);
-        PageRender<Actor> pageRender = new PageRender<>("/actor", listActors);
-        model.addAttribute("listActors", listActors);
-        model.addAttribute("page", pageRender);
-        return "actor/showactors";
-    }*/
 
     @GetMapping("/new")
-    public String showCreateNewActorForm(Model model) {
+    public String showCreateNewActorForm(Model model, Principal principal) {
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        model.addAttribute("username", usuario.getUsername());
         model.addAttribute("actor", new Actor());
         return "actor/new-actor";
     }
@@ -85,20 +84,25 @@ public class ActorController {
     }
 
     @GetMapping("/actor/{id}/editar")
-    public ModelAndView showFromUpdate(@PathVariable Integer id) {
+    public ModelAndView showFromUpdate(Model model, @PathVariable Integer id, Principal principal) {
         Actor actor = actorService.getActorById(id);
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
 
         return new ModelAndView("actor/edit-actor")
-                .addObject("actor", actor);
+                .addObject("actor", actor)
+                .addObject("username", usuario.getUsername());
     }
 
     @PostMapping("/actor/{id}/editar")
     public ModelAndView updateActor(@PathVariable Integer id, @Validated Actor actor,
                                     BindingResult bindingResult, @RequestParam("file") MultipartFile foto,
-                                    RedirectAttributes attributes) {
+                                    RedirectAttributes attributes, Principal principal) {
+
         if (bindingResult.hasErrors()) {
+            User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
             return new ModelAndView("actor/edit-actor")
-                    .addObject("actor", actor);
+                    .addObject("actor", actor)
+                    .addObject("username", usuario.getUsername());
         }
         Actor actorBBDD = actorService.getActorById(id);
         actorBBDD.setName(actor.getName());

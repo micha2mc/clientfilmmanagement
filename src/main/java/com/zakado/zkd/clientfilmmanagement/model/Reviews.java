@@ -16,4 +16,9 @@ public class Reviews {
     private Integer note;
     private LocalDate date;
     private User user;
+
+    public Reviews(Integer idMovie, User user) {
+        this.idMovie = idMovie;
+        this.user = user;
+    }
 }

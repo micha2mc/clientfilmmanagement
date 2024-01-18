@@ -4,13 +4,13 @@
       layout:decorate="~{master.html}">
 <head>
     <meta charset="utf-8">
-    <title>Inicio</title>
+    <title>CinemaUAH</title>
 </head>
 <body>
 
 <div layout:fragment="content">
-    <div class="bg-light p-5 rounded">
-        <h3 class="display-1 text-success">FilmManagement</h3>
+    <div class="bg-light rounded text-center">
+        <h4 class="display-6 text-success"><b>Bienvenidos a FilmManagement!</b></h4>
     </div>
     <div class="row">
         <div class="col-md-3 my-5" th:each="pelicula : ${listMovies}" th:object="${pelicula}">

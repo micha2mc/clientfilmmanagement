@@ -4,11 +4,9 @@ package com.zakado.zkd.clientfilmmanagement.controller;
 import com.zakado.zkd.clientfilmmanagement.model.Actor;
 import com.zakado.zkd.clientfilmmanagement.model.Genero;
 import com.zakado.zkd.clientfilmmanagement.model.Pelicula;
+import com.zakado.zkd.clientfilmmanagement.model.User;
 import com.zakado.zkd.clientfilmmanagement.paginator.PageRender;
-import com.zakado.zkd.clientfilmmanagement.service.ActorService;
-import com.zakado.zkd.clientfilmmanagement.service.GenreService;
-import com.zakado.zkd.clientfilmmanagement.service.MovieService;
-import com.zakado.zkd.clientfilmmanagement.service.UploadFileService;
+import com.zakado.zkd.clientfilmmanagement.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 
@@ -36,23 +35,29 @@ public class AdminController {
     private final GenreService genreService;
     private final MovieService movieService;
     private final ActorService actorService;
+    private final UserService userService;
 
 
     @GetMapping("")
-    public String homeAdmin(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
+    public String homeAdmin(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
+                            Principal principal) {
 
         Pageable pageable = PageRequest.of(page, 5);
         Page<Pelicula> listMovies = movieService.getAllMovies(pageable);
         PageRender<Pelicula> pageRender = new PageRender<>("/admin", listMovies);
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        model.addAttribute("username", usuario.getUsername());
         model.addAttribute("listMovies", listMovies);
         model.addAttribute("page", pageRender);
         return "admin/home-admin";
     }
 
     @GetMapping("/new")
-    public String showCreateNewMovieForm(Model model) {
+    public String showCreateNewMovieForm(Model model, Principal principal) {
         List<Genero> generos = genreService.getAllGenre();
         List<Actor> allActors = actorService.getAllActors();
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        model.addAttribute("username", usuario.getUsername());
         model.addAttribute("movie", new Pelicula());
         model.addAttribute("generos", generos);
         model.addAttribute("allActors", allActors);
@@ -81,14 +86,16 @@ public class AdminController {
     }
 
     @GetMapping("/peliculas/{id}/editar")
-    public ModelAndView mostrarFormilarioDeEditarPelicula(@PathVariable Integer id) {
+    public ModelAndView mostrarFormilarioDeEditarPelicula(@PathVariable Integer id, Principal principal) {
         Pelicula pelicula = movieService.findById(id);
         List<Genero> generos = genreService.getAllGenre();
         List<Actor> allActors = actorService.getAllActors();
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
 
         return new ModelAndView("admin/editar-pelicula")
                 .addObject("movie", pelicula)
                 .addObject("generos", generos)
+                .addObject("username", usuario.getUsername())
                 .addObject("allActors", allActors);
     }
 

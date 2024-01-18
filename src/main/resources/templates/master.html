@@ -1,71 +1,279 @@
 <!DOCTYPE html>
-<html lang="es"
-	  xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-<meta charset="utf-8">
-<title>Gestión de Películas</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-	crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Navbar Dropdown Login and Signup Form with Social Buttons</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Varela+Round">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous">
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
-<link
-	href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-	rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <link
+            href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+            rel="stylesheet" />
 
-<style>
-form .invalid-feedback {
-	display: block;
-}
-</style>
+    <style>
+        form .invalid-feedback {
+            display: block;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Varela Round', sans-serif;
+        }
+        .form-control {
+            box-shadow: none;
+            font-weight: normal;
+            font-size: 13px;
+        }
+        .navbar {
+            background: #fff;
+            padding-left: 16px;
+            padding-right: 16px;
+            border-bottom: 1px solid #dfe3e8;
+            border-radius: 0;
+        }
+        .nav-link img {
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            margin: -8px 0;
+            float: left;
+            margin-right: 10px;
+        }
+        .navbar .navbar-brand {
+            padding-left: 0;
+            font-size: 20px;
+            padding-right: 50px;
+        }
+        .navbar .navbar-brand b {
+            color: #33cabb;
+        }
+        .navbar .form-inline {
+            display: inline-block;
+        }
+        .navbar a {
+            color: #888;
+            font-size: 15px;
+        }
+        .search-box {
+            position: relative;
+        }
+        .search-box input {
+            padding-right: 35px;
+            border-color: #dfe3e8;
+            border-radius: 4px !important;
+            box-shadow: none
+        }
+        .search-box .input-group-text {
+            min-width: 35px;
+            border: none;
+            background: transparent;
+            position: absolute;
+            right: 0;
+            z-index: 9;
+            padding: 7px;
+            height: 100%;
+        }
+        .search-box i {
+            color: #a0a5b1;
+            font-size: 19px;
+        }
+        .navbar .sign-up-btn {
+            min-width: 110px;
+            max-height: 36px;
+        }
+        .navbar .dropdown-menu {
+            color: #999;
+            font-weight: normal;
+            border-radius: 1px;
+            border-color: #e5e5e5;
+            box-shadow: 0 2px 8px rgba(0,0,0,.05);
+        }
+        .navbar a, .navbar a:active {
+            color: #888;
+            padding: 8px 20px;
+            background: transparent;
+            line-height: normal;
+        }
+        .navbar .navbar-form {
+            border: none;
+        }
+        .navbar .action-form {
+            width: 280px;
+            padding: 20px;
+            left: auto;
+            right: 0;
+            font-size: 14px;
+        }
+        .navbar .action-form a {
+            color: #33cabb;
+            padding: 0 !important;
+            font-size: 14px;
+        }
+        .navbar .action-form .hint-text {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+        .navbar .btn-primary, .navbar .btn-primary:active {
+            color: #fff;
+            background: #33cabb !important;
+            border: none;
+        }
+        .navbar .btn-primary:hover, .navbar .btn-primary:focus {
+            color: #fff;
+            background: #31bfb1 !important;
+        }
+        .navbar .social-btn .btn, .navbar .social-btn .btn:hover {
+            color: #fff;
+            margin: 0;
+            padding: 0 !important;
+            font-size: 13px;
+            border: none;
+            transition: all 0.4s;
+            text-align: center;
+            line-height: 34px;
+            width: 47%;
+            text-decoration: none;
+        }
+        .navbar .social-btn .facebook-btn {
+            background: #507cc0;
+        }
+        .navbar .social-btn .facebook-btn:hover {
+            background: #4676bd;
+        }
+        .navbar .social-btn .twitter-btn {
+            background: #64ccf1;
+        }
+        .navbar .social-btn .twitter-btn:hover {
+            background: #4ec7ef;
+        }
+        .navbar .social-btn .btn i {
+            margin-right: 5px;
+            font-size: 16px;
+            position: relative;
+            top: 2px;
+        }
+        .or-seperator {
+            margin-top: 32px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+        .or-seperator b {
+            color: #666;
+            padding: 0 8px;
+            width: 30px;
+            height: 30px;
+            font-size: 13px;
+            text-align: center;
+            line-height: 26px;
+            background: #fff;
+            display: inline-block;
+            border: 1px solid #e0e0e0;
+            border-radius: 50%;
+            position: relative;
+            top: -15px;
+            z-index: 1;
+        }
+        .navbar .action-buttons .dropdown-toggle::after {
+            display: none;
+        }
+        .form-check-label input {
+            position: relative;
+            top: 1px;
+        }
+        @media (min-width: 1200px){
+            .form-inline .input-group {
+                width: 300px;
+                margin-left: 30px;
+            }
+        }
+        @media (max-width: 768px){
+            .navbar .dropdown-menu.action-form {
+                width: 100%;
+                padding: 10px 15px;
+                background: transparent;
+                border: none;
+            }
+            .navbar .form-inline {
+                display: block;
+            }
+            .navbar .input-group {
+                width: 100%;
+            }
+        }
+    </style>
+    <script>
+        // Prevent dropdown menu from closing when click inside the form
+        $(document).on("click", ".action-buttons .dropdown-menu", function(e){
+            e.stopPropagation();
+        });
+    </script>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a href="/movies" class="navbar-brand">Cinema<b>UAH</b></a>
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Collection of nav links, forms, and other content for toggling -->
+    <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+        <div class="navbar-nav">
+            <a href="/movies" class="nav-item nav-link active">Inicio</a>
+            <a href="/search" class="nav-item nav-link">Buscador</a>
+            <a href="/actors" class="nav-item nav-link">Actores</a>
+            <a href="/users/listado" class="nav-item nav-link">Usuarios</a>
+            <a href="/admin" class="nav-item nav-link" sec:authorize="hasRole('ROLE_ADMIN')">Maestro</a>
+        </div>
+        <form class="navbar-form form-inline">
+            <div class="input-group search-box">
+            </div>
+        </form>
+        <div class="navbar-nav ml-auto action-buttons">
+            <div class="nav-item dropdown">
+                <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle mr-4" th:text="${username}">Login</a>
+                <div class="dropdown-menu action-form">
+                    <form action="/logout" method="get">
+                        <input type="submit" class="btn btn-primary btn-block" value="Logout">
+                    </form>
+                </div>
+            </div>
+            <div class="nav-item dropdown">
+               <div class="dropdown-menu action-form">
 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="/movies">CinemaUAH</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link" href="/movies">Inicio</a></li>
-					<li class="nav-item"><a class="nav-link" href="/search">Buscador</a></li>
-					<li class="nav-item"><a class="nav-link" href="/actors">Actores</a></li>
-					<li class="nav-item"><a class="nav-link" href="/users/listado">Usuarios</a></li>
-					<li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')"><a class="nav-link" href="/admin">Maestro</a></li>
-					<li class="nav-item"><a class="btn btn-primary" role="button" th:href="@{/logout}">Salir</a></li>
-				</ul>
-
-			</div>
-		</div>
-	</nav>
-
-    <div layout:fragment="content" class="container my-5">
+                </div>
+            </div>
+        </div>
     </div>
-    
-	<script
-		src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+</nav>
+<div layout:fragment="content" class="container my-5"></div>
+<script
+        src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-		crossorigin="anonymous"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 
-	<script
-		src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-		
-    <div layout:fragment="scripts" th:remove="tag">
-       
-    </div>
+<script
+        src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<div layout:fragment="scripts" th:remove="tag"></div>
 </body>
 </html>

@@ -9,7 +9,7 @@
 <body>
 
   <div layout:fragment="content">
-	  <a class="btn btn-primary" href="/actors/new" role="button">Añadir Actor</a><br>
+	  <a class="btn btn-primary" href="/actors/new" role="button" sec:authorize="hasRole('ROLE_ADMIN')">Añadir Actor</a><br>
 
 	  <table class="table table-hover">
           <thead>
@@ -79,7 +79,7 @@
 			   </div>
 		   </div>
 		</div>
-	  <a class="btn btn-primary" role="button" th:href="@{/admin}">Ir a Admin</a>
+	  <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary" role="button" th:href="@{/admin}">Ir a Admin</a>
   </div>
   
   <div layout:fragment="scripts">

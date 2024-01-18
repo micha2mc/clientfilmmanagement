@@ -6,7 +6,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -19,4 +18,17 @@ public class User {
     private List<Rol> roles;
 
     private List<Reviews> reviews;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", enable=" + enable +
+                ", roles=" + roles +
+                ", reviews=" + reviews +
+                '}';
+    }
 }

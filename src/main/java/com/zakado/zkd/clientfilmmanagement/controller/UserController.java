@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,18 +27,23 @@ public class UserController {
     private final RolService rolService;
 
     @GetMapping(value = "/ver/{id}")
-    public String ver(Model model, @PathVariable("id") Integer id, RedirectAttributes attributes) {
+    public String ver(Model model, @PathVariable("id") Integer id, RedirectAttributes attributes, Principal principal) {
         User user = userService.buscarUsuarioPorId(id);
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        model.addAttribute("username", usuario.getUsername());
         model.addAttribute("usuario", user);
         model.addAttribute("titulo", "Detalle del usuario: " + user.getUsername());
         return "usuarios/verUsuario";
     }
 
     @GetMapping("/listado")
-    public String listadoUsuarios(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
+    public String listadoUsuarios(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
+                                  Principal principal) {
         Pageable pageable = PageRequest.of(page, 5);
         Page<User> listado = userService.buscarTodos(pageable);
         PageRender<User> pageRender = new PageRender<User>("/users/listado", listado);
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        model.addAttribute("username", usuario.getUsername());
         model.addAttribute("titulo", "Listado de todos los usuarios");
         model.addAttribute("listadoUsuarios", listado);
         model.addAttribute("page", pageRender);
@@ -45,8 +51,10 @@ public class UserController {
     }
 
     @GetMapping("/new")
-    public String nuevo(Model model) {
+    public String nuevo(Model model, Principal principal) {
         List<Rol> roles = rolService.buscarTodos();
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        model.addAttribute("username", usuario.getUsername());
         model.addAttribute("titulo", "Nuevo usuario");
         model.addAttribute("allRoles", roles);
         model.addAttribute("usuario", new User());
@@ -54,7 +62,7 @@ public class UserController {
     }
 
     @PostMapping("/guardar")
-    public String guardarUsuario(Model model, User usuario, RedirectAttributes attributes) {
+    public String guardarUsuario(Model model, User usuario, RedirectAttributes attributes, Principal principal) {
         //si existe un usuario con el mismo correo no lo guardamos
         if (Objects.isNull(usuario.getId()) && userService.buscarUsuarioPorCorreo(usuario.getEmail()) != null) {
             attributes.addFlashAttribute("msga", "Error al guardar, ya existe el correo!");
@@ -69,10 +77,11 @@ public class UserController {
     }
 
     @GetMapping("/registrar")
-    public String nuevoRegistro(Model model) {
+    public String nuevoRegistro(Model model, Principal principal) {
         model.addAttribute("titulo", "Nuevo registro");
-        User usuario = new User();
-        model.addAttribute("usuario", usuario);
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        model.addAttribute("username", usuario.getUsername());
+        model.addAttribute("usuario", new User());
         return "/registro";
     }
 

@@ -22,7 +22,7 @@ public class ReviewsServiceImpl implements ReviewsService {
 
     private final RestTemplate template;
     private final UserService userService;
-    String url = "http://localhost:8090/api/reviews";
+    String url = "http://localhost:8080/api/reviews";
 
     @Override
     public Page<Reviews> buscarTodas(Pageable pageable) {
@@ -40,8 +40,7 @@ public class ReviewsServiceImpl implements ReviewsService {
             int toIndex = Math.min(startItem + pageSize, reviewsList.size());
             list = reviewsList.subList(startItem, toIndex);
         }
-        Page<Reviews> page = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), reviewsList.size());
-        return page;
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), reviewsList.size());
     }
 
     @Override
@@ -60,8 +59,7 @@ public class ReviewsServiceImpl implements ReviewsService {
             int toIndex = Math.min(startItem + pageSize, reviewsList.size());
             list = reviewsList.subList(startItem, toIndex);
         }
-        Page<Reviews> page = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), reviewsList.size());
-        return page;
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), reviewsList.size());
     }
 
     @Override
