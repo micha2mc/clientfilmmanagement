@@ -9,6 +9,7 @@
 <body>
 
 <div layout:fragment="content" th:object="${movie}">
+    <div th:if="${msga != null}" class='alert alert-danger' th:text="${msga}" role='alert'></div>
     <div class="row">
         <div class="col-md-6">
             <a th:href="@{/movies/}">
@@ -50,7 +51,7 @@
                     <td class="text-start" th:text="*{year}"></td>
                 </tr>
                 <tr>
-                    <th scope="row">Duration:</th>
+                    <th scope="row">Duración:</th>
                     <td class="text-start" th:text="*{duration}"></td>
                 </tr>
                 <tr>

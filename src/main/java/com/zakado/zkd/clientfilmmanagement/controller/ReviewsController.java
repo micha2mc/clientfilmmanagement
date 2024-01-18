@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/reviews")
@@ -34,31 +35,27 @@ public class ReviewsController {
 
 
     @GetMapping("/guardar/{idMatricula}")
-    public String guardarMatricula(@PathVariable("idMatricula") Integer id, Model model, RedirectAttributes attributes, Principal principal) {
+    public String crearOpinion(@PathVariable("idMatricula") Integer id, Model model, RedirectAttributes attributes, Principal principal) {
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        List<Reviews> reviews = reviewsService.buscarCriticasPorIdPeli(id);
+        if (reviews.stream().anyMatch(rev -> usuario.getId().equals(rev.getUser().getId()))) {
+            attributes.addFlashAttribute("msga", "Usuario ya puntuó la película");
+            return "redirect:/movies/peliculas/" + id;
+        }
         Reviews critica = new Reviews(id, usuario);
         Reviews criticaSaved = reviewsService.guardarCritica(critica);
-        //String resultado = matriculasService.guardarMatricula(matricula);
         model.addAttribute("titulo", "Nueva matricula");
         model.addAttribute("critica", criticaSaved);
-        //attributes.addFlashAttribute("msg", resultado);
-        //return "redirect:/cmatriculas/listado";
-        return "formCriticas";
+        return "usuarios/formCriticas";
     }
 
     @PostMapping("/critica")
-    public String critica(Model model, Reviews critica, RedirectAttributes attributes, Principal principal) {
-        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+    public String guardarCritica(Reviews critica, RedirectAttributes attributes) {
         Reviews reviews = reviewsService.buscarCriticaPorId(critica.getId());
         reviews.setAssessment(critica.getAssessment());
         reviews.setNote(critica.getNote());
         reviewsService.actualizarCritica(reviews);
-        /*Matricula matricula = new Matricula(idCurso, usuario);
-        String resultado = matriculasService.guardarMatricula(matricula);
-        attributes.addFlashAttribute("msg", resultado);
-        model.addAttribute("titulo", "Nueva matricula");
-        model.addAttribute("critica", critica);
-        return "usuarios/formMatricula";*/
+        attributes.addFlashAttribute("msg", "Opinión realizada con éxito");
         return "redirect:/movies/peliculas/" + reviews.getIdMovie();
     }
 }
