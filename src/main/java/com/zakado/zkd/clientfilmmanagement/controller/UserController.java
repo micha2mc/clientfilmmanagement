@@ -38,7 +38,7 @@ public class UserController {
         model.addAttribute("titulo", "Listado de todos los usuarios");
         model.addAttribute("listadoUsuarios", listado);
         model.addAttribute("page", pageRender);
-        return "usuarios/listUsuario";
+        return "list-usuario";
     }
 
     @GetMapping("/new")
@@ -49,7 +49,7 @@ public class UserController {
         model.addAttribute("titulo", "Nuevo usuario");
         model.addAttribute("allRoles", roles);
         model.addAttribute("usuario", new User());
-        return "usuarios/formUsuario";
+        return "form-usuario";
     }
 
     @PostMapping("/guardar")
@@ -96,7 +96,7 @@ public class UserController {
         model.addAttribute("titulo", "Editar usuario");
         model.addAttribute("usuario", usuario);
         model.addAttribute("allRoles", roles);
-        return "usuarios/formUsuario";
+        return "form-usuario";
     }
 
     @GetMapping("/borrar/{id}")

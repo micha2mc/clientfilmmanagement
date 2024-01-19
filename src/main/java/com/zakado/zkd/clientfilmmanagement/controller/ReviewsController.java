@@ -46,7 +46,7 @@ public class ReviewsController {
         Reviews criticaSaved = reviewsService.guardarCritica(critica);
         model.addAttribute("titulo", "Nueva matricula");
         model.addAttribute("critica", criticaSaved);
-        return "usuarios/formCriticas";
+        return "form-criticas";
     }
 
     @PostMapping("/critica")

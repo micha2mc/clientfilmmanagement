@@ -77,7 +77,7 @@ public class SearchController {
         model.addAttribute("username", usuario.getUsername());
         model.addAttribute("listadoUsuarios", users);
         model.addAttribute("page", pageRender);
-        return "usuarios/listUsuario";
+        return "list-usuario";
     }
 
     @GetMapping("/users/email")
@@ -88,7 +88,7 @@ public class SearchController {
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
         model.addAttribute("username", usuario.getUsername());
         model.addAttribute("listadoUsuarios", List.of(users));
-        return "usuarios/listUsuario";
+        return "list-usuario";
     }
 
     private String searchMoviesMethod(Model model, int page, Object obj, String type, Principal principal) {
