@@ -3,7 +3,7 @@
       layout:decorate="~{master.html}">
 <head>
     <meta charset="UTF-8">
-    <title>CursosApp | Aplicación de gestión de cursos</title>
+    <title>crítica</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 </head>
 <body>
@@ -19,7 +19,7 @@
                 </ul>
             </div>
             <div class="mb-3">
-                <label for="assessment" class="form-label">Critica : </label>
+                <label for="assessment" class="form-label">Opinión : </label>
                 <textarea id="assessment" placeholder="Escriba su crítica"
                           class="form-control" th:field="*{assessment}"></textarea>
             </div>
@@ -34,7 +34,7 @@
             <button type="submit" class="btn btn-dark">Guardar</button>
         </form>
         <hr>
-        <a class="btn btn-primary" role="button" th:href="@{/ccursos/}">Ir a Inicio</a>
+        <a class="btn btn-primary" role="button" th:href="@{/movies/}">Ir a Inicio</a>
     </div>
 </div>
 

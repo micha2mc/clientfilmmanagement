@@ -97,8 +97,8 @@ public class ReviewsServiceImpl implements ReviewsService {
     }
 
     @Override
-    public void eliminarCritica(Integer idMatricula) {
-
+    public void eliminarCritica(Integer id) {
+        template.delete(url + "/" + id);
     }
 
     @Override

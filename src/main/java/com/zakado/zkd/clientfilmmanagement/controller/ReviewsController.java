@@ -7,6 +7,7 @@ import com.zakado.zkd.clientfilmmanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,16 +25,6 @@ public class ReviewsController {
     private final UserService userService;
     private final ReviewsService reviewsService;
 
-    /*@GetMapping("/nuevo/{id}")
-    public String nuevo(@PathVariable("id") Integer id, Model model, Principal principal) {
-
-        model.addAttribute("titulo", "Nueva matricula");
-        model.addAttribute("matricula", critica);
-        model.addAttribute("idMatricula", id);
-        return "usuarios/formMatricula";
-    }*/
-
-
     @GetMapping("/guardar/{idMatricula}")
     public String crearOpinion(@PathVariable("idMatricula") Integer id, Model model, RedirectAttributes attributes, Principal principal) {
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
@@ -44,14 +35,18 @@ public class ReviewsController {
         }
         Reviews critica = new Reviews(id, usuario);
         Reviews criticaSaved = reviewsService.guardarCritica(critica);
-        model.addAttribute("titulo", "Nueva matricula");
+        model.addAttribute("titulo", "Nueva Crítica");
         model.addAttribute("critica", criticaSaved);
-        return "form-criticas";
+        return "usuarios/form-criticas";
     }
 
     @PostMapping("/critica")
     public String guardarCritica(Reviews critica, RedirectAttributes attributes) {
         Reviews reviews = reviewsService.buscarCriticaPorId(critica.getId());
+        if (!StringUtils.hasText(critica.getAssessment())) {
+            reviewsService.eliminarCritica(critica.getId());
+            return "redirect:/movies/peliculas/" + reviews.getIdMovie();
+        }
         reviews.setAssessment(critica.getAssessment());
         reviews.setNote(critica.getNote());
         reviewsService.actualizarCritica(reviews);
