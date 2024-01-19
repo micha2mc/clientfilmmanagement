@@ -27,7 +27,7 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/movies")
 @RequiredArgsConstructor
-public class MoviesManagementController {
+public class HomeMoviesController {
 
     private final MovieService movieService;
     private final UserService userService;
