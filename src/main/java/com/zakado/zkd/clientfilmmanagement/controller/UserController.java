@@ -71,7 +71,7 @@ public class UserController {
     public String nuevoRegistro(Model model) {
         model.addAttribute("titulo", "Nuevo registro");
         model.addAttribute("usuario", new User());
-        return "/registro";
+        return "/register";
     }
 
     @PostMapping("/registrar")

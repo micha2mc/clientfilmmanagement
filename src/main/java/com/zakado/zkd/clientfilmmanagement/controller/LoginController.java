@@ -20,7 +20,7 @@ public class LoginController {
             return "redirect:/movies";
         }
         if (error != null) {
-            model.addAttribute("msg", "Error al iniciar sesión: Nombre de usuario o contraseña incorrecta, por favor vuelva a intentarlo!");
+            model.addAttribute("msga", "Error al iniciar sesión: Nombre de usuario o contraseña incorrecta, por favor vuelva a intentarlo!");
         }
         return "login";
     }

@@ -4,16 +4,18 @@
       layout:decorate="~{master.html}">
 <head>
     <meta charset="utf-8">
-    <title>CinemaUAH</title>
+    <title>FilmFlow Manager</title>
 </head>
 <body>
 
 <div layout:fragment="content">
     <div class="bg-light rounded text-center">
-        <h4 class="display-6 text-success"><b>Bienvenidos a FilmManagement!</b></h4>
+        <!--<h4 class="display-6 text-success"><b>Bienvenidos a FilmFlow Manager!</b></h4>-->
+        <h4 class="display-6 fw-bold ls-tight">Bienvenidos a FilmFlow<span class="text-primary">Manager</span>!
+        </h4>
     </div>
     <div class="row">
-        <div class="col-md-3 my-5" th:each="pelicula : ${listMovies}" th:object="${pelicula}">
+        <div class="col-md-3 my-1" th:each="pelicula : ${listMovies}" th:object="${pelicula}">
             <a th:href="@{/movies/peliculas/{id}(id=*{nid})}" class="card shadow-lg" style="text-decoration:none;">
                 <img th:src="@{'/images/uploads/'+ ${pelicula.image}}" th:alt="*{title}" class="card-img-top">
                 <div class="card-body">

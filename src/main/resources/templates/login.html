@@ -3,47 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestión de Películas</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous">
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 </head>
 <body>
-
-<div class="container px-5 py-5">
-    <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+<section class="vh-100">
     <div th:if="${msga != null}" class='alert alert-danger' th:text="${msga}" role='alert'></div>
+    <div class="px-4 py-5 px-md-3 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
+        <div class="container">
+            <div class="row gx-lg-5 align-items-center">
+                <div class="col-lg-6 mb-1 mb-lg-0">
+                    <h3 class="my-5 display-3 fw-bold ls-tight">
+                        FilmFlow<br/>
+                        <span class="text-primary">Manager</span>
+                    </h3>
+                    <p style="color: hsl(217, 10%, 50.8%)">
+                        El ejercicio se centra en la construcción de una sencilla
+                        aplicación Web para la gestión de películas. En esta aplicación
+                        se utilizarán diversas tecnologías del framework Spring Boot como
+                        son: Microservicios, JPA (con conexión a MySQL) y servicios REST,
+                        además de aplicar el patrón MVC en el diseño de la aplicación y
+                        utilizar Thymeleaf para la capa de presentación.
+                    </p>
+                </div>
 
-    <h2 class="text-center">Gestión de Películas</h2>
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
 
-    <hr>
-    <div class="card-group">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Inicio de sesión</h3>
-                <form th:action="@{/login}" method="post">
-                    <div class="form-group">
-                        <input type="text" name="username" id="username"
-                               class="form-control" th:placeholder="Correo" autofocus required/>
+                            <h3 class="mb-3">Sign in</h3>
+                            <form th:action="@{/login}" method="post">
+
+                                <div class="form-outline mb-3">
+                                    <input type="email" id="username" class="form-control form-control-lg"
+                                           name="username"
+                                           th:placeholder="Email" autofocus required/>
+                                </div>
+
+                                <div class="form-outline mb-3">
+                                    <input type="password" id="password" class="form-control form-control-lg"
+                                           name="password"
+                                           th:placeholder="Password" required/>
+                                </div>
+
+                                <input type="submit" class="btn btn-primary btn-lg btn-block mb-4" th:value="Login"/>
+                            </form>
+                            <div>
+                                <p>Don't have an account? <a th:href="@{/users/registrar}" class="link-info">Register
+                                    here</a></p>
+                            </div>
+
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <input type="password" name="password" id="password"
-                               class="form-control" th:placeholder="Contraseña" required/>
-                    </div>
-
-                    <input type="submit" class="btn btn-lg btn-primary btn-block" th:value="Login"/>
-
-                </form>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Registro nuevo usuario</h3>
-                <a class="btn btn-primary" role="button" th:href="@{/users/registrar}">Registrarse</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
+</section>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 
 </body>
