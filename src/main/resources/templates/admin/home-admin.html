@@ -1,19 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{master.html}">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+	  layout:decorate="~{master.html}">
 <head>
 <meta charset="utf-8">
-<title>Administrar Películas</title>
+<title >Ffm</title>
 </head>
 <body>
 
   <div layout:fragment="content">
-	  <h2>Zona de Administración</h2><br>
-	  <a class="btn btn-primary" href="/admin/new" role="button">Añadir película</a>
-	  <a class="btn btn-primary" href="/genres/new" role="button">Añadir Género</a>
-	  <a class="btn btn-primary" href="/actors" role="button">Gestión de Actores</a>
-	  <a class="btn btn-primary" href="/users/listado" role="button">Gestión de Usuarios</a><br>
+	  <h2 class="mb-3" sec:authorize="hasRole('ROLE_ADMIN')">Zona de Administración</h2>
+	  <h2 class="mb-3" sec:authorize="hasRole('ROLE_USER')">Lista de Películas de la búsqueda</h2>
+
+	  <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')" href="/admin/new" role="button">Añadir película</a>
+	  <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')" href="/genres/new" role="button">Gestión de Géneros</a>
+	  <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')" href="/actors" role="button">Gestión de Actores</a>
+	  <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')" href="/users/listado" role="button">Gestión de Usuarios</a>
 
 		<table class="table table-hover">
 			<thead>
@@ -28,7 +30,8 @@
 			<tbody>
 				<tr th:each="pelicula : ${listMovies}" th:object="${pelicula}">
 					<td style="width:150px;">
-					   <a th:href="@{'/images/uploads/'+ ${pelicula.image}}" data-fancybox>
+					   <!--<a th:href="@{'/images/uploads/'+ ${pelicula.image}}" data-fancybox>-->
+						<a th:href="@{/movies/peliculas/{id} (id=*{nid})}" >
 					      <img th:src="@{'/images/uploads/'+ ${pelicula.image}}" alt="" class="img-thumbnail w-100">
 					   </a>
 					</td>
@@ -75,10 +78,10 @@
 							</tbody>
 						</table>
 					</td>
-					<td>
+					<td sec:authorize="hasRole('ROLE_ADMIN')" >
 					   <a th:href="@{/admin/peliculas/{id}/editar(id=*{nid})}" class="btn btn-success">Editar</a>
 					</td>
-					<td class="text-end">
+					<td class="text-end" sec:authorize="hasRole('ROLE_ADMIN')" >
 						<a href="javascript:void(0)" class="text-light ms-3 btn btn-danger" th:onclick="'eliminarPelicula(' + *{nid} +')'">Eliminar</a>
 						<form th:id="'eliminarPeliculaForm' + *{nid}" th:action="@{/admin/peliculas/{id}/eliminar(id=*{nid})}" method="post" class="d-none">
 						</form>

@@ -12,7 +12,7 @@
     <div th:if="${msga != null}" class='alert alert-danger' th:text="${msga}" role='alert'></div>
     <div class="row">
         <div class="col-md-6">
-            <a th:href="@{/movies/}">
+            <a href="javascript:history.back()">
                 <img th:src="@{'/images/uploads/'+ ${movie.image}}" th:alt="*{title}" class="img-fluid rounded w-10">
             </a>
 

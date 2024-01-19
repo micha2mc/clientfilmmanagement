@@ -99,6 +99,6 @@ public class SearchController {
         PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/movies/home", listado);
         model.addAttribute("listMovies", listado);
         model.addAttribute("page", pageRender);
-        return "home";
+        return "admin/home-admin";
     }
 }

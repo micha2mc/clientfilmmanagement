@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/admin")
@@ -114,7 +115,9 @@ public class AdminController {
             String uniqueFilename = null;
             try {
                 Pelicula peliculaDB = movieService.findById(id);
-                uploadFileService.deleteImage(peliculaDB.getImage());
+                if (Objects.nonNull(peliculaDB.getImage())) {
+                    uploadFileService.deleteImage(peliculaDB.getImage());
+                }
                 uniqueFilename = uploadFileService.copy(foto);
             } catch (IOException e) {
                 e.printStackTrace();
