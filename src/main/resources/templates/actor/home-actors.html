@@ -1,97 +1,92 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
-	  layout:decorate="~{master.html}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{master.html}">
 <head>
-<meta charset="utf-8">
-<title>Administrar actores</title>
+    <meta charset="utf-8">
+    <title>Administrar actores</title>
 </head>
 <body>
 
-  <div layout:fragment="content">
-	  <a class="btn btn-primary" href="/actors/new" role="button" sec:authorize="hasRole('ROLE_ADMIN')">Añadir Actor</a><br>
+<div layout:fragment="content">
+    <div>
+        <a class="btn btn-primary mb-3" href="/actors/new" role="button" sec:authorize="hasRole('ROLE_ADMIN')">Añadir
+            Actor</a><br>
+    </div>
+    <table class="table table-hover">
+        <tbody>
+        <tr th:each="actor : ${listActors}" th:object="${actor}">
+            <td style="width:150px;">
+                <a th:href="@{'/images/uploads/'+ ${actor.image}}" data-fancybox>
+                    <img th:src="@{'/images/uploads/'+ ${actor.image}}" alt="" class="img-thumbnail w-100">
+                </a>
+            </td>
+            <td>
+                <table class="table table-borderless">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Nombre:</th>
+                        <td class="text-start" th:text="*{name}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Género:</th>
+                        <td class="text-start" th:text="*{genre}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Fecha Nac.:</th>
+                        <td th:text="*{#dates.format(dob,'dd/MM/yyyy')}"></td>
+                    </tr>
 
-	  <table class="table table-hover">
-          <thead>
-              <tr>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr th:each="actor : ${listActors}" th:object="${actor}">
-                  <td style="width:150px;">
-                     <a th:href="@{'/images/uploads/'+ ${actor.image}}" data-fancybox>
-                        <img th:src="@{'/images/uploads/'+ ${actor.image}}" alt="" class="img-thumbnail w-100">
-                     </a>
-                  </td>
-                  <td>
-						<table class="table table-borderless">
-							<thead>
-							<tr>
-								<th scope="col"></th>
-								<th scope="col"></th>
-							</tr>
-							</thead>
-							<tbody>
-							<tr>
-								<th scope="row">Nombre:</th>
-								<td class="text-start" th:text="*{name}"></td>
-							</tr>
-							<tr>
-								<th scope="row">Género:</th>
-								<td class="text-start" th:text="*{genre}"></td>
-							</tr>
-							<tr>
-								<th scope="row">Fecha Nac.:</th>
-								<td th:text="*{#dates.format(dob,'dd/MM/yyyy')}"></td>
-							</tr>
+                    <tr>
+                        <th scope="row">País:</th>
+                        <td class="text-start" th:text="*{cob}"></td>
+                    </tr>
 
-							<tr>
-								<th scope="row">País:</th>
-								<td class="text-start" th:text="*{cob}"></td>
-							</tr>
+                    </tbody>
+                </table>
+            </td>
 
-							</tbody>
-						</table>
-					</td>
+            <td sec:authorize="hasRole('ROLE_ADMIN')">
+                <a th:href="@{/actors/actor/{id}/editar(id=*{nid})}" class="btn btn-success">Editar</a>
+            </td>
+            <td class="text-end" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="javascript:void(0)" class="text-light ms-3 btn btn-danger"
+                   th:onclick="'eliminarPelicula(' + *{nid} +')'">Eliminar</a>
+                <form th:id="'eliminarPeliculaForm' + *{nid}" th:action="@{/actors/actor/{id}/eliminar(id=*{nid})}"
+                      method="post" class="d-none">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="row mt-5">
+        <div class="col-sm-6">
+            <div class="tabular-wrapper">
+                <div>
+                    <nav th:replace="~{paginator-nav :: paginator}"></nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary" role="button" th:href="@{/admin}">Ir a Admin</a>
+</div>
 
-					<td sec:authorize="hasRole('ROLE_ADMIN')">
-					   <a th:href="@{/actors/actor/{id}/editar(id=*{nid})}" class="btn btn-success">Editar</a>
-					</td>
-					<td class="text-end" sec:authorize="hasRole('ROLE_ADMIN')">
-						<a href="javascript:void(0)" class="text-light ms-3 btn btn-danger" th:onclick="'eliminarPelicula(' + *{nid} +')'">Eliminar</a>
-						<form th:id="'eliminarPeliculaForm' + *{nid}" th:action="@{/actors/actor/{id}/eliminar(id=*{nid})}" method="post" class="d-none">
-						</form>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<div class="row mt-5">
-		   <div class="col-sm-6">
-			   <div class="tabular-wrapper">
-				   <div>
-					   <nav th:replace="~{paginator-nav :: paginator}"></nav>
-				   </div>
-			   </div>
-		   </div>
-		</div>
-	  <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary" role="button" th:href="@{/admin}">Ir a Admin</a>
-  </div>
-  
-  <div layout:fragment="scripts">
-      <script>
-         function eliminarPelicula(id){
-        	 if(!confirm('¿Estás seguro de eliminar actor?')){
-        		 return;
-        	 }
-        	 $('#eliminarPeliculaForm' + id).submit();
-         }
-      </script>
-  </div>
-	
+<div layout:fragment="scripts">
+    <script>
+        function eliminarPelicula(id) {
+            if (!confirm('¿Estás seguro de eliminar actor?')) {
+                return;
+            }
+            $('#eliminarPeliculaForm' + id).submit();
+        }
+    </script>
+</div>
+
 </body>
 </html>

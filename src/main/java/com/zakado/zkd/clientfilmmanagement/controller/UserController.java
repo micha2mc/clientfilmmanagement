@@ -38,7 +38,7 @@ public class UserController {
         model.addAttribute("titulo", "Listado de todos los usuarios");
         model.addAttribute("listadoUsuarios", listado);
         model.addAttribute("page", pageRender);
-        return "list-usuario";
+        return "usuarios/list-usuario";
     }
 
     @GetMapping("/new")
