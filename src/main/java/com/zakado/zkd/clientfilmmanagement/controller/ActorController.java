@@ -36,7 +36,6 @@ public class ActorController {
     public String homeActors(Model model, @RequestParam(name = "page", defaultValue = "0") int page, Principal principal) {
 
         Pageable pageable = PageRequest.of(page, 5);
-
         Page<Actor> listActors = actorService.getAllActors(pageable);
         PageRender<Actor> pageRender = new PageRender<>("/actor", listActors);
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());

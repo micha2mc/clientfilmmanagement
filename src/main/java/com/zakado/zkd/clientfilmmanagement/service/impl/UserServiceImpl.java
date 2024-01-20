@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     public Page<User> buscarTodos(Pageable pageable) {
 
         List<User> usuariosList = Arrays.asList(Objects.requireNonNull(template.getForObject(URL, User[].class)));
-        return UtilsManagement.getMoviesPagination(pageable, usuariosList);
+        return UtilsManagement.getObjectsPagination(pageable, usuariosList);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     public Page<User> buscarVariosPorNombre(Pageable pageable, String nombre) {
         List<User> usuariosList = Arrays.asList(Objects
                 .requireNonNull(template.getForObject(URL + "/search/" + nombre, User[].class)));
-        return UtilsManagement.getMoviesPagination(pageable, usuariosList);
+        return UtilsManagement.getObjectsPagination(pageable, usuariosList);
     }
 
     @Override

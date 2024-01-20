@@ -46,7 +46,7 @@
                             </table>
                         </td>
                         <td sec:authorize="hasRole('ROLE_ADMIN')">
-                            <a th:href="@{/users/editar/{id}  (id=${usuario.id})  }" th:text="'editar'"
+                            <a th:href="@{/users/editar/{id}  (id=${usuario.id})}" th:text="'editar'"
                                class="btn btn-success btn-sm" role="button" title="Editar el usuario."><i
                                     class="fas fa-pencil-alt" aria-hidden="true"></i></a>
                             <a th:href="@{/users/borrar/{id}  (id=${usuario.id})   }" th:text="'borrar'"

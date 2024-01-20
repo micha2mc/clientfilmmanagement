@@ -13,7 +13,7 @@
 	  <h2 class="mb-3" sec:authorize="hasRole('ROLE_USER')">Lista de Películas de la búsqueda</h2>
 
 	  <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')" href="/admin/new" role="button">Añadir película</a>
-	  <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')" href="/genres/new" role="button">Gestión de Géneros</a>
+	  <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')" href="/genres" role="button">Gestión de Géneros</a>
 	  <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')" href="/actors" role="button">Gestión de Actores</a>
 	  <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')" href="/users/listado" role="button">Gestión de Usuarios</a>
 

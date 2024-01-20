@@ -11,7 +11,7 @@ import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UtilsManagement {
-    public static <T> PageImpl<T> getMoviesPagination(Pageable pageable, List<T> listMovies) {
+    public static <T> PageImpl<T> getObjectsPagination(Pageable pageable, List<T> listMovies) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
