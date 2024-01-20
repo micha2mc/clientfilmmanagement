@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/reviews")
@@ -25,8 +26,24 @@ public class ReviewsController {
     private final UserService userService;
     private final ReviewsService reviewsService;
 
+    @GetMapping("/{id}")
+    public String verOpinion(@PathVariable("id") Integer id, Model model, RedirectAttributes attributes,
+                             Principal principal) {
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        Reviews reviews = usuario.getReviews().stream()
+                .filter(re -> re.getId().equals(id)).findFirst().orElse(null);
+        if (Objects.isNull(reviews)) {
+            attributes.addFlashAttribute("msga", "Usuario sin opinión en ésta película");
+            return "redirect:/movies";
+        }
+        model.addAttribute("critica", reviews);
+        model.addAttribute("username", usuario.getUsername());
+        return "usuarios/critica";
+    }
+
     @GetMapping("/guardar/{idMatricula}")
-    public String crearOpinion(@PathVariable("idMatricula") Integer id, Model model, RedirectAttributes attributes, Principal principal) {
+    public String crearOpinion(@PathVariable("idMatricula") Integer id, Model model, RedirectAttributes attributes,
+                               Principal principal) {
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
         List<Reviews> reviews = reviewsService.buscarCriticasPorIdPeli(id);
         if (reviews.stream().anyMatch(rev -> usuario.getId().equals(rev.getUser().getId()))) {
@@ -37,6 +54,17 @@ public class ReviewsController {
         Reviews criticaSaved = reviewsService.guardarCritica(critica);
         model.addAttribute("titulo", "Nueva Crítica");
         model.addAttribute("critica", criticaSaved);
+        return "usuarios/form-criticas";
+    }
+    @GetMapping("/editar/{id}")
+    public String editarOpinion(@PathVariable("id") Integer id, Model model, RedirectAttributes attributes,
+                               Principal principal) {
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+
+        Reviews reviews = usuario.getReviews().stream()
+                .filter(re -> re.getId().equals(id)).findFirst().orElse(null);
+        model.addAttribute("critica", reviews);
+        model.addAttribute("username", usuario.getUsername());
         return "usuarios/form-criticas";
     }
 
@@ -51,6 +79,14 @@ public class ReviewsController {
         reviews.setNote(critica.getNote());
         reviewsService.actualizarCritica(reviews);
         attributes.addFlashAttribute("msg", "Opinión realizada con éxito");
+        return "redirect:/movies/peliculas/" + reviews.getIdMovie();
+    }
+
+    @PostMapping("/eliminar/{id}")
+    public String eliminarOpinion(@PathVariable("id") Integer id, RedirectAttributes attributes) {
+        Reviews reviews = reviewsService.buscarCriticaPorId(id);
+        reviewsService.eliminarCritica(id);
+        attributes.addFlashAttribute("msga", "Opinión eliminada con éxito.");
         return "redirect:/movies/peliculas/" + reviews.getIdMovie();
     }
 }

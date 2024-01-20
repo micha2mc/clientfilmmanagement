@@ -9,6 +9,7 @@
 <body>
 
 <div layout:fragment="content" th:object="${movie}">
+    <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
     <div th:if="${msga != null}" class='alert alert-danger' th:text="${msga}" role='alert'></div>
     <div class="row">
         <div class="col-md-6">
@@ -77,11 +78,11 @@
                 </tr>
                 <tr>
                     <th scope="row">Nota Media:</th>
-                    <td class="text-start" th:text="${#numbers.formatDecimal(notemedia, 1, 'DEFAULT', 2, 'POINT')}"></td>
+                    <td class="text-start"
+                        th:text="${#numbers.formatDecimal(notemedia, 1, 'DEFAULT', 2, 'POINT')}"></td>
                 </tr>
                 </tbody>
             </table>
-
         </div>
     </div>
 
@@ -100,7 +101,10 @@
         <tr th:each="pos : ${criticas}">
             <th scope="row"></th>
             <td class="text-start fst-italic" th:text="${pos.assessment}"></td>
-            <td class="text-end fst-italic" th:text="${'Autor: '+pos.user.username +' (puntuación: '+pos.note+')'}"></td>
+            <td class="text-end fst-italic">
+                <a th:href="@{/reviews/{id} (id=${pos.id})}" th:text="${'Autor: '+pos.user.username +' (puntuación: '+pos.note+') ' +pos.date}">
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>

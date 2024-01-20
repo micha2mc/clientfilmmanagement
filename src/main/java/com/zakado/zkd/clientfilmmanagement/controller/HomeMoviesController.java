@@ -62,7 +62,7 @@ public class HomeMoviesController {
     }
 
     private double notaMedia(List<Reviews> listCriticas) {
-        Integer notesum = 0;
+        int notesum = 0;
         Integer numNote = 0;
         for (Reviews reviews : listCriticas) {
             if (Objects.nonNull(reviews.getNote())) {
