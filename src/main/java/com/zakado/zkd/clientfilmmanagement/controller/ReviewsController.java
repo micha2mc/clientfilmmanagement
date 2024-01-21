@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/reviews")
@@ -30,11 +29,10 @@ public class ReviewsController {
     public String verOpinion(@PathVariable("id") Integer id, Model model, RedirectAttributes attributes,
                              Principal principal) {
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
-        Reviews reviews = usuario.getReviews().stream()
-                .filter(re -> re.getId().equals(id)).findFirst().orElse(null);
-        if (Objects.isNull(reviews)) {
-            attributes.addFlashAttribute("msga", "Usuario sin opinión en ésta película");
-            return "redirect:/movies";
+        Reviews reviews = reviewsService.buscarCriticaPorId(id);
+        if (!isCorrectUser(reviews, usuario)) {
+            attributes.addFlashAttribute("msga", "Usuario sin permiso");
+            return "redirect:/movies/peliculas/" + reviews.getIdMovie();
         }
         model.addAttribute("critica", reviews);
         model.addAttribute("username", usuario.getUsername());
@@ -56,9 +54,10 @@ public class ReviewsController {
         model.addAttribute("critica", criticaSaved);
         return "usuarios/form-criticas";
     }
+
     @GetMapping("/editar/{id}")
     public String editarOpinion(@PathVariable("id") Integer id, Model model, RedirectAttributes attributes,
-                               Principal principal) {
+                                Principal principal) {
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
 
         Reviews reviews = usuario.getReviews().stream()
@@ -88,5 +87,12 @@ public class ReviewsController {
         reviewsService.eliminarCritica(id);
         attributes.addFlashAttribute("msga", "Opinión eliminada con éxito.");
         return "redirect:/movies/peliculas/" + reviews.getIdMovie();
+    }
+
+    private static boolean isCorrectUser(Reviews reviews1, User usuario) {
+        if (usuario.getRoles().stream().noneMatch(rolU -> "ROLE_ADMIN".equalsIgnoreCase(rolU.getAuthority()))) {
+            return reviews1.getUser().getId().equals(usuario.getId());
+        }
+        return true;
     }
 }

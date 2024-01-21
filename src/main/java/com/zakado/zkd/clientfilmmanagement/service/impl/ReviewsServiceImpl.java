@@ -79,7 +79,9 @@ public class ReviewsServiceImpl implements ReviewsService {
 
     @Override
     public Reviews guardarCritica(Reviews reviews) {
-        if (reviews.getId() != null && reviews.getId() > 0) {
+        reviews.setDate(LocalDate.now());
+        return template.postForObject(url, reviews, Reviews.class);
+        /*if (reviews.getId() != null && reviews.getId() > 0) {
             //template.put(url, matricula); //peligroso, habría que comprobar la inscripción anterior
             //return "No se puede modificar una matrícula.";
             return null;
@@ -93,7 +95,7 @@ public class ReviewsServiceImpl implements ReviewsService {
             }
             reviews.setDate(LocalDate.now());
             return template.postForObject(url, reviews, Reviews.class);
-        }
+        }*/
     }
 
     @Override

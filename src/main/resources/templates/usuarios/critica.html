@@ -10,37 +10,41 @@
 
 <div layout:fragment="content">
     <h2 class="mb-3">Zona de Gestión de Opiniones</h2>
-    <table class="table table-hover" th:object="${critica}">
-        <thead>
-        <tr>
-            <th scope="col">Nombre Usuario</th>
-            <th scope="col">Opinión</th>
-            <th scope="col">Fecha</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td class="text-start fst-italic" th:text="*{user.username}">
-            <td class="text-start fst-italic" th:text="*{assessment}">
-            <td class="text-start fst-italic" th:text="*{date}">
-            </td>
+    <div th:object="${critica}">
+        <table class="table table-hover" >
+            <thead>
+            <tr>
+                <th scope="col">Nombre Usuario</th>
+                <th scope="col">Opinión</th>
+                <th scope="col">Fecha</th>
+                <th scope="col"></th>
+                <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="text-start fst-italic" th:text="*{user.username}">
+                <td class="text-start fst-italic" th:text="*{assessment}">
+                <td class="text-start fst-italic" th:text="*{date}">
+                </td>
 
-            <td sec:authorize="hasRole('ROLE_ADMIN')">
-                <a th:href="@{/reviews/editar/{id} (id=*{id})}" class="btn btn-success">Editar</a>
-            </td>
-            <td class="text-end" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a href="javascript:void(0)" class="text-light ms-3 btn btn-danger"
-                   th:onclick="'eliminarPelicula(' + *{id} +')'">Eliminar</a>
-                <form th:id="'eliminarPeliculaForm' + *{id}" th:action="@{/reviews/eliminar/{id} (id=*{id})}"
-                      method="post" class="d-none">
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary" role="button" th:href="@{/admin}">Ir a Admin</a>
+                <td>
+                    <a th:href="@{/reviews/editar/{id} (id=*{id})}" class="btn btn-success">Editar</a>
+                </td>
+                <td class="text-end" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a href="javascript:void(0)" class="text-light ms-3 btn btn-danger"
+                       th:onclick="'eliminarPelicula(' + *{id} +')'">Eliminar</a>
+                    <form th:id="'eliminarPeliculaForm' + *{id}" th:action="@{/reviews/eliminar/{id} (id=*{id})}"
+                          method="post" class="d-none">
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <a class="btn btn-primary" role="button" th:href="@{/movies/peliculas/{id} (id=*{idMovie})}">Volver</a>
+        <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary" role="button" th:href="@{/admin}">Ir a
+            Admin</a>
+    </div>
 </div>
 
 <div layout:fragment="scripts">
