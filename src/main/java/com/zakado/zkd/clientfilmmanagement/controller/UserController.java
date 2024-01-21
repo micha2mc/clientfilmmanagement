@@ -27,7 +27,7 @@ public class UserController {
     private final RolService rolService;
 
 
-    @GetMapping("/listado")
+    @GetMapping
     public String listadoUsuarios(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
                                   Principal principal) {
         Pageable pageable = PageRequest.of(page, 5);
@@ -49,7 +49,7 @@ public class UserController {
         model.addAttribute("titulo", "Nuevo usuario");
         model.addAttribute("allRoles", roles);
         model.addAttribute("usuario", new User());
-        return "form-usuario";
+        return "usuarios/form-usuario";
     }
 
     @PostMapping("/guardar")
@@ -96,7 +96,7 @@ public class UserController {
         model.addAttribute("titulo", "Editar usuario");
         model.addAttribute("usuario", usuario);
         model.addAttribute("allRoles", roles);
-        return "form-usuario";
+        return "usuarios/form-usuario";
     }
 
     @GetMapping("/borrar/{id}")

@@ -1,13 +1,11 @@
 package com.zakado.zkd.clientfilmmanagement.controller;
 
 
-import com.zakado.zkd.clientfilmmanagement.model.Actor;
-import com.zakado.zkd.clientfilmmanagement.model.Genero;
-import com.zakado.zkd.clientfilmmanagement.model.Pelicula;
-import com.zakado.zkd.clientfilmmanagement.model.User;
+import com.zakado.zkd.clientfilmmanagement.model.*;
 import com.zakado.zkd.clientfilmmanagement.paginator.PageRender;
 import com.zakado.zkd.clientfilmmanagement.service.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +27,7 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
+@Slf4j
 public class AdminController {
 
 
@@ -37,6 +36,7 @@ public class AdminController {
     private final MovieService movieService;
     private final ActorService actorService;
     private final UserService userService;
+    private final ReviewsService reviewsService;
 
 
     @GetMapping("")
@@ -66,7 +66,7 @@ public class AdminController {
     }
 
     @PostMapping("/new")
-    public String saveMovie(@ModelAttribute("movie") Pelicula movie, @RequestParam("file") MultipartFile foto) {
+    public String saveMovie(@ModelAttribute("movie") Pelicula movie, @RequestParam("file") MultipartFile foto, RedirectAttributes attributes) {
 
         if (!foto.isEmpty()) {
             String uniqueFilename = null;
@@ -75,14 +75,13 @@ public class AdminController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            //attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
+            log.info("Has subido correctamente {}", uniqueFilename);
             movie.setImage(uniqueFilename);
         }
         movie.setGenres(new HashSet<>());
         movie.setActors(new HashSet<>());
         movieService.saveMovie(movie);
-        //attributes.addFlashAttribute("msg", "Película registrada correctamente!");
+        attributes.addFlashAttribute("msg", "Película registrada correctamente!");
         return "redirect:/admin";
     }
 
@@ -131,6 +130,10 @@ public class AdminController {
 
     @PostMapping("/peliculas/{id}/eliminar")
     public String eliminarPelicula(@PathVariable Integer id) {
+        List<Reviews> reviews = reviewsService.buscarCriticasPorIdPeli(id);
+        for (Reviews reviews1 : reviews) {
+            reviewsService.eliminarCritica(reviews1.getId());
+        }
         Pelicula pelicula = movieService.findById(id);
         movieService.deleteMovie(pelicula);
         return "redirect:/admin";
