@@ -24,8 +24,6 @@ import java.util.List;
 public class ReviewsServiceImpl implements ReviewsService {
 
     private final RestTemplate template;
-    private final UserService userService;
-    private final MovieService movieService;
     String url = "http://localhost:8080/api/reviews";
 
     @Override
@@ -81,21 +79,6 @@ public class ReviewsServiceImpl implements ReviewsService {
     public Reviews guardarCritica(Reviews reviews) {
         reviews.setDate(LocalDate.now());
         return template.postForObject(url, reviews, Reviews.class);
-        /*if (reviews.getId() != null && reviews.getId() > 0) {
-            //template.put(url, matricula); //peligroso, habría que comprobar la inscripción anterior
-            //return "No se puede modificar una matrícula.";
-            return null;
-        } else {
-            //Inscribimos al alumno en el curso
-            User user = userService.buscarUsuarioPorCorreo(reviews.getUser().getEmail());
-            Pelicula pelicula = movieService.findById(reviews.getIdMovie());
-            if (user.getReviews().stream().anyMatch(rev -> pelicula.getNid().equals(rev.getIdMovie()))) {
-                //return "Pelicula con crítica por el usuario";
-                return null;
-            }
-            reviews.setDate(LocalDate.now());
-            return template.postForObject(url, reviews, Reviews.class);
-        }*/
     }
 
     @Override
