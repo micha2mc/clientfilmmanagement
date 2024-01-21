@@ -32,7 +32,7 @@
     </script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #F5B041 !important;">
     <a href="/movies" class="navbar-brand">FilmFlow<span class="text-primary">Manager</span></a>
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
@@ -57,7 +57,9 @@
         </form>
         <div class="navbar-nav ml-auto action-buttons">
             <div class="nav-item dropdown">
-                <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle mr-4" th:text="${username}">Login</a>
+                <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle mr-4" th:text="${username}">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                </a>
                 <div class="dropdown-menu action-form">
                     <form action="/logout" method="get">
                         <input type="submit" class="btn btn-primary btn-block" value="Logout">
