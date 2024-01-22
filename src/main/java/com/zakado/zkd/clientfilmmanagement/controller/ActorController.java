@@ -1,13 +1,13 @@
 package com.zakado.zkd.clientfilmmanagement.controller;
 
 import com.zakado.zkd.clientfilmmanagement.model.Actor;
-import com.zakado.zkd.clientfilmmanagement.model.Pelicula;
 import com.zakado.zkd.clientfilmmanagement.model.User;
 import com.zakado.zkd.clientfilmmanagement.paginator.PageRender;
 import com.zakado.zkd.clientfilmmanagement.service.ActorService;
 import com.zakado.zkd.clientfilmmanagement.service.UploadFileService;
 import com.zakado.zkd.clientfilmmanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +26,7 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/actors")
 @RequiredArgsConstructor
+@Slf4j
 public class ActorController {
 
     private final UploadFileService uploadFileService;
@@ -44,6 +45,7 @@ public class ActorController {
         model.addAttribute("page", pageRender);
         return "actor/home-actors";
     }
+
     @GetMapping("/actor/{id}")
     public String showActorDetails(Model model, @PathVariable Integer id, Principal principal) {
         Actor actor = actorService.getActorById(id);
@@ -62,23 +64,21 @@ public class ActorController {
     }
 
     @PostMapping("/new")
-    public String saveActor(Model model, Actor actor, @RequestParam("file") MultipartFile foto,
-                            RedirectAttributes attributes) {
+    public String saveActor(Actor actor, @RequestParam("file") MultipartFile foto, RedirectAttributes attributes) {
 
         if (!foto.isEmpty()) {
             String uniqueFilename = null;
             try {
                 uniqueFilename = uploadFileService.copy(foto);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.info("Error: {}", e.getMessage());
             }
-
             attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
             actor.setImage(uniqueFilename);
         }
 
         actorService.saveActor(actor);
-        attributes.addFlashAttribute("msg", "Película registrada correctamente!");
+        attributes.addFlashAttribute("msg", "Actor registrado correctamente!");
         return "redirect:/actors";
     }
 
@@ -115,7 +115,7 @@ public class ActorController {
                 uploadFileService.deleteImage(actorBBDD.getImage());
                 uniqueFilename = uploadFileService.copy(foto);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.info("Error: {}", e.getMessage());
             }
             attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
             actorBBDD.setImage(uniqueFilename);

@@ -11,6 +11,7 @@
 
 
     <div layout:fragment="content">
+        <div th:if="${msga != null}" class='alert alert-danger' th:text="${msga}" role='alert'></div>
         <a class="btn btn-primary my-3" href="/genres/new" role="button"
            sec:authorize="hasRole('ROLE_ADMIN')">Añadir
             Género</a>

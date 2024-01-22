@@ -1,8 +1,6 @@
 package com.zakado.zkd.clientfilmmanagement.controller;
 
 import com.zakado.zkd.clientfilmmanagement.model.Genero;
-import com.zakado.zkd.clientfilmmanagement.model.Pelicula;
-import com.zakado.zkd.clientfilmmanagement.model.Rol;
 import com.zakado.zkd.clientfilmmanagement.model.User;
 import com.zakado.zkd.clientfilmmanagement.paginator.PageRender;
 import com.zakado.zkd.clientfilmmanagement.service.GenreService;
@@ -28,7 +26,7 @@ public class GenreController {
     private final UserService userService;
 
     @GetMapping
-    public String getAllGenres(Model model, @RequestParam(name = "page", defaultValue = "0") int page,  Principal principal) {
+    public String getAllGenres(Model model, @RequestParam(name = "page", defaultValue = "0") int page, Principal principal) {
         Pageable pageable = PageRequest.of(page, 10);
         Page<Genero> allGenre = genreService.getAllGenre(pageable);
         PageRender<Genero> pageRender = new PageRender<>("/genres", allGenre);
@@ -48,14 +46,20 @@ public class GenreController {
     }
 
     @PostMapping("/new")
-    public String saveGenre(Genero genre) {
-        genreService.saveGenre(genre);
+    public String saveGenre(Genero genre, RedirectAttributes attributes) {
+        List<Genero> allGenre = genreService.getAllGenre();
+        if (allGenre.stream().anyMatch(gen -> gen.getDescription().equalsIgnoreCase(genre.getDescription()))) {
+            attributes.addFlashAttribute("msga", "Género ya existe");
+        } else {
+            genreService.saveGenre(genre);
+        }
         return "redirect:/genres";
     }
 
     @GetMapping("/editar/{id}")
     public String editarGenero(Model model, @PathVariable("id") Integer id, Principal principal) {
-        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());;
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        ;
         Genero genero = genreService.getGenreById(id);
         model.addAttribute("titulo", "Editar Genero");
         model.addAttribute("genre", genero);
@@ -71,8 +75,9 @@ public class GenreController {
         model.addAttribute("titulo", "Editar Genero");
         return "redirect:/genres";
     }
+
     @PostMapping("/eliminar/{id}")
-    public String eliminarGenero( @PathVariable("id") Integer id) {
+    public String eliminarGenero(@PathVariable("id") Integer id) {
         genreService.eliminarGenero(id);
         return "redirect:/genres";
     }

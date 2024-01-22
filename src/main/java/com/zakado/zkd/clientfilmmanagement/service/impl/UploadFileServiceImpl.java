@@ -26,7 +26,7 @@ public class UploadFileServiceImpl implements UploadFileService {
         Resource recurso = new UrlResource(pathFoto.toUri());
 
         if (!recurso.exists() || !recurso.isReadable()) {
-            throw new RuntimeException("Error: no se puede cargar la imagen: " + pathFoto.toString());
+            throw new RuntimeException("Error: no se puede cargar la imagen: " + pathFoto);
         }
         return recurso;
     }
@@ -37,9 +37,7 @@ public class UploadFileServiceImpl implements UploadFileService {
         Path rootPath = getPath(uniqueFilename);
 
         log.info("rootPath: " + rootPath);
-
         Files.copy(file.getInputStream(), rootPath);
-
         return uniqueFilename;
     }
 
@@ -49,7 +47,7 @@ public class UploadFileServiceImpl implements UploadFileService {
         try {
             FileSystemUtils.deleteRecursively(archivo);
         } catch (Exception excepcion) {
-            System.out.println(excepcion);
+            log.info("Error: {}", excepcion.getMessage());
         }
     }
 

@@ -9,6 +9,7 @@
 <body>
 
 <div layout:fragment="content">
+    <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
     <div>
         <a class="btn btn-primary mb-3" href="/actors/new" role="button" sec:authorize="hasRole('ROLE_ADMIN')">Añadir
             Actor</a><br>
