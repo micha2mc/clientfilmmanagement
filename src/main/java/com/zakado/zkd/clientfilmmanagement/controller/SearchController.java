@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 @RequestMapping("/search")
@@ -69,26 +68,27 @@ public class SearchController {
 
     @GetMapping("/users/username")
     public String buscarVariosPorNombre(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
-                                     @RequestParam("username") String name, Principal principal) {
+                                        @RequestParam("username") String name, Principal principal) {
         Pageable pageable = PageRequest.of(page, 8);
         Page<User> users = userService.buscarVariosPorNombre(pageable, name);
-        return searchUsersMethod(model, principal, users);
+        return searchUsersMethod(model, principal, users, "nombre");
     }
 
     @GetMapping("/users/email")
     public String buscarUsuarioPorCorreo(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
-                                        @RequestParam("email") String email, Principal principal) {
+                                         @RequestParam("email") String email, Principal principal) {
         Pageable pageable = PageRequest.of(page, 1);
         Page<User> users = userService.buscarUsuarioPorCorreo(pageable, email);
-        return searchUsersMethod(model, principal, users);
+        return searchUsersMethod(model, principal, users, "correo");
     }
 
-    private String searchUsersMethod(Model model, Principal principal, Page<User> users) {
+    private String searchUsersMethod(Model model, Principal principal, Page<User> users, String paramBusq) {
         PageRender<User> pageRender = new PageRender<>("/users", users);
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
 
         model.addAttribute("username", usuario.getUsername());
         model.addAttribute("listadoUsuarios", users);
+        model.addAttribute("titulo", "Resultado de la búsqueda de usuarios por " + paramBusq);
         model.addAttribute("page", pageRender);
         return "usuarios/list-usuario";
     }
@@ -99,8 +99,21 @@ public class SearchController {
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
         model.addAttribute("username", usuario.getUsername());
         PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/movies/home", listado);
+        String paramB = typePattern(type);
         model.addAttribute("listMovies", listado);
         model.addAttribute("page", pageRender);
+        model.addAttribute("titulo", "Resultado de la búsqueda de pelis por "+ paramB);
         return "admin/home-admin";
+    }
+
+    private String typePattern(String type) {
+
+        return switch (type){
+            case "TITLE" -> "título";
+            case "NAME" -> "nombre del actor";
+            case "GENRE" -> "género de la peli";
+            case "YEAR" -> "año";
+            default -> throw new IllegalStateException("Unexpected value: " + type);
+        };
     }
 }

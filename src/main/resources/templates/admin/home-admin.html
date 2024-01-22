@@ -10,7 +10,7 @@
 
 <div layout:fragment="content">
     <h2 class="mb-3" sec:authorize="hasRole('ROLE_ADMIN')">Zona de Administración</h2>
-    <h2 class="mb-3" sec:authorize="hasRole('ROLE_USER')">Lista de Películas de la búsqueda</h2>
+    <h2 class="mb-3" sec:authorize="hasRole('ROLE_USER')" th:text="${titulo}"></h2>
     <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
     <div class="mb-3">
         <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')" href="/admin/new" role="button">Añadir

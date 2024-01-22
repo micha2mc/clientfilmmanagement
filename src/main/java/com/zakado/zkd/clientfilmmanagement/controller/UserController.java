@@ -64,7 +64,7 @@ public class UserController {
         userService.guardarUsuario(usuario);
         model.addAttribute("titulo", "Nuevo usuario");
         attributes.addFlashAttribute("msg", "Los datos del usuario fueron guardados!");
-        return "redirect:/users/listado";
+        return "redirect:/users";
     }
 
     @GetMapping("/registrar")
@@ -108,9 +108,9 @@ public class UserController {
             userService.eliminarUsuario(id);
             attributes.addFlashAttribute("msg", "Los datos del usuario fueron borrados!");
         } else {
-            attributes.addFlashAttribute("msg", "Usuario no encontrado o es el usuario actual!");
+            attributes.addFlashAttribute("msga", "Usuario no encontrado o es el usuario actual!");
         }
 
-        return "redirect:/users/listado";
+        return "redirect:/users";
     }
 }

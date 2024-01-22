@@ -121,7 +121,7 @@ public class AdminController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            attributes.addFlashAttribute("msg", "Has subido correctamente '" + uniqueFilename + "'");
+            log.info("Has subido correctamente {}", uniqueFilename);
             pelicula.setImage(uniqueFilename);
         }
         movieService.updateMovie(id, pelicula);
