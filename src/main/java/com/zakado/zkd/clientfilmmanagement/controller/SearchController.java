@@ -72,22 +72,24 @@ public class SearchController {
                                      @RequestParam("username") String name, Principal principal) {
         Pageable pageable = PageRequest.of(page, 8);
         Page<User> users = userService.buscarVariosPorNombre(pageable, name);
-        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
-        PageRender<User> pageRender = new PageRender<User>("/users/listado", users);
-        model.addAttribute("username", usuario.getUsername());
-        model.addAttribute("listadoUsuarios", users);
-        model.addAttribute("page", pageRender);
-        return "usuarios/list-usuario";
+        return searchUsersMethod(model, principal, users);
     }
 
     @GetMapping("/users/email")
     public String buscarUsuarioPorCorreo(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
                                         @RequestParam("email") String email, Principal principal) {
+        Pageable pageable = PageRequest.of(page, 1);
+        Page<User> users = userService.buscarUsuarioPorCorreo(pageable, email);
+        return searchUsersMethod(model, principal, users);
+    }
 
-        User users = userService.buscarUsuarioPorCorreo(email);
+    private String searchUsersMethod(Model model, Principal principal, Page<User> users) {
+        PageRender<User> pageRender = new PageRender<>("/users", users);
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+
         model.addAttribute("username", usuario.getUsername());
-        model.addAttribute("listadoUsuarios", List.of(users));
+        model.addAttribute("listadoUsuarios", users);
+        model.addAttribute("page", pageRender);
         return "usuarios/list-usuario";
     }
 

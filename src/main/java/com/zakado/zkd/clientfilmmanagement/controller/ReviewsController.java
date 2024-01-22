@@ -30,10 +30,6 @@ public class ReviewsController {
                              Principal principal) {
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
         Reviews reviews = reviewsService.buscarCriticaPorId(id);
-        if (!isCorrectUser(reviews, usuario)) {
-            attributes.addFlashAttribute("msga", "Usuario sin permiso");
-            return "redirect:/movies/peliculas/" + reviews.getIdMovie();
-        }
         model.addAttribute("critica", reviews);
         model.addAttribute("username", usuario.getUsername());
         return "usuarios/critica";
@@ -59,11 +55,15 @@ public class ReviewsController {
     public String editarOpinion(@PathVariable("id") Integer id, Model model, RedirectAttributes attributes,
                                 Principal principal) {
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
-
-        Reviews reviews = usuario.getReviews().stream()
-                .filter(re -> re.getId().equals(id)).findFirst().orElse(null);
+        Reviews reviews = reviewsService.buscarCriticaPorId(id);
+        if (!isCorrectUser(reviews, usuario)) {
+            attributes.addFlashAttribute("msga",
+                    "Usuario sin permiso para modificar este comentario");
+            return "redirect:/movies/peliculas/" + reviews.getIdMovie();
+        }
         model.addAttribute("critica", reviews);
         model.addAttribute("username", usuario.getUsername());
+        model.addAttribute("titulo", "Editar Crítica");
         return "usuarios/form-criticas";
     }
 
@@ -89,9 +89,9 @@ public class ReviewsController {
         return "redirect:/movies/peliculas/" + reviews.getIdMovie();
     }
 
-    private static boolean isCorrectUser(Reviews reviews1, User usuario) {
+    private static boolean isCorrectUser(Reviews reviews, User usuario) {
         if (usuario.getRoles().stream().noneMatch(rolU -> "ROLE_ADMIN".equalsIgnoreCase(rolU.getAuthority()))) {
-            return reviews1.getUser().getId().equals(usuario.getId());
+            return reviews.getUser().getId().equals(usuario.getId());
         }
         return true;
     }

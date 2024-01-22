@@ -15,7 +15,8 @@ public interface UserService {
 
     Page<User> buscarVariosPorNombre(Pageable pageable, String nombre);
 
-    User buscarUsuarioPorCorreo(String correo);
+    Page<User>  buscarUsuarioPorCorreo(Pageable pageable, String correo);
+    User  buscarUsuarioPorCorreo(String correo);
 
     User login(String correo, String clave);
 

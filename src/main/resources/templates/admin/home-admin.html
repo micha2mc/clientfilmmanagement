@@ -4,7 +4,7 @@
       layout:decorate="~{master.html}">
 <head>
     <meta charset="utf-8">
-    <title>Ffm</title>
+    <title>Manager</title>
 </head>
 <body>
 
@@ -19,7 +19,7 @@
             Géneros</a>
         <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')" href="/actors" role="button">Gestión de
             Actores</a>
-        <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')" href="/users/listado" role="button">Gestión de
+        <a class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')" href="/users" role="button">Gestión de
             Usuarios</a>
     </div>
     <table class="table table-hover">

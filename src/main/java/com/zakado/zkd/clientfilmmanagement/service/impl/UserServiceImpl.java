@@ -46,6 +46,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> buscarUsuarioPorCorreo(Pageable pageable, String correo) {
+        User user = buscarUsuarioPorCorreo(correo);
+        return UtilsManagement.getObjectsPagination(pageable, List.of(Objects.requireNonNull(user)));
+    }
+
+    @Override
     public User buscarUsuarioPorCorreo(String correo) {
         return template.getForObject(URL + "/correo/" + correo, User.class);
     }
