@@ -119,7 +119,7 @@ public class AdminController {
                 }
                 uniqueFilename = uploadFileService.copy(foto);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.info("Error: {}", e.getMessage());
             }
             log.info("Has subido correctamente {}", uniqueFilename);
             pelicula.setImage(uniqueFilename);
