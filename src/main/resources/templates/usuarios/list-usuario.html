@@ -24,7 +24,7 @@
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Comentarios</th>
+                        <th scope="col">Críticas</th>
                         <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Clave</th>
                         <th scope="col">Correo</th>
                         <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Rol</th>
@@ -38,12 +38,19 @@
                         <td th:text="${usuario.username}"></td>
                         <td>
                             <table>
+                                <thead>
+                                <tr>
+                                    <th style="white-space: nowrap"!important;>Id Pel.</th>
+                                    <th>Comentario</th>
+                                </tr>
+                                </thead>
                                 <tbody>
                                 <tr th:each="rev: ${usuario.reviews}">
                                     <td>
-                                        <a class="btn btn-info" th:text="${rev.idMovie}" th:href="@{/movies/peliculas/{id} (id=*{rev.idMovie})}"></a>
+                                        <a class="btn btn-info" th:text="${rev.idMovie}"
+                                           th:href="@{/movies/peliculas/{id} (id=*{rev.idMovie})}"></a>
                                     </td>
-                                    <td th:text="${rev.assessment}"></td>
+                                    <td class="align-content-center" th:text="${rev.assessment}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -63,7 +70,7 @@
                             <a th:href="@{/users/editar/{id}  (id=${usuario.id})}" th:text="'editar'"
                                class="btn btn-success btn-sm" role="button" title="Editar el usuario."><i
                                     class="fas fa-pencil-alt" aria-hidden="true"></i></a>
-                            </td>
+                        </td>
                         <td sec:authorize="hasRole('ROLE_ADMIN')">
                             <a th:href="@{/users/borrar/{id}  (id=${usuario.id})   }" th:text="'borrar'"
                                onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button"
@@ -78,7 +85,8 @@
 
             </div>
         </div>
-        <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary" role="button" th:href="@{/admin}">Ir a Admin</a>
+        <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary" role="button" th:href="@{/admin}">Ir a
+            Admin</a>
     </div> <!-- /container -->
 </div>
 

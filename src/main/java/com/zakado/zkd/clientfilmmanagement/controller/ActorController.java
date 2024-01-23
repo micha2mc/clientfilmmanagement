@@ -38,7 +38,7 @@ public class ActorController {
 
         Pageable pageable = PageRequest.of(page, 5);
         Page<Actor> listActors = actorService.getAllActors(pageable);
-        PageRender<Actor> pageRender = new PageRender<>("/actor", listActors);
+        PageRender<Actor> pageRender = new PageRender<>("/actors", listActors);
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
         model.addAttribute("username", usuario.getUsername());
         model.addAttribute("listActors", listActors);

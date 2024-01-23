@@ -48,6 +48,7 @@ public class ReviewsController {
         Reviews criticaSaved = reviewsService.guardarCritica(critica);
         model.addAttribute("titulo", "Nueva Crítica");
         model.addAttribute("critica", criticaSaved);
+        model.addAttribute("username", usuario.getUsername());
         return "usuarios/form-criticas";
     }
 

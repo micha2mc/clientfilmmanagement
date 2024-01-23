@@ -32,7 +32,7 @@ public class UserController {
                                   Principal principal) {
         Pageable pageable = PageRequest.of(page, 5);
         Page<User> listado = userService.buscarTodos(pageable);
-        PageRender<User> pageRender = new PageRender<>("/users/listado", listado);
+        PageRender<User> pageRender = new PageRender<>("/users", listado);
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
         model.addAttribute("username", usuario.getUsername());
         model.addAttribute("titulo", "Listado de todos los usuarios");
