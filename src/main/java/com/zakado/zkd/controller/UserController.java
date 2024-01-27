@@ -63,7 +63,7 @@ public class UserController {
         model.addAttribute("allRoles", roles);
         userService.guardarUsuario(usuario);
         model.addAttribute("titulo", "Nuevo usuario");
-        attributes.addFlashAttribute("msg", "Los datos del usuario fueron guardados!");
+        attributes.addFlashAttribute("msg", "Usuario registrado correctamente!");
         return "redirect:/users";
     }
 
@@ -84,7 +84,7 @@ public class UserController {
         usuario.setEnable(true);
         usuario.setRoles(List.of(rolService.buscarRolPorId(2)));
         userService.guardarUsuario(usuario);
-        attributes.addFlashAttribute("msg", "Los datos del registro fueron guardados!");
+        attributes.addFlashAttribute("msg", "Usuario registrado correctamente!");
         return "redirect:/login";
     }
 

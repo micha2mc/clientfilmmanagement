@@ -23,14 +23,14 @@
                    placeholder="Escriba el nombre del usuario" required="required">
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">Clave</label>
-            <input type="text" class="form-control" th:field="*{password}" id="password" name="password"
-                   placeholder="Escriba la clave del usuario" required="required">
-        </div>
-        <div class="mb-3">
             <label for="email" class="form-label">Correo</label>
             <input type="text" class="form-control" th:field="*{email}" id="email" name="email"
                    placeholder="Escriba el correo del usuario" required="required">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Clave</label>
+            <input type="text" class="form-control" th:field="*{password}" id="password" name="password"
+                   placeholder="Escriba la clave del usuario" required="required">
         </div>
         <div class="mb-3">
             <select class="form-select" th:field="*{enable}" name="enable" id="enable">
