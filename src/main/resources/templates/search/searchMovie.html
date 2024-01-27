@@ -10,6 +10,7 @@
 
 <div layout:fragment="content">
     <h4>Buscador de las películas</h4>
+    <div th:if="${msga != null}" class='alert alert-danger' th:text="${msga}" role='alert'></div>
     <form th:action="@{/search/title}" method="get">
         <div class="mb-3">
             <label for="title" class="form-label">Título</label>
