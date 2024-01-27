@@ -41,7 +41,7 @@ public class ReviewsController {
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
         List<Reviews> reviews = reviewsService.buscarCriticasPorIdPeli(id);
         if (reviews.stream().anyMatch(rev -> usuario.getId().equals(rev.getUser().getId()))) {
-            attributes.addFlashAttribute("msga", "Usuario ya puntuó la película");
+            attributes.addFlashAttribute("msga", "Un usuario no puede opinar más de una vez");
             return "redirect:/movies/peliculas/" + id;
         }
         Reviews critica = new Reviews(id, usuario);

@@ -14,13 +14,17 @@ import java.security.Principal;
 
 @Controller
 public class LoginController {
+    String message = """
+            Error al iniciar sesión: Nombre de usuario o contraseña incorrecta, por favor vuelva a intentarlo!
+            """;
+
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error, Model model, Principal principal) {
         if (principal != null) {
             return "redirect:/movies";
         }
         if (error != null) {
-            model.addAttribute("msga", "Error al iniciar sesión: Nombre de usuario o contraseña incorrecta, por favor vuelva a intentarlo!");
+            model.addAttribute("msga", message);
         }
         return "login";
     }

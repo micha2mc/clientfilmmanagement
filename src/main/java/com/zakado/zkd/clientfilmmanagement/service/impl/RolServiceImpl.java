@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -15,30 +16,30 @@ public class RolServiceImpl implements RolService {
 
     private final RestTemplate template;
 
-    String url = "http://localhost:8080/api/roles";
+    private static final String URL = "http://localhost:8080/api/roles";
+
     @Override
     public List<Rol> buscarTodos() {
-        Rol[] roles = template.getForObject(url, Rol[].class);
-        return Arrays.asList(roles);
+        return Arrays.asList(Objects.requireNonNull(template.getForObject(URL, Rol[].class)));
     }
 
     @Override
     public Rol buscarRolPorId(Integer idRol) {
-        return template.getForObject(url+"/"+idRol, Rol.class);
+        return template.getForObject(URL + "/" + idRol, Rol.class);
     }
 
     @Override
     public void guardarRol(Rol rol) {
         if (rol.getId() != null && rol.getId() > 0) {
-            template.put(url, rol);
+            template.put(URL, rol);
         } else {
             rol.setId(0);
-            template.postForObject(url, rol, String.class);
+            template.postForObject(URL, rol, String.class);
         }
     }
 
     @Override
     public void eliminarRol(Integer idRol) {
-        template.delete(url + "/" + idRol);
+        template.delete(URL + "/" + idRol);
     }
 }

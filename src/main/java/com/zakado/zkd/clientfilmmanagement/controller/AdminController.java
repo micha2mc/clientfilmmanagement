@@ -39,7 +39,7 @@ public class AdminController {
     private final ReviewsService reviewsService;
 
 
-    @GetMapping("")
+    @GetMapping
     public String homeAdmin(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
                             Principal principal) {
 
@@ -101,8 +101,7 @@ public class AdminController {
 
     @PostMapping("/peliculas/{id}/editar")
     public ModelAndView actualizarPelicula(@PathVariable Integer id, @Validated Pelicula pelicula,
-                                           BindingResult bindingResult, @RequestParam("file") MultipartFile foto,
-                                           RedirectAttributes attributes) {
+                                           BindingResult bindingResult, @RequestParam("file") MultipartFile foto) {
         if (bindingResult.hasErrors()) {
             List<Genero> generos = genreService.getAllGenre();
             return new ModelAndView("admin/editar-pelicula")

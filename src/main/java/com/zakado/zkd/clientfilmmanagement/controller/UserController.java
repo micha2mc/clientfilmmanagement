@@ -57,7 +57,7 @@ public class UserController {
         //si existe un usuario con el mismo correo no lo guardamos
         if (Objects.isNull(usuario.getId()) && userService.buscarUsuarioPorCorreo(usuario.getEmail()) != null) {
             attributes.addFlashAttribute("msga", "Error al guardar, ya existe el correo!");
-            return "redirect:/users/listado";
+            return "redirect:/users";
         }
         List<Rol> roles = rolService.buscarTodos();
         model.addAttribute("allRoles", roles);

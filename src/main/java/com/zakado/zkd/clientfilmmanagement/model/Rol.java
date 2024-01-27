@@ -13,7 +13,7 @@ public class Rol {
     private String authority;
 
     public Rol(String idRolAndName) {
-        if (idRolAndName != null && idRolAndName.length() > 0) {
+        if (idRolAndName != null && !idRolAndName.isEmpty()) {
             String[] fieldPositions = idRolAndName.split("-");
             this.id = Integer.parseInt(fieldPositions[0]);
             this.authority = fieldPositions[1];

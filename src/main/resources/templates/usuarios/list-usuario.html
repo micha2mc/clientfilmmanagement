@@ -73,7 +73,7 @@
                         </td>
                         <td sec:authorize="hasRole('ROLE_ADMIN')">
                             <a th:href="@{/users/borrar/{id}  (id=${usuario.id})   }" th:text="'borrar'"
-                               onclick="return confirm('¿Estas seguro?')" class="btn btn-danger btn-sm" role="button"
+                               onclick="return confirm('¿Estas seguro de eliminar el usuario?')" class="btn btn-danger btn-sm" role="button"
                                title="Eliminar el usuario."><i class="fas fa-trash" aria-hidden="true"></i></a>
                         </td>
                     </tr>
@@ -87,12 +87,9 @@
         </div>
         <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-primary" role="button" th:href="@{/admin}">Ir a
             Admin</a>
-    </div> <!-- /container -->
+    </div>
 </div>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
 <script th:src="@{/js/bootstrap.min.js}"></script>
 
 </body>

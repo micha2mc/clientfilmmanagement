@@ -23,19 +23,9 @@
             Usuarios</a>
     </div>
     <table class="table table-hover">
-        <!--<thead>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>-->
         <tbody>
         <tr th:each="pelicula : ${listMovies}" th:object="${pelicula}">
             <td style="width:150px;">
-                <!--<a th:href="@{'/images/uploads/'+ ${pelicula.image}}" data-fancybox>-->
                 <a th:href="@{/movies/peliculas/{id} (id=*{nid})}">
                     <img th:src="@{'/images/uploads/'+ ${pelicula.image}}" alt="" class="img-thumbnail w-100">
                 </a>
