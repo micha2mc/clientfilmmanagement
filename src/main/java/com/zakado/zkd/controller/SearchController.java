@@ -129,19 +129,18 @@ public class SearchController {
     }
 
     private String searchMoviesMethod(Model model, int page, Object obj, String type, Principal principal) {
-        if (StringUtils.hasText((String) obj)) {
-            Pageable pageable = PageRequest.of(page, 8);
-            Page<Pelicula> listado = movieService.searchMoviesMethod(pageable, obj, type);
-            User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
-            model.addAttribute("username", usuario.getUsername());
-            PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/movies/home", listado);
-            String paramB = typePattern(type);
-            model.addAttribute("listMovies", listado);
-            model.addAttribute("page", pageRender);
-            model.addAttribute("titulo", "Resultado de la búsqueda de pelis por " + paramB);
-            return "admin/home-admin";
-        }
-        return "redirect:/search/movies";
+
+        Pageable pageable = PageRequest.of(page, 8);
+        Page<Pelicula> listado = movieService.searchMoviesMethod(pageable, obj, type);
+        User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
+        model.addAttribute("username", usuario.getUsername());
+        PageRender<Pelicula> pageRender = new PageRender<Pelicula>("/movies/home", listado);
+        String paramB = typePattern(type);
+        model.addAttribute("listMovies", listado);
+        model.addAttribute("page", pageRender);
+        model.addAttribute("titulo", "Resultado de la búsqueda de pelis por " + paramB);
+        return "admin/home-admin";
+
     }
 
     private String typePattern(String type) {
