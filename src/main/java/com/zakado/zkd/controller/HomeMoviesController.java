@@ -1,10 +1,12 @@
 package com.zakado.zkd.controller;
 
 
+import com.zakado.zkd.model.Budget;
 import com.zakado.zkd.model.Pelicula;
 import com.zakado.zkd.model.Reviews;
 import com.zakado.zkd.model.User;
 import com.zakado.zkd.paginator.PageRender;
+import com.zakado.zkd.service.BudgetService;
 import com.zakado.zkd.service.MovieService;
 import com.zakado.zkd.service.ReviewsService;
 import com.zakado.zkd.service.UserService;
@@ -32,6 +34,7 @@ public class HomeMoviesController {
     private final MovieService movieService;
     private final UserService userService;
     private final ReviewsService reviewsService;
+    private final BudgetService budgetService;
 
     @GetMapping(value = {"/", "/home", ""})
     public String home(Model model, @RequestParam(name = "page", defaultValue = "0") int page, Principal principal) {
@@ -53,10 +56,12 @@ public class HomeMoviesController {
         Pelicula movie = movieService.findById(id);
         User usuario = userService.buscarUsuarioPorCorreo(principal.getName());
         List<Reviews> listCriticas = reviewsService.buscarCriticasPorIdPeli(id);
+        Budget budget = budgetService.searchBudgetByIdMovie(id);
         double notaMedia = notaMedia(listCriticas);
         model.addAttribute("username", usuario.getUsername());
         model.addAttribute("movie", movie);
         model.addAttribute("criticas", listCriticas);
+        model.addAttribute("budget", budget);
         model.addAttribute("notemedia", notaMedia);
         return "movie";
     }

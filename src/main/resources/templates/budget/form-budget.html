@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" lang="es"
+      layout:decorate="~{master.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>crítica</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2 th:text="${titulo}"
+            class="text-secondary border border-success border-top-0 border-left-0 border-right-0"></h2>
+        <form th:action="@{/budget}" method="post" th:object="${budget}">
+            <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+                Por favor corrija los siguientes errores:
+                <ul>
+                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+                </ul>
+            </div>
+            <div class="mb-3">
+                <label for="budgetIni" class="form-label">Presupuesto Inicial : </label>
+                <input type="number" id="budgetIni" name="budgetIni" placeholder="Escriba el PI"
+                          class="form-control" th:field="*{budgetIni}">
+            </div>
+            <input type="hidden" th:value="${idmov}" th:field="*{idmov}"/>
+            <input type="hidden" th:value="${id}" th:field="*{id}"/>
+            <div class="mb-3">
+                <label for="budgetCurrent" class="form-label">Presupuesto Actual: </label>
+                <input type="number" class="form-control" th:field="*{budgetCurrent}" id="budgetCurrent" name="budgetCurrent"
+                       placeholder="Escriba el PA">
+            </div>
+
+            <button type="submit" class="btn btn-dark">Guardar</button>
+        </form>
+        <hr>
+        <a class="btn btn-primary" role="button" th:href="@{/movies/}">Ir a Inicio</a>
+    </div>
+</div>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

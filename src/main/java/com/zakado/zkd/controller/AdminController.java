@@ -37,6 +37,7 @@ public class AdminController {
     private final ActorService actorService;
     private final UserService userService;
     private final ReviewsService reviewsService;
+    private final BudgetService budgetService;
 
 
     @GetMapping
@@ -132,6 +133,10 @@ public class AdminController {
         List<Reviews> reviews = reviewsService.buscarCriticasPorIdPeli(id);
         for (Reviews reviews1 : reviews) {
             reviewsService.eliminarCritica(reviews1.getId());
+        }
+        Budget budget = budgetService.searchBudgetByIdMovie(id);
+        if (Objects.nonNull(budget)){
+            budgetService.deleteBudget(budget);
         }
         Pelicula pelicula = movieService.findById(id);
         movieService.deleteMovie(pelicula);
