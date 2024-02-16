@@ -18,7 +18,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
     private final UploadFileService uploadFileService;
-    private static final String URL = "http://localhost:8080/api/movies";
+    private static final String URL = "http://localhost:9002/api/movies";
 
     private final RestTemplate template;
 

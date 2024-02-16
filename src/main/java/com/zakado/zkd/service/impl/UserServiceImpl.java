@@ -17,7 +17,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private static final String URL = "http://localhost:8080/api/users";
+    private static final String URL = "http://localhost:9003/api/users";
 
     private final RestTemplate template;
 

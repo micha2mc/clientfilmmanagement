@@ -16,7 +16,7 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class GenreServiceImpl implements GenreService {
-    private static final String URL = "http://localhost:8080/api/genres";
+    private static final String URL = "http://localhost:9002/api/genres";
     private final RestTemplate template;
 
     @Override

@@ -14,7 +14,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class BudgetServiceImpl implements BudgetService {
 
-    private static final String URL = "http://localhost:8080/api/budget";
+    private static final String URL = "http://localhost:9004/api/budget";
     private final RestTemplate template;
     @Override
     public Budget saveBudget(Budget budget) {

@@ -18,7 +18,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ActorServiceImpl implements ActorService {
 
-    private static final String URL = "http://localhost:8080/api/actors";
+    private static final String URL = "http://localhost:9002/api/actors";
     private final RestTemplate template;
     private final UploadFileService uploadFileService;
 

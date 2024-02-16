@@ -19,7 +19,7 @@ import java.util.Objects;
 public class ReviewsServiceImpl implements ReviewsService {
 
     private final RestTemplate template;
-    String url = "http://localhost:8080/api/reviews";
+    String url = "http://localhost:9003/api/reviews";
 
     @Override
     public Page<Reviews> buscarTodas(Pageable pageable) {
